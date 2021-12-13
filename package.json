@@ -38,6 +38,9 @@
     "start": "parcel",
     "build": "parcel build"
   },
+  "dependencies": {
+    "petite-vue": "0.4.x"
+  },
   "devDependencies": {
     "parcel": "2.0.x"
   }

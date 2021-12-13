@@ -10,7 +10,12 @@
     <script type="module" src="app.js"></script>
   </head>
 
-  <body>
-    <h1>Messaging!</h1>
+  <body id="app">
+    <template id="counter-template">
+      Count is {{ count }} <button @click="increment">++</button>
+    </template>
+
+    <div v-scope="App({ initialCount: 1 })"></div>
+    <div v-scope="App({ initialCount: 2 })"></div>
   </body>
 </html>
