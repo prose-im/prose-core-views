@@ -1,2 +1,3 @@
-# prose-core-messaging
-Prose core messaging views.
+# prose-core-views
+
+Prose core views.
