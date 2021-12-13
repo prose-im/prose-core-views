@@ -1,0 +1,31 @@
+{
+  "name": "prose-core-views",
+  "description": "Prose core views",
+  "version": "1.0.0",
+  "homepage": "https://github.com/prose-im/prose-core-views",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prose-im/prose-core-views.git"
+  },
+  "bugs": {
+    "url": "https://github.com/prose-im/prose-core-views/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/prose-im/prose-core-views/blob/master/LICENSE"
+    }
+  ],
+  "author": {
+    "name": "Prose Messaging",
+    "email": "contact@prose.org",
+    "url": "https://prose.org/"
+  },
+  "devDependencies": {
+    "parcel": "2.0.x"
+  }
+}
