@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "homepage": "https://github.com/prose-im/prose-core-views",
   "license": "MIT",
+  "browserslist": "since 2020",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">= 12"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,18 @@
     "name": "Prose Messaging",
     "email": "contact@prose.org",
     "url": "https://prose.org/"
+  },
+  "source": [
+    "src/messaging/index.html"
+  ],
+  "targets": {
+    "default": {
+      "distDir": "./dist"
+    }
+  },
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
   },
   "devDependencies": {
     "parcel": "2.0.x"
