@@ -1,8 +1,8 @@
 // COMPONENTS
 
-function Separator() {
+function Separator(separator) {
   return {
-    // TODO
+    label: separator.label
   }
 }
 

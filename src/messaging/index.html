@@ -12,23 +12,23 @@
 
   <body id="app">
     <div class="entry" v-for="entry in feed" v-scope="Entry(entry)">
-      <div class="message" v-if="entry.type === 'message'" v-scope="Message(entry)">
-        <img class="avatar" v-scope="Avatar(entry.user.avatar)" :src="entry.user.avatar" alt="" />
+      <div class="message" v-if="message" v-scope="Message(message)">
+        <img class="avatar" v-scope="Avatar(user)" :src="avatarUrl" alt="" />
 
         <div class="message-inner">
           <div class="message-origin">
-            <span class="message-origin-name">{{ entry.user.name }}</span>
-            <span class="message-origin-date">{{ entry.date }}</span>
+            <span class="message-origin-name">{{ user.name }}</span>
+            <span class="message-origin-date">{{ date }}</span>
           </div>
 
           <div class="message-content">
-            <p v-for="content in entry.content" class="message-content-text">{{ content.text }}</p>
+            <p v-for="content in contents" class="message-content-text">{{ content.text }}</p>
           </div>
         </div>
       </div>
 
-      <div class="separator" v-else-if="entry.type === 'separator'" v-scope="Separator(entry)">
-        <span class="separator-label">{{ entry.label }}</span>
+      <div class="separator" v-else-if="separator" v-scope="Separator(separator)">
+        <span class="separator-label">{{ label }}</span>
       </div>
     </div>
   </body>

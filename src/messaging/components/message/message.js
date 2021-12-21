@@ -2,7 +2,9 @@
 
 function Message(message) {
   return {
-    // TODO
+    date: message.date,
+    user: message.user,
+    contents: message.content
   }
 }
 

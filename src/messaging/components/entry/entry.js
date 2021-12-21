@@ -2,7 +2,12 @@
 
 function Entry(entry) {
   return {
-    // TODO
+    // --> DATA <--
+
+    type: entry.type,
+
+    message: entry.type === "message" ? entry : null,
+    separator: entry.type === "separator" ? entry : null
   }
 }
 

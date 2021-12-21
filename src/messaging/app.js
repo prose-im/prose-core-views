@@ -8,10 +8,8 @@ import Entry from "./components/entry/entry.js";
 
 // COMPONENTS
 
-function App(props) {
-  return {
-    // TODO
-  }
+function App() {
+  return {}
 }
 
 // DATA
@@ -52,6 +50,11 @@ var feed = [
       {
         type: "text",
         text: "They forgot to ship the package."
+      },
+
+      {
+        type: "text",
+        text: "But that is no problem, I will go pick it up this afternoon!"
       }
     ],
 

@@ -1,8 +1,8 @@
 // COMPONENTS
 
-function Avatar() {
+function Avatar(user) {
   return {
-    // TODO: computed avatar URL?
+    avatarUrl: user.avatar || null
   }
 }
 
