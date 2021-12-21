@@ -1,7 +1,11 @@
 .message {
-  padding: 0 28px;
+  padding: 8px 28px;
   flex-direction: row;
   display: flex;
+}
+
+.message:hover {
+  background-color: #f7f7f7;
 }
 
 .message-inner {
