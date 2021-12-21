@@ -15,14 +15,14 @@
       <div class="message" v-if="message" v-scope="Message(message)">
         <img class="avatar" v-scope="Avatar(user)" :src="avatarUrl" alt="" />
 
-        <div class="message-inner">
+        <div class="message-inner" @vue:mounted="mounted">
           <div class="message-origin">
             <span class="message-origin-name">{{ user.name }}</span>
             <span class="message-origin-date">{{ date }}</span>
           </div>
 
           <div class="message-content">
-            <p v-for="content in contents" class="message-content-text">{{ content.text }}</p>
+            <p v-for="line in lines" v-html="line" class="message-content-line"></p>
           </div>
         </div>
       </div>

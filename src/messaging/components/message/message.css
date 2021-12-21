@@ -11,7 +11,7 @@
 
 .message-origin {
   line-height: 14px;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
   display: flex;
 }
 
@@ -45,13 +45,19 @@
   letter-spacing: 0;
 }
 
-.message-content-text {
+.message-content-line {
   hyphens: auto;
-  margin: 0 0 8px;
+  margin: 0 0 4px;
 }
 
-.message-content-text:last-child {
+.message-content-line:last-child {
   margin-bottom: 0;
+}
+
+.message-content-line br {
+  content: "";
+  margin: 2px;
+  display: block;
 }
 
 /* MEDIA-QUERIES */
