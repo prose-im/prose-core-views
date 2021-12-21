@@ -1,0 +1,43 @@
+.message {
+  padding: 0 28px;
+  flex-direction: row;
+  display: flex;
+}
+
+.message-inner {
+  margin-left: 12px;
+}
+
+.message-origin {
+  line-height: 14px;
+  margin-bottom: 3px;
+}
+
+.message-origin-name {
+  color: #232526;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.message-origin-date {
+  color: #797979;
+  font-size: 12px;
+  letter-spacing: 0;
+  margin-left: 5px;
+}
+
+.message-content {
+  color: #232526;
+  font-size: 13px;
+  line-height: 17px;
+  letter-spacing: 0;
+}
+
+.message-content-text {
+  margin: 0 0 8px;
+}
+
+.message-content-text:last-child {
+  margin-bottom: 0;
+}

@@ -1,0 +1,10 @@
+@import './components/avatar/avatar.css';
+@import './components/separator/separator.css';
+@import './components/message/message.css';
+@import './components/entry/entry.css';
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 12px 0;
+}

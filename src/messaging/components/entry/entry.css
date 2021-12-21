@@ -1,0 +1,7 @@
+.entry {
+  margin-bottom: 12px;
+}
+
+.entry:last-child {
+  margin-bottom: 0;
+}

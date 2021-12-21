@@ -11,11 +11,25 @@
   </head>
 
   <body id="app">
-    <template id="counter-template">
-      Count is {{ count }} <button @click="increment">++</button>
-    </template>
+    <div class="entry" v-for="entry in feed" v-scope="Entry(entry)">
+      <div class="message" v-if="entry.type === 'message'" v-scope="Message(entry)">
+        <img class="avatar" v-scope="Avatar(entry.user.avatar)" :src="entry.user.avatar" alt="" />
 
-    <div v-scope="App({ initialCount: 1 })"></div>
-    <div v-scope="App({ initialCount: 2 })"></div>
+        <div class="message-inner">
+          <div class="message-origin">
+            <span class="message-origin-name">{{ entry.user.name }}</span>
+            <span class="message-origin-date">{{ entry.date }}</span>
+          </div>
+
+          <div class="message-content">
+            <p v-for="content in entry.content" class="message-content-text">{{ content.text }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="separator" v-else-if="entry.type === 'separator'" v-scope="Separator(entry)">
+        <span class="separator-label">{{ entry.label }}</span>
+      </div>
+    </div>
   </body>
 </html>
