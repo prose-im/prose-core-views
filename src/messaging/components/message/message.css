@@ -6,11 +6,20 @@
 
 .message-inner {
   margin-left: 12px;
+  overflow: hidden;
 }
 
 .message-origin {
   line-height: 14px;
   margin-bottom: 3px;
+  display: flex;
+}
+
+.message-origin-name,
+.message-origin-date {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .message-origin-name {
@@ -18,6 +27,7 @@
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0;
+  flex: 0 0 auto;
 }
 
 .message-origin-date {
@@ -25,6 +35,7 @@
   font-size: 12px;
   letter-spacing: 0;
   margin-left: 5px;
+  flex: 0 1 auto;
 }
 
 .message-content {
@@ -35,9 +46,30 @@
 }
 
 .message-content-text {
+  hyphens: auto;
   margin: 0 0 8px;
 }
 
 .message-content-text:last-child {
   margin-bottom: 0;
+}
+
+/* MEDIA-QUERIES */
+
+@media only screen and (max-width: 600px) {
+  .message {
+    padding: 0 18px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .message {
+    padding: 0 14px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .message {
+    padding: 0 10px;
+  }
 }
