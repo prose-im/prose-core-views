@@ -34,7 +34,7 @@ To build Prose for a development environment (that is, usage from a browser, whi
 npm run dev
 ```
 
-Then, open a Web browser and go to: `http://localhost:5000/`. Any saved changes will be hot-reloaded, you will get live previews.
+Then, open a Web browser and go to: [localhost:5000](http://localhost:5000/). Any saved changes will be hot-reloaded, you will get live previews.
 
 ## Usage
 
