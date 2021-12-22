@@ -35,7 +35,7 @@
     }
   },
   "scripts": {
-    "start": "parcel",
+    "dev": "parcel serve --port=5000 --host=localhost --no-autoinstall --watch-for-stdin",
     "build": "parcel build"
   },
   "dependencies": {
