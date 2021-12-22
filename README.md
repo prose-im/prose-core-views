@@ -34,14 +34,10 @@ To build Prose for a development environment (that is, usage from a browser, whi
 npm run dev
 ```
 
-Then, open a Web browser and go to: [localhost:5000](http://localhost:5000/). Any saved changes will be hot-reloaded, you will get live previews.
+Then, open a Web browser and go to: [localhost:5000](http://localhost:5000/). Any saved changes will be hot-reloaded, meaning you will get live previews.
 
 ## Usage
 
 Once built, all assets in `dist/` should be packaged within the Prose native app, and included in a Web view where relevant.
 
 Serialized data should be passed to the view whenever its model needs to be updated.
-
-### Messaging view
-
-🚧 _(WIP)_
