@@ -6,9 +6,9 @@ As Prose is a native cross-platform application, some views that are deemed too 
 
 Prose views are built on [`petite-vue`](https://github.com/vuejs/petite-vue), which is a super-lightweight minimal version of VueJS. This ensures that the rendering of elements such as lists stays efficient, usually even more efficient than using barebone native views. All assets get bundled using [`parcel`](https://parceljs.org/), which helps at easing development and produces an optimized production build.
 
-_Tested at NodeJS version: `v14.19.3`_
-
 Copyright 2022, Prose Foundation.
+
+_Tested at NodeJS version: `v14.19.3`_
 
 ## Installation
 
