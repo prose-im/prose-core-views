@@ -8,6 +8,8 @@ Prose views are built on [`petite-vue`](https://github.com/vuejs/petite-vue), wh
 
 _Tested at NodeJS version: `v14.19.3`_
 
+Copyright 2022, Prose Foundation.
+
 ## Installation
 
 To install all the build dependencies, you first need to install NodeJS (version `12` and above).
