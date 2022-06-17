@@ -1,5 +1,7 @@
 # prose-core-views
 
+[![Test and Build](https://github.com/prose-im/prose-core-views/workflows/Test%20and%20Build/badge.svg?branch=master)](https://github.com/prose-im/prose-core-views/actions?query=workflow%3A%22Test+and+Build%22)
+
 **Prose core views. Shared messaging views across all platforms.**
 
 As Prose is a native cross-platform application, some views that are deemed too complex to build natively are shared between all apps. Those views are rendered in a lightweight and minimal Web view, and shared between mobile and desktop platforms. This also ensures that the Prose user experience stays consistent between all platforms.
