@@ -1,6 +1,6 @@
 # prose-core-views
 
-**Prose core views.**
+**Prose core views. Shared messaging views across all platforms.**
 
 As Prose is a native cross-platform application, some views that are deemed too complex to build natively are shared between all apps. Those views are rendered in a lightweight and minimal Web view, and shared between mobile and desktop platforms. This also ensures that the Prose user experience stays consistent between all platforms.
 
