@@ -1,6 +1,6 @@
 # prose-core-views
 
-[![Test and Build](https://github.com/prose-im/prose-core-views/workflows/Test%20and%20Build/badge.svg?branch=master)](https://github.com/prose-im/prose-core-views/actions/workflows/test.yml?query=workflow%3A%22Test+and+Build%22)
+[![Test and Build](https://github.com/prose-im/prose-core-views/workflows/Test%20and%20Build/badge.svg?branch=master)](https://github.com/prose-im/prose-core-views/actions/workflows/test.yml)
 
 **Prose core views. Shared messaging views across all platforms.**
 
