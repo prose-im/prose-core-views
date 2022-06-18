@@ -43,6 +43,6 @@
   },
   "devDependencies": {
     "@parcel/resolver-glob": "2.0.x",
-    "parcel": "2.0.x"
+    "parcel": "2.6.x"
   }
 }
