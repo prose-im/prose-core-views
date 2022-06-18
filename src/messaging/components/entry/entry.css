@@ -1,4 +1,11 @@
-.entry {
+/*
+ * prose-core-views
+ *
+ * Copyright: 2022, Valerian Saliou <valerian@valeriansaliou.name>
+ * License: Mozilla Public License v2.0 (MPL v2.0)
+ */
+
+ .entry {
   margin-bottom: 3px;
 }
 

@@ -1,3 +1,10 @@
+/*
+ * prose-core-views
+ *
+ * Copyright: 2022, Valerian Saliou <valerian@valeriansaliou.name>
+ * License: Mozilla Public License v2.0 (MPL v2.0)
+ */
+
 @import './components/avatar/avatar.css';
 @import './components/separator/separator.css';
 @import './components/message/message.css';
