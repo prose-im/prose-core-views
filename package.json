@@ -42,7 +42,7 @@
     "petite-vue": "0.4.x"
   },
   "devDependencies": {
-    "@parcel/resolver-glob": "2.0.x",
+    "@parcel/resolver-glob": "2.6.x",
     "parcel": "2.6.x"
   }
 }
