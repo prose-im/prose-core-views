@@ -30,14 +30,24 @@
     "src/messaging/index.html"
   ],
   "targets": {
-    "default": {
+    "development": {
       "distDir": "./dist",
+      "context": "browser",
+      "optimize": false,
+      "sourceMap": true
+    },
+
+    "production": {
+      "distDir": "./dist",
+      "context": "browser",
+      "optimize": true,
+      "sourceMap": false,
       "scopeHoist": false
     }
   },
   "scripts": {
-    "dev": "parcel serve --port=5000 --host=localhost --no-autoinstall --watch-for-stdin",
-    "build": "parcel build"
+    "dev": "parcel serve --target=development --port=5000 --host=localhost --no-autoinstall --watch-for-stdin",
+    "build": "parcel build --target=production"
   },
   "dependencies": {
     "petite-vue": "0.4.x"
