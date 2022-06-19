@@ -23,7 +23,17 @@ const fixtures =
 // COMPONENTS
 
 function App() {
-  return {}
+  return {
+    // --> DATA <--
+
+    isReady: false,
+
+    // --> METHODS <--
+
+    mounted() {
+      this.isReady = true;
+    }
+  }
 }
 
 // DATA

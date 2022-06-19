@@ -13,11 +13,17 @@
 
     <title>Messaging View</title>
 
+    <style>
+      #app {
+        visibility: hidden;
+      }
+    </style>
+
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="app.js"></script>
   </head>
 
-  <body id="app">
+  <body id="app" v-scope="App()" @vue:mounted="mounted" :class="{ 'app--visible': isReady }">
     <div class="entry" v-for="entry in feed" v-scope="Entry(entry)">
       <div class="message" v-if="message" v-scope="Message(message)">
         <img class="avatar" v-scope="Avatar(user)" :src="avatarUrl" alt="" />
