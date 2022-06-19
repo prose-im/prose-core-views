@@ -12,9 +12,9 @@ function Separator(separator) {
     // --> DATA <--
 
     label: separator.label
-  }
+  };
 }
 
 // EXPORTS
 
-export default Separator
+export default Separator;

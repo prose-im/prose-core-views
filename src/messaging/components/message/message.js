@@ -7,7 +7,7 @@
 
 // CONSTANTS
 
-const INVALID_FALLBACK = "(?)"
+const INVALID_FALLBACK = "(?)";
 const LINE_BREAK_REGEX = /\n/g;
 const SPACE_REGEX = /\s/g;
 const DATE_FORMAT_LOCATION = "en-US";
@@ -27,29 +27,29 @@ function Message(message) {
 
     mounted() {
       // Generate message lines HTML (based on type)
-      this.lines = this.generateLines(message.content)
+      this.lines = this.generateLines(message.content);
 
       // Generate message date text
-      this.date = this.generateDate(message.date)
+      this.date = this.generateDate(message.date);
     },
 
     generateLines(contents) {
       // Generate lines
-      return contents.map((content) => {
-        let type, html
+      return contents.map(content => {
+        let type, html;
 
         switch (content.type) {
           case "text": {
             // Text line
             type = content.type;
-            html = content.text.replace(LINE_BREAK_REGEX, "<br>")
+            html = content.text.replace(LINE_BREAK_REGEX, "<br>");
 
-            break
+            break;
           }
 
           case "file": {
             // Compute image size (pick the lowest size, up to baseline maximum)
-            const imageSize = this.computeFileImageSize(content)
+            const imageSize = this.computeFileImageSize(content);
 
             // File line
             // TODO: escape injected content
@@ -68,33 +68,33 @@ function Message(message) {
                 >
                   <img
                     src="${content.file.url}"
-                    width="${imageSize.width || ''}"
-                    height="${imageSize.height || ''}"
+                    width="${imageSize.width || ""}"
+                    height="${imageSize.height || ""}"
                     alt=""
                   />
                 </a>
               </span>
-            `
+            `;
 
-            break
+            break;
           }
 
           default: {
             // Type is invalid
-            type = null
-            html = INVALID_FALLBACK
+            type = null;
+            html = INVALID_FALLBACK;
           }
         }
 
         return {
           type,
           html
-        }
-      })
+        };
+      });
     },
 
     generateDate(dateString) {
-      let date = new Date(dateString)
+      let date = new Date(dateString);
 
       // Date is valid?
       if (isNaN(date.getTime()) === false) {
@@ -102,13 +102,13 @@ function Message(message) {
           hour: "numeric",
           minute: "numeric",
           hour12: true
-        })
+        });
 
-        return timeString.toLowerCase().replace(SPACE_REGEX, "")
+        return timeString.toLowerCase().replace(SPACE_REGEX, "");
       }
 
       // Date is invalid
-      return INVALID_FALLBACK
+      return INVALID_FALLBACK;
     },
 
     computeFileImageSize(content) {
@@ -116,20 +116,19 @@ function Message(message) {
       const fileSize = content.file.size;
 
       const width = Math.min(
-        (fileSize && fileSize.width ?
-          fileSize.width : FILE_IMAGE_BASELINE_WIDTH),
+        fileSize && fileSize.width ? fileSize.width : FILE_IMAGE_BASELINE_WIDTH,
         FILE_IMAGE_BASELINE_WIDTH
-      )
-      const height = (
-        (fileSize && fileSize.width && fileSize.height) ?
-          (fileSize.height / fileSize.width) * width : null
-      )
+      );
+      const height =
+        fileSize && fileSize.width && fileSize.height
+          ? (fileSize.height / fileSize.width) * width
+          : null;
 
-      return { width, height }
+      return { width, height };
     }
-  }
+  };
 }
 
 // EXPORTS
 
-export default Message
+export default Message;

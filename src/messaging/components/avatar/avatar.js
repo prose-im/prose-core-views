@@ -12,9 +12,9 @@ function Avatar(user) {
     // --> DATA <--
 
     avatarUrl: user.avatar || null
-  }
+  };
 }
 
 // EXPORTS
 
-export default Avatar
+export default Avatar;

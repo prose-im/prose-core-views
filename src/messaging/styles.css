@@ -5,10 +5,10 @@
  * License: Mozilla Public License v2.0 (MPL v2.0)
  */
 
-@import './components/avatar/avatar.css';
-@import './components/separator/separator.css';
-@import './components/message/message.css';
-@import './components/entry/entry.css';
+@import "./components/avatar/avatar.css";
+@import "./components/separator/separator.css";
+@import "./components/message/message.css";
+@import "./components/entry/entry.css";
 
 body {
   font-family: sans-serif;

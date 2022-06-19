@@ -5,7 +5,7 @@
  * License: Mozilla Public License v2.0 (MPL v2.0)
  -->
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -23,7 +23,12 @@
     <script type="module" src="app.js"></script>
   </head>
 
-  <body id="app" v-scope="App()" @vue:mounted="mounted" :class="{ 'app--visible': isReady }">
+  <body
+    id="app"
+    v-scope="App()"
+    @vue:mounted="mounted"
+    :class="{ 'app--visible': isReady }"
+  >
     <div class="entry" v-for="entry in feed" v-scope="Entry(entry)">
       <div class="message" v-if="message" v-scope="Message(message)">
         <img class="avatar" v-scope="Avatar(user)" :src="avatarUrl" alt="" />
@@ -35,12 +40,20 @@
           </div>
 
           <div class="message-content">
-            <p v-for="line in lines" v-html="line.html" :class="[ 'message-content-line', ('message-' + line.type) ]"></p>
+            <p
+              v-for="line in lines"
+              v-html="line.html"
+              :class="[ 'message-content-line', ('message-' + line.type) ]"
+            ></p>
           </div>
         </div>
       </div>
 
-      <div class="separator" v-else-if="separator" v-scope="Separator(separator)">
+      <div
+        class="separator"
+        v-else-if="separator"
+        v-scope="Separator(separator)"
+      >
         <span class="separator-label">{{ label }}</span>
       </div>
     </div>

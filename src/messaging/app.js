@@ -7,11 +7,11 @@
 
 // IMPORTS
 
-import { createApp } from "petite-vue"
-import Avatar from "./components/avatar/avatar.js"
-import Separator from "./components/separator/separator.js"
-import Message from "./components/message/message.js"
-import Entry from "./components/entry/entry.js"
+import { createApp } from "petite-vue";
+import Avatar from "./components/avatar/avatar.js";
+import Separator from "./components/separator/separator.js";
+import Message from "./components/message/message.js";
+import Entry from "./components/entry/entry.js";
 
 // FIXTURES
 
@@ -33,12 +33,12 @@ function App() {
     mounted() {
       this.isReady = true;
     }
-  }
+  };
 }
 
 // DATA
 
-const feed = fixtures !== null ? fixtures.feed : []
+const feed = fixtures !== null ? fixtures.feed : [];
 
 // INITIALIZERS
 
@@ -49,4 +49,4 @@ createApp({
   Message,
   Entry,
   feed
-}).mount("#app")
+}).mount("#app");
