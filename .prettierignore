@@ -1,0 +1,16 @@
+# NPM
+npm-debug.log
+node_modules/
+.npm
+
+# Caches
+.cache
+
+# Builds
+dist
+
+# Editor
+.nova
+
+# macOS
+.DS_Store
