@@ -11,6 +11,7 @@ const INVALID_FALLBACK = "(?)"
 const LINE_BREAK_REGEX = /\n/g;
 const SPACE_REGEX = /\s/g;
 const DATE_FORMAT_LOCATION = "en-US";
+const FILE_IMAGE_BASELINE_WIDTH = 200;
 
 // COMPONENTS
 
@@ -47,6 +48,9 @@ function Message(message) {
           }
 
           case "file": {
+            // Compute image size (pick the lowest size, up to baseline maximum)
+            const imageSize = this.computeFileImageSize(content)
+
             // File line
             // TODO: escape injected content
             // TODO: source from renderer somewhere
@@ -57,8 +61,17 @@ function Message(message) {
               <span class="message-file">
                 <span class="message-file-expander">${content.file.name}</span>
 
-                <a class="message-file-image" href="#">
-                  <img src="${content.file.url}" alt="" />
+                <a
+                  class="message-file-image"
+                  href="${content.file.url}"
+                  target="_blank"
+                >
+                  <img
+                    src="${content.file.url}"
+                    width="${imageSize.width || ''}"
+                    height="${imageSize.height || ''}"
+                    alt=""
+                  />
                 </a>
               </span>
             `
@@ -96,6 +109,23 @@ function Message(message) {
 
       // Date is invalid
       return INVALID_FALLBACK
+    },
+
+    computeFileImageSize(content) {
+      // Compute image size (pick the lowest size, up to baseline maximum)
+      const fileSize = content.file.size;
+
+      const width = Math.min(
+        (fileSize && fileSize.width ?
+          fileSize.width : FILE_IMAGE_BASELINE_WIDTH),
+        FILE_IMAGE_BASELINE_WIDTH
+      )
+      const height = (
+        (fileSize && fileSize.width && fileSize.height) ?
+          (fileSize.height / fileSize.width) * width : null
+      )
+
+      return { width, height }
     }
   }
 }

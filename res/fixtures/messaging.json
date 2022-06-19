@@ -70,7 +70,12 @@
           "file": {
             "name": "crisp-keep-calm.png",
             "type": "image/jpeg",
-            "url": "https://crisp.chat/blog/content/images/2021/03/12---3-Simple-Actions-to-Tackle-Email-Overload.jpg"
+            "url": "https://crisp.chat/blog/content/images/2021/03/12---3-Simple-Actions-to-Tackle-Email-Overload.jpg",
+
+            "size": {
+              "width": 1920,
+              "height": 1080
+            }
           }
         }
       ],
