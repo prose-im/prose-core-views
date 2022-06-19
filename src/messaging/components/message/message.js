@@ -33,17 +33,49 @@ function Message(message) {
     },
 
     generateLines(contents) {
+      // Generate lines
       return contents.map((content) => {
+        let type, html
+
         switch (content.type) {
           case "text": {
-            // Generate lines
-            return content.text.replace(LINE_BREAK_REGEX, "<br>")
+            // Text line
+            type = content.type;
+            html = content.text.replace(LINE_BREAK_REGEX, "<br>")
+
+            break
+          }
+
+          case "file": {
+            // File line
+            // TODO: escape injected content
+            // TODO: source from renderer somewhere
+            // TODO: if not image, show download button
+            type = content.type;
+
+            html = `
+              <span class="message-file">
+                <span class="message-file-expander">${content.file.name}</span>
+
+                <a class="message-file-image" href="#">
+                  <img src="${content.file.url}" alt="" />
+                </a>
+              </span>
+            `
+
+            break
           }
 
           default: {
             // Type is invalid
-            return INVALID_FALLBACK
+            type = null
+            html = INVALID_FALLBACK
           }
+        }
+
+        return {
+          type,
+          html
         }
       })
     },

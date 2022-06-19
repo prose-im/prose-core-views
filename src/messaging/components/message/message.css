@@ -58,7 +58,6 @@
 }
 
 .message-content-line {
-  hyphens: auto;
   margin: 0 0 4px;
 }
 
@@ -70,6 +69,49 @@
   content: "";
   margin: 2px;
   display: block;
+}
+
+.message-text {
+  hyphens: auto;
+}
+
+.message-file {
+  user-select: none;
+}
+
+.message-file-expander,
+.message-file-image {
+  display: block;
+}
+
+.message-file-expander {
+  color: #797979;
+  line-height: 20px;
+  margin-top: 9px;
+  margin-bottom: 6px;
+  transition: color linear 75ms;
+}
+
+.message-file-expander::after {
+  content: "";
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid #232526;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  display: inline-block;
+}
+
+.message-file-expander:hover {
+  color: #232526;
+  cursor: pointer;
+}
+
+.message-file-image img {
+  width: 200px;
+  border-radius: 3px;
 }
 
 /* MEDIA-QUERIES */

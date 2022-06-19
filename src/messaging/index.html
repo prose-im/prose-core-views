@@ -35,7 +35,7 @@
           </div>
 
           <div class="message-content">
-            <p v-for="line in lines" v-html="line" class="message-content-line"></p>
+            <p v-for="line in lines" v-html="line.html" :class="[ 'message-content-line', ('message-' + line.type) ]"></p>
           </div>
         </div>
       </div>
