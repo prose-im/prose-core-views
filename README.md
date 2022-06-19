@@ -12,6 +12,12 @@ Copyright 2022, Prose Foundation - Released under the [Mozilla Public License 2.
 
 _Tested at NodeJS version: `v14.19.3`_
 
+## Preview
+
+
+
+_👉 The designs for all of the views are contained in the macOS app reference design [which can be found there](https://github.com/prose-im/prose-medley/blob/master/designs/app/prose-app-macos.sketch)._
+
 ## Installation
 
 To install all the build dependencies, you first need to install NodeJS (version `12` and above).
