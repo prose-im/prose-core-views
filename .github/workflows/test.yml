@@ -1,6 +1,6 @@
 on: [push, pull_request]
 
-name: Test and Build
+name: Test and Lint
 
 jobs:
   test:
@@ -32,6 +32,3 @@ jobs:
 
       - name: Run lints
         run: npm run lint
-
-      - name: Build views
-        run: npm run build
