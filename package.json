@@ -55,7 +55,7 @@
     "petite-vue": "0.4.x"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.16.x",
+    "@babel/eslint-parser": "7.18.x",
     "@parcel/resolver-glob": "2.6.x",
     "parcel": "2.6.x",
     "eslint": "8.4.x",

@@ -7,6 +7,8 @@ module.exports = {
 
   parserOptions: {
     parser: "@babel/eslint-parser",
+    sourceType: "module",
+    ecmaVersion: 2021,
     requireConfigFile: false
   },
 
