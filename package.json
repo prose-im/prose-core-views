@@ -38,6 +38,7 @@
     },
     "production": {
       "distDir": "./dist",
+      "publicUrl": ".",
       "context": "browser",
       "optimize": true,
       "sourceMap": false,
