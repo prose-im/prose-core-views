@@ -61,8 +61,27 @@ createApp({
 // EXPORTS
 
 globalThis.MessagingStore = {
+  /**
+   * Checks if target message exists in the store
+   * @public
+   * @param  {string}  messageId
+   * @return {boolean} Message exist status
+   */
+  exists(messageId) {
+    let messageIndex = feed.messages.findIndex(entry => {
+      return entry.id === messageId;
+    });
+
+    return messageIndex !== -1 ? true : false;
+  },
+
+  /**
+   * Pushes each provided message to the store
+   * @public
+   * @param  {...object} messages
+   * @return {boolean}   Messages push status
+   */
   insert(...messages) {
-    // Push each message to the store
     messages.forEach(message => {
       feed.messages.push(message);
     });
@@ -70,8 +89,14 @@ globalThis.MessagingStore = {
     return messages.length > 0 ? true : false;
   },
 
+  /**
+   * Updates target message in the store
+   * @public
+   * @param  {string}  messageId
+   * @param  {object}  messageDiff
+   * @return {boolean} Message update status
+   */
   update(messageId, messageDiff) {
-    // Update target message in the store (if it exists)
     let message = feed.messages.find(entry => {
       return entry.id === messageId;
     });
@@ -85,8 +110,13 @@ globalThis.MessagingStore = {
     return false;
   },
 
+  /**
+   * Removes target message from the store
+   * @public
+   * @param  {string}  messageId
+   * @return {boolean} Message retract status
+   */
   retract(messageId) {
-    // Remove target message from the store
     let messageIndex = feed.messages.findIndex(entry => {
       return entry.id === messageId;
     });
@@ -100,6 +130,11 @@ globalThis.MessagingStore = {
     return false;
   },
 
+  /**
+   * Flushes the store
+   * @public
+   * @return {boolean} Message flush status
+   */
   flush() {
     if (feed.messages.length > 0) {
       feed.messages = [];
