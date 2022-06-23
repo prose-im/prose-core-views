@@ -83,6 +83,12 @@ globalThis.MessagingStore = {
    */
   insert(...messages) {
     messages.forEach(message => {
+      // Ensure that inserted message data is valid
+      if (!message.id || !message.type) {
+        throw new Error("Message to insert has no identifier or type");
+      }
+
+      // Insert message in store
       feed.messages.push(message);
     });
 
@@ -102,6 +108,7 @@ globalThis.MessagingStore = {
     });
 
     if (message) {
+      // Update message in store
       Object.assign(message, messageDiff);
 
       return true;
@@ -122,6 +129,7 @@ globalThis.MessagingStore = {
     });
 
     if (messageIndex !== -1) {
+      // Remove message from store
       feed.messages.splice(messageIndex, 1);
 
       return true;
@@ -137,6 +145,7 @@ globalThis.MessagingStore = {
    */
   flush() {
     if (feed.messages.length > 0) {
+      // Clear messages store
       feed.messages = [];
 
       return true;
