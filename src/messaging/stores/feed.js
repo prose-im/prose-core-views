@@ -9,11 +9,7 @@
 
 import { reactive } from "petite-vue";
 import DateHelper from "../helpers/date.js";
-
-// CONSTANTS
-
-const ENTRY_TYPE_SEPARATOR = "separator";
-const ENTRY_TYPE_MESSAGE = "message";
+import MessageHelper from "../helpers/message.js";
 
 // STORES
 
@@ -75,28 +71,21 @@ function FeedStore() {
           );
         }
 
-        // Parse message date
-        message.date = new Date(message.date);
-
-        // Validate parsed date
-        if (isNaN(message.date) === true) {
-          throw new Error("Message date is invalid (cannot parse)");
-        }
+        // Transform message into model message
+        let storeMessage = MessageHelper.transformIntoModel(
+          message.type,
+          message
+        );
 
         // Acquire previous message (relative to current message)
         let previousMessage = this.feed.entries[this.feed.entries.length - 1];
 
         if (
           !previousMessage ||
-          !DateHelper.areSameDay(previousMessage.date, message.date)
+          !DateHelper.areSameDay(previousMessage.date, storeMessage.date)
         ) {
           // Append a separator if previous message is from a different day
-          let separatorMessage = {
-            id: `s-${message.date.getTime()}`,
-            type: ENTRY_TYPE_SEPARATOR,
-            date: new Date(message.date),
-            label: DateHelper.formatDateString(message.date)
-          };
+          let separatorMessage = MessageHelper.makeSeparatorModel(storeMessage);
 
           this.__registers.feedEntriesById[separatorMessage.id] =
             separatorMessage;
@@ -107,8 +96,8 @@ function FeedStore() {
         //   important: do this after inserting the date separator!
 
         // Insert message in store
-        this.__registers.feedEntriesById[message.id] = message;
-        this.feed.entries.push(message);
+        this.__registers.feedEntriesById[storeMessage.id] = storeMessage;
+        this.feed.entries.push(storeMessage);
       });
 
       return messages.length > 0 ? true : false;
@@ -125,8 +114,14 @@ function FeedStore() {
       let message = this.resolve(messageId);
 
       if (message !== null) {
+        // Transform message differential into model message differential
+        let storeMessageDiff = MessageHelper.transformIntoModel(
+          message.type,
+          messageDiff
+        );
+
         // Update message in store
-        Object.assign(message, messageDiff);
+        Object.assign(message, storeMessageDiff);
 
         return true;
       }
@@ -163,8 +158,9 @@ function FeedStore() {
           //   (or nothing)
           if (
             previousMessage &&
-            previousMessage.type === ENTRY_TYPE_SEPARATOR &&
-            (!nextMessage || nextMessage.type === ENTRY_TYPE_SEPARATOR)
+            previousMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR &&
+            (!nextMessage ||
+              nextMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR)
           ) {
             delete this.__registers.feedEntriesById[previousMessage.id];
             this.feed.entries.splice(messageIndex - 1, 1);
