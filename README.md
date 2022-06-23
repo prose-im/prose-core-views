@@ -14,6 +14,8 @@ _Tested at NodeJS version: `v14.19.3`_
 
 ## Preview
 
+### Messaging views
+
 ![message](https://user-images.githubusercontent.com/1451907/174491797-e6e75017-d9ca-4b6e-a3b7-d910292e3a09.png)
 
 _👉 The designs for all of the views are contained in the macOS app reference design [which can be found there](https://github.com/prose-im/prose-medley/blob/master/designs/app/prose-app-macos.sketch)._
