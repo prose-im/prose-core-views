@@ -29,7 +29,11 @@
     @vue:mounted="mounted"
     :class="{ 'app--visible': isReady }"
   >
-    <div class="entry" v-for="entry in feed.messages" v-scope="Entry(entry)">
+    <div
+      class="entry"
+      v-for="entry in $store.feed.entries"
+      v-scope="Entry(entry)"
+    >
       <div class="message" v-if="message" v-scope="Message(message)">
         <img class="avatar" v-scope="Avatar(user)" :src="avatarUrl" alt="" />
 

@@ -8,17 +8,15 @@
 // IMPORTS
 
 import { createApp, reactive } from "petite-vue";
+import FeedStore from "./stores/feed.js";
 import Avatar from "./components/avatar/avatar.js";
 import Separator from "./components/separator/separator.js";
 import Message from "./components/message/message.js";
 import Entry from "./components/entry/entry.js";
 
-// FIXTURES
+// INSTANCES
 
-const fixtures =
-  process.env.NODE_ENV === "development"
-    ? require("../../res/fixtures/messaging.json")
-    : null;
+const $store = FeedStore();
 
 // COMPONENTS
 
@@ -41,12 +39,6 @@ function App() {
   };
 }
 
-// DATA
-
-const feed = reactive({
-  messages: fixtures !== null ? fixtures.feed : []
-});
-
 // INITIALIZERS
 
 createApp({
@@ -55,102 +47,9 @@ createApp({
   Separator,
   Message,
   Entry,
-  feed
+  $store
 }).mount("#app");
 
 // EXPORTS
 
-globalThis.MessagingStore = {
-  /**
-   * Checks if target message exists in the store
-   * @public
-   * @param  {string}  messageId
-   * @return {boolean} Message exist status
-   */
-  exists(messageId) {
-    let messageIndex = feed.messages.findIndex(entry => {
-      return entry.id === messageId;
-    });
-
-    return messageIndex !== -1 ? true : false;
-  },
-
-  /**
-   * Pushes each provided message to the store
-   * @public
-   * @param  {...object} messages
-   * @return {boolean}   Messages push status
-   */
-  insert(...messages) {
-    messages.forEach(message => {
-      // Ensure that inserted message data is valid
-      if (!message.id || !message.type) {
-        throw new Error("Message to insert has no identifier or type");
-      }
-
-      // Insert message in store
-      feed.messages.push(message);
-    });
-
-    return messages.length > 0 ? true : false;
-  },
-
-  /**
-   * Updates target message in the store
-   * @public
-   * @param  {string}  messageId
-   * @param  {object}  messageDiff
-   * @return {boolean} Message update status
-   */
-  update(messageId, messageDiff) {
-    let message = feed.messages.find(entry => {
-      return entry.id === messageId;
-    });
-
-    if (message) {
-      // Update message in store
-      Object.assign(message, messageDiff);
-
-      return true;
-    }
-
-    return false;
-  },
-
-  /**
-   * Removes target message from the store
-   * @public
-   * @param  {string}  messageId
-   * @return {boolean} Message retract status
-   */
-  retract(messageId) {
-    let messageIndex = feed.messages.findIndex(entry => {
-      return entry.id === messageId;
-    });
-
-    if (messageIndex !== -1) {
-      // Remove message from store
-      feed.messages.splice(messageIndex, 1);
-
-      return true;
-    }
-
-    return false;
-  },
-
-  /**
-   * Flushes the store
-   * @public
-   * @return {boolean} Message flush status
-   */
-  flush() {
-    if (feed.messages.length > 0) {
-      // Clear messages store
-      feed.messages = [];
-
-      return true;
-    }
-
-    return false;
-  }
-};
+globalThis.MessagingStore = $store;
