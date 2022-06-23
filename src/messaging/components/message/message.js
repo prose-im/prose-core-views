@@ -25,6 +25,11 @@ function Message(message) {
 
     // --> METHODS <--
 
+    /**
+     * Mounted hook
+     * @public
+     * @return {undefined}
+     */
     mounted() {
       // Generate message lines HTML (based on type)
       this.lines = this.generateLines(message.content);
@@ -33,6 +38,12 @@ function Message(message) {
       this.date = this.generateDate(message.date);
     },
 
+    /**
+     * Generates message lines
+     * @public
+     * @param  {object} contents
+     * @return {object} Generated lines
+     */
     generateLines(contents) {
       // Generate lines
       return contents.map(content => {
@@ -93,6 +104,12 @@ function Message(message) {
       });
     },
 
+    /**
+     * Generates message date
+     * @public
+     * @param  {string} dateString
+     * @return {string} Message date
+     */
     generateDate(dateString) {
       let date = new Date(dateString);
 
@@ -111,6 +128,12 @@ function Message(message) {
       return INVALID_FALLBACK;
     },
 
+    /**
+     * Computes file image size
+     * @public
+     * @param  {object} content
+     * @return {object} Computed file image size
+     */
     computeFileImageSize(content) {
       // Compute image size (pick the lowest size, up to baseline maximum)
       const fileSize = content.file.size;

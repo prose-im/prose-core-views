@@ -1,11 +1,13 @@
 {
   "feed": [
     {
+      "id": "bf8b6c72-30af-48a9-8329-99304ed0425b",
       "type": "separator",
       "label": "Monday"
     },
 
     {
+      "id": "b4d303b1-17c9-4863-81b7-bc5281f3590f",
       "type": "message",
       "date": "2021-12-20T19:15:03.000Z",
 
@@ -23,11 +25,13 @@
     },
 
     {
+      "id": "73024814-4a64-410a-aafc-64b5f503b6e2",
       "type": "separator",
       "label": "Yesterday"
     },
 
     {
+      "id": "94663cc5-3a06-4309-9aa1-2340b9cd1419",
       "type": "message",
       "date": "2021-12-21T09:03:07.832Z",
 
@@ -50,6 +54,7 @@
     },
 
     {
+      "id": "07b4af91-c5f4-45be-98f4-77f554c042c8",
       "type": "message",
       "date": "2021-12-21T09:04:01.000Z",
 
