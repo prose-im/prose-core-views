@@ -44,8 +44,18 @@ function FeedStore() {
     insert(...messages) {
       messages.forEach(message => {
         // Ensure that inserted message data is valid
-        if (!message.id || !message.type) {
-          throw new Error("Message to insert has no identifier or type");
+        if (!message.id || !message.type || !message.date) {
+          throw new Error(
+            "Message to insert is incomplete (missing attribute)"
+          );
+        }
+
+        // Parse message date
+        message.date = new Date(message.date);
+
+        // Validate parsed date
+        if (isNaN(message.date) === true) {
+          throw new Error("Message date is invalid (cannot parse)");
         }
 
         // Insert message in store
