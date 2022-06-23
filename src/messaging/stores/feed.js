@@ -8,8 +8,14 @@
 // IMPORTS
 
 import { reactive } from "petite-vue";
+import DateHelper from "../helpers/date.js";
 
-// COMPONENTS
+// CONSTANTS
+
+const ENTRY_TYPE_SEPARATOR = "separator";
+const ENTRY_TYPE_MESSAGE = "message";
+
+// STORES
 
 function FeedStore() {
   return {
@@ -18,6 +24,10 @@ function FeedStore() {
     feed: reactive({
       entries: []
     }),
+
+    __registers: {
+      feedEntriesById: {}
+    },
 
     // --> METHODS <--
 
@@ -28,11 +38,19 @@ function FeedStore() {
      * @return {boolean} Message exist status
      */
     exists(messageId) {
-      let messageIndex = this.feed.entries.findIndex(entry => {
-        return entry.id === messageId;
-      });
+      return this.__registers.feedEntriesById[messageId] !== undefined
+        ? true
+        : false;
+    },
 
-      return messageIndex !== -1 ? true : false;
+    /**
+     * Resolves message from the store
+     * @public
+     * @param  {string} messageId
+     * @return {object} Resolved message (if any)
+     */
+    resolve(messageId) {
+      return this.__registers.feedEntriesById[messageId] || null;
     },
 
     /**
@@ -50,6 +68,13 @@ function FeedStore() {
           );
         }
 
+        // Check that message has not been already inserted?
+        if (this.exists(message.id)) {
+          throw new Error(
+            "Message with this identifier has already been inserted"
+          );
+        }
+
         // Parse message date
         message.date = new Date(message.date);
 
@@ -58,7 +83,31 @@ function FeedStore() {
           throw new Error("Message date is invalid (cannot parse)");
         }
 
+        // Acquire previous message (relative to current message)
+        let previousMessage = this.feed.entries[this.feed.entries.length - 1];
+
+        if (
+          !previousMessage ||
+          !DateHelper.areSameDay(previousMessage.date, message.date)
+        ) {
+          // Append a separator if previous message is from a different day
+          let separatorMessage = {
+            id: `s-${message.date.getTime()}`,
+            type: ENTRY_TYPE_SEPARATOR,
+            date: new Date(message.date),
+            label: DateHelper.formatDateString(message.date)
+          };
+
+          this.__registers.feedEntriesById[separatorMessage.id] =
+            separatorMessage;
+          this.feed.entries.push(separatorMessage);
+        }
+
+        // TODO: add a line if previous message is from the same user
+        //   important: do this after inserting the date separator!
+
         // Insert message in store
+        this.__registers.feedEntriesById[message.id] = message;
         this.feed.entries.push(message);
       });
 
@@ -73,11 +122,9 @@ function FeedStore() {
      * @return {boolean} Message update status
      */
     update(messageId, messageDiff) {
-      let message = this.feed.entries.find(entry => {
-        return entry.id === messageId;
-      });
+      let message = this.resolve(messageId);
 
-      if (message) {
+      if (message !== null) {
         // Update message in store
         Object.assign(message, messageDiff);
 
@@ -94,15 +141,37 @@ function FeedStore() {
      * @return {boolean} Message retract status
      */
     retract(messageId) {
-      let messageIndex = this.feed.entries.findIndex(entry => {
-        return entry.id === messageId;
-      });
+      if (this.exists(messageId)) {
+        // Remove from register
+        delete this.__registers.feedEntriesById[messageId];
 
-      if (messageIndex !== -1) {
-        // Remove message from store
-        this.feed.entries.splice(messageIndex, 1);
+        // Remove from entries
+        let messageIndex = this.feed.entries.findIndex(entry => {
+          return entry.id === messageId;
+        });
 
-        return true;
+        if (messageIndex !== -1) {
+          // Acquire boundary messages
+          let previousMessage = this.feed.entries[messageIndex - 1],
+            nextMessage = this.feed.entries[messageIndex + 1];
+
+          // Remove message from store
+          this.feed.entries.splice(messageIndex, 1);
+
+          // Remove date separator for the group if the retracted message was \
+          //   preceded by a date separator, and followed by a date separator \
+          //   (or nothing)
+          if (
+            previousMessage &&
+            previousMessage.type === ENTRY_TYPE_SEPARATOR &&
+            (!nextMessage || nextMessage.type === ENTRY_TYPE_SEPARATOR)
+          ) {
+            delete this.__registers.feedEntriesById[previousMessage.id];
+            this.feed.entries.splice(messageIndex - 1, 1);
+          }
+
+          return true;
+        }
       }
 
       return false;
@@ -117,6 +186,7 @@ function FeedStore() {
       if (this.feed.entries.length > 0) {
         // Clear messages store
         this.feed.entries = [];
+        this.__registers.feedEntriesById = {};
 
         return true;
       }

@@ -31,6 +31,7 @@
   >
     <div
       class="entry"
+      :key="entry.id"
       v-for="entry in $store.feed.entries"
       v-scope="Entry(entry)"
     >
