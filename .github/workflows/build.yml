@@ -1,0 +1,52 @@
+on:
+  push:
+    tags:
+      - "v*"
+
+name: Build and Release
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Verify versions
+        run: node --version && npm --version && node -p process.versions.v8
+
+      - name: Cache build artifacts
+        id: cache-node
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node
+
+      - name: "Get current tag"
+        id: current_tag
+        uses: WyriHaximus/github-action-get-previous-tag@v1
+        with:
+          fallback: v0.0.0
+
+      - name: Install dependencies
+        run: npm install --no-audit
+
+      - name: Run build
+        run: npm run build
+
+      - name: Compress output files
+        run: tar -zcvf release-${{ steps.current_tag.outputs.tag }}.tar.gz dist/
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Release ${{ steps.current_tag.outputs.tag }}
+          path: ./release-${{ steps.current_tag.outputs.tag }}.tar.gz
