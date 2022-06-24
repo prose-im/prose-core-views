@@ -48,5 +48,5 @@ jobs:
       - name: Upload release artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Release ${{ steps.current_tag.outputs.tag }}
+          name: ${{ steps.current_tag.outputs.tag }} Release
           path: ./release-${{ steps.current_tag.outputs.tag }}.tar.gz
