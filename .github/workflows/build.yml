@@ -1,7 +1,7 @@
 on:
   push:
     tags:
-      - "v*"
+      - "v*.*.*"
 
 name: Build and Release
 
@@ -42,11 +42,24 @@ jobs:
       - name: Run build
         run: npm run build
 
-      - name: Compress output files
-        run: tar -zcvf release-${{ steps.current_tag.outputs.tag }}.tar.gz dist/
+      - name: Archive output files
+        id: archive_output
+        env:
+          release_path: ./release-${{ steps.current_tag.outputs.tag }}.tar.gz
+        run: tar -zcvf ${{ release_path }} dist/
 
-      - name: Upload release artifact
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.current_tag.outputs.tag }} Release
-          path: ./release-${{ steps.current_tag.outputs.tag }}.tar.gz
+          path: ${{ steps.archive_output.env.release_path }}
+          retention-days: 30
+
+      - name: Release new version
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ steps.current_tag.outputs.tag }}
+          body: "⚠️ Changelog not yet provided."
+          files: ${{ steps.archive_output.env.release_path }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
