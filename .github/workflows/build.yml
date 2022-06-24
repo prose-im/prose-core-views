@@ -43,16 +43,13 @@ jobs:
         run: npm run build
 
       - name: Archive output files
-        id: archive_output
-        env:
-          release_path: ./release-${{ steps.current_tag.outputs.tag }}.tar.gz
-        run: tar -zcvf ${{ release_path }} dist/
+        run: tar -zcvf ./release-${{ steps.current_tag.outputs.tag }}.tar.gz dist/
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.current_tag.outputs.tag }} Release
-          path: ${{ steps.archive_output.env.release_path }}
+          path: ./release-${{ steps.current_tag.outputs.tag }}.tar.gz
           retention-days: 30
 
       - name: Release new version
@@ -60,6 +57,6 @@ jobs:
         with:
           name: ${{ steps.current_tag.outputs.tag }}
           body: "⚠️ Changelog not yet provided."
-          files: ${{ steps.archive_output.env.release_path }}
+          files: ./release-${{ steps.current_tag.outputs.tag }}.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
