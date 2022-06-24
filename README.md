@@ -14,7 +14,7 @@ _Tested at NodeJS version: `v14.19.3`_
 
 ## Preview
 
-### Messaging views
+### Messaging view
 
 ![message](https://user-images.githubusercontent.com/1451907/174491797-e6e75017-d9ca-4b6e-a3b7-d910292e3a09.png)
 
@@ -57,6 +57,63 @@ Then, open a Web browser and go to: [localhost:5000](http://localhost:5000/). An
 Once built, all assets in `dist/` should be packaged within the Prose native app, and included in a Web view where relevant.
 
 Serialized data should be passed to the view whenever its model needs to be updated.
+
+### Passing data to the messaging view
+
+The messaging view exposes a programmatic API that lets applications manipulate its internal store:
+
+- Check if a message exists: `MessagingStore.exists(messageId<string>)<boolean>`
+- Resolve a message from the store: `MessagingStore.resolve(messageId<string>)<boolean>`
+- Insert one or multiple messages in the store: `MessagingStore.insert(...messages<object>)<boolean>`
+- Update a message in the store: `MessagingStore.update(messageId<string>, messageDiff<object>)<boolean>`
+- Pull out a message from the store: `MessagingStore.retract(messageId<string>)<boolean>`
+- Flush all content from the store: `MessagingStore.flush()<boolean>`
+
+All inserted message objects are required to hold the following keys: `id`, `type`, `date`, `content` and `from`. When updating an existing message, only modified keys need to be passed.
+
+**Text messages are formatted as such:**
+
+```json
+{
+  "id": "b4d303b1-17c9-4863-81b7-bc5281f3590f",
+  "type": "text",
+  "date": "2021-12-20T19:15:03.000Z",
+  "content": "Hello! This is a text message.",
+
+  "from": {
+    "jid": "john.doe@acme.inc",
+    "name": "John Doe",
+    "avatar": "data:image/jpeg;base64,(...)"
+  }
+}
+```
+
+**File messages are formatted as such:**
+
+```json
+{
+  "id": "07b4af91-c5f4-45be-98f4-77f554c042c8",
+  "type": "file",
+  "date": "2021-12-21T09:04:01.000Z",
+
+  "content": {
+    "name": "crisp-keep-calm.jpg",
+    "type": "image/jpeg",
+    "url": "https://crisp.chat/blog/content/images/2021/03/12---3-Simple-Actions-to-Tackle-Email-Overload.jpg",
+
+    "size": {
+      "width": 1920,
+      "height": 1080
+    }
+  },
+
+  "from": {
+    "jid": "valerian@prose.org",
+    "name": "Valerian",
+    "avatar": "data:image/jpeg;base64,(...)"
+  }
+}
+```
 
 ## License
 

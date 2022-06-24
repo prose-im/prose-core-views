@@ -58,7 +58,13 @@ function FeedStore() {
     insert(...messages) {
       messages.forEach(message => {
         // Ensure that inserted message data is valid
-        if (!message.id || !message.type || !message.date) {
+        if (
+          !message.id ||
+          !message.type ||
+          !message.date ||
+          !message.content ||
+          !message.from
+        ) {
           throw new Error(
             "Message to insert is incomplete (missing attribute)"
           );
