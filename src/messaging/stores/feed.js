@@ -204,49 +204,66 @@ function FeedStore() {
      * @return {boolean} Message retract status
      */
     retract(messageId) {
+      let wasRemoved = false;
+
+      // Acquire parent entry for message
       let parentEntry = this.resolve(messageId);
 
       if (parentEntry !== null) {
-        // Remove from register
+        // Remove line from register
         delete this.__registers.entryIdForLineId[messageId];
 
-        // Remove from entries
-        let messageIndex = this.feed.entries.findIndex(entry => {
-          return entry.id === parentEntry.id;
+        // Remove from lines
+        let lineIndex = parentEntry.content.findIndex(line => {
+          return line.id === messageId;
         });
 
-        // TODO: retract line
-        // TODO: only retract entry if there are no lines anymore!
+        if (lineIndex !== -1) {
+          // Remove line from message
+          parentEntry.content.splice(lineIndex, 1);
 
-        if (messageIndex !== -1) {
-          // Acquire boundary messages
-          let previousMessage = this.feed.entries[messageIndex - 1],
-            nextMessage = this.feed.entries[messageIndex + 1];
+          // Mark as removed
+          wasRemoved = true;
+        }
 
-          // Remove message from store
-          this.feed.entries.splice(messageIndex, 1);
+        // Remove whole entry? (as it is now empty)
+        if (parentEntry.content.length === 0) {
+          // Remove entry from register
+          delete this.__registers.feedEntriesById[parentEntry.id];
 
-          // Remove date separator for the group if the retracted message was \
-          //   preceded by a date separator, and followed by a date separator \
-          //   (or nothing)
-          if (
-            previousMessage &&
-            previousMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR &&
-            (!nextMessage ||
-              nextMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR)
-          ) {
-            delete this.__registers.entryIdForLineId[previousMessage.id];
-            this.feed.entries.splice(messageIndex - 1, 1);
+          // Remove from entries
+          let entryIndex = this.feed.entries.findIndex(entry => {
+            return entry.id === parentEntry.id;
+          });
+
+          if (entryIndex !== -1) {
+            // Acquire boundary messages
+            let previousMessage = this.feed.entries[entryIndex - 1],
+              nextMessage = this.feed.entries[entryIndex + 1];
+
+            // Remove message from store
+            this.feed.entries.splice(entryIndex, 1);
+
+            // Remove date separator for the group if the retracted message \
+            //   was preceded by a date separator, and followed by a date \
+            //   separator (or nothing)
+            if (
+              previousMessage &&
+              previousMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR &&
+              (!nextMessage ||
+                nextMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR)
+            ) {
+              delete this.__registers.feedEntriesById[previousMessage.id];
+              this.feed.entries.splice(entryIndex - 1, 1);
+            }
           }
-
-          // TODO: if line is removed and parent has no lines anymore, remove \
-          //   parent.
-
-          return true;
+        } else {
+          // Bump updated date (used to signal view to re-render)
+          parentEntry.updatedAt = Date.now();
         }
       }
 
-      return false;
+      return wasRemoved;
     },
 
     /**
