@@ -58,7 +58,9 @@ Once built, all assets in `dist/` should be packaged within the Prose native app
 
 Serialized data should be passed to the view whenever its model needs to be updated.
 
-### Passing data to the messaging view
+### Messaging view
+
+The messaging view can be included from path: `./dist/messaging.html`
 
 The messaging view exposes a programmatic API that lets applications manipulate its internal store:
 
