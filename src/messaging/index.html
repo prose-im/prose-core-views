@@ -33,6 +33,7 @@
       class="entry"
       v-for="entry in $store.feed.entries"
       v-scope="Entry(entry)"
+      v-once
       :key="entry.id + '@' + (entry.updatedAt || 0)"
     >
       <div class="message" v-if="message" v-scope="Message(message)">
