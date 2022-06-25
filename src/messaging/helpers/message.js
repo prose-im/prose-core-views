@@ -7,6 +7,7 @@
 
 // IMPORTS
 
+import { reactive } from "petite-vue";
 import DateHelper from "./date.js";
 
 // HELPERS
@@ -99,7 +100,7 @@ const MessageHelper = {
       messageModel.content = [generatedLine];
     }
 
-    return messageModel;
+    return this.__finalize(messageModel);
   },
 
   /**
@@ -109,11 +110,24 @@ const MessageHelper = {
    * @return {object} Separator model
    */
   makeSeparatorModel: function (sourceMessage) {
-    return {
+    return this.__finalize({
       type: this.ENTRY_TYPE_SEPARATOR,
       date: new Date(sourceMessage.date),
       label: DateHelper.formatDateString(sourceMessage.date)
-    };
+    });
+  },
+
+  /**
+   * Finalizes a model object
+   * @private
+   * @param  {object} model
+   * @return {object} Finalized model
+   */
+  __finalize: function (model) {
+    // Important: make the model reactive, so that all views consuming the \
+    //   model can track changes across all references to the model within the \
+    //   store.
+    return reactive(model);
   }
 };
 
