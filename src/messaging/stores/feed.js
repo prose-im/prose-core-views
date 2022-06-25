@@ -55,7 +55,21 @@ function FeedStore() {
       let parentEntryId = this.__registers.entryIdForLineId[messageId] || null;
 
       if (parentEntryId !== null) {
-        return this.__registers.feedEntriesById[parentEntryId] || null;
+        let parentEntry =
+          this.__registers.feedEntriesById[parentEntryId] || null;
+
+        if (parentEntry !== null) {
+          // Rebuild the returned parent entry object, to a new safe object
+          let messageLine = parentEntry.content.find(line => {
+            return line.id === messageId;
+          });
+
+          if (messageLine) {
+            // Important: escape from the Proxy wrapper in the returned \
+            //   partial message object.
+            return { ...messageLine };
+          }
+        }
       }
 
       return null;
@@ -69,7 +83,7 @@ function FeedStore() {
      */
     insert(...messages) {
       messages.forEach(message => {
-        // Ensure that inserted message data is valid
+        // Guard: ensure that inserted message data is valid
         if (
           !message.id ||
           !message.type ||
@@ -82,8 +96,8 @@ function FeedStore() {
           );
         }
 
-        // Check that message has not been already inserted?
-        if (this.exists(message.id)) {
+        // Guard: check that message has not been already inserted?
+        if (this.exists(message.id) === true) {
           throw new Error(
             "Message with this identifier has already been inserted"
           );
@@ -105,7 +119,7 @@ function FeedStore() {
         // Acquire previous message (relative to current message)
         let previousMessage = this.feed.entries[this.feed.entries.length - 1];
 
-        // Should a separator message be inserted?
+        // #1. Should a separator message be inserted?
         if (
           !previousMessage ||
           !DateHelper.areSameDay(previousMessage.date, storeMessage.date)
@@ -125,7 +139,7 @@ function FeedStore() {
           previousMessage = separatorMessage;
         }
 
-        // Should a line be inserted to an existing message entry?
+        // #2. Should a line be inserted to an existing message entry?
         // Notice: only if the previous message is from the same user as the \
         //   current one, and has been sent within a similar timeframe (that \
         //   is, recently).
@@ -171,7 +185,7 @@ function FeedStore() {
      * @return {boolean} Message update status
      */
     update(messageId, messageDiff) {
-      // Ensure that inserted message data is valid
+      // Guard: ensure that inserted message data is valid
       if (!messageDiff.type || !messageDiff.content) {
         throw new Error("Message to update is incomplete (missing attribute)");
       }
@@ -183,12 +197,14 @@ function FeedStore() {
         // Only message types can be updated
         if (parentEntry.type !== MessageHelper.ENTRY_TYPE_MESSAGE) {
           throw new Error(
-            `Only entries of 'message' type can be updated ` +
-              `(got '${parentEntry.type}')`
+            `Only entries of '${MessageHelper.ENTRY_TYPE_MESSAGE}' type can ` +
+              `be updated (got '${parentEntry.type}')`
           );
         }
 
         // Force message identifier on differential object
+        // Notice: an identifier is required to generate the associated \
+        //   content line within the updated entry.
         messageDiff.id = messageId;
 
         // Transform message differential into model message differential
@@ -197,15 +213,17 @@ function FeedStore() {
           messageDiff
         );
 
-        // Update message in store
+        // Update message content in store
         storeMessageDiff.content.forEach(lineDiff => {
           parentEntry.content.forEach(line => {
+            // Line to update found in entry model? Update it.
             if (line.id === lineDiff.id) {
               Object.assign(line, lineDiff);
             }
           });
         });
 
+        // Update message user in store? (if any set)
         if (storeMessageDiff.user) {
           Object.assign(parentEntry.user, storeMessageDiff.user);
         }
@@ -232,10 +250,9 @@ function FeedStore() {
       let parentEntry = this.resolve(messageId);
 
       if (parentEntry !== null) {
-        // Remove line from register
+        // #1. Remove line from message entry
         delete this.__registers.entryIdForLineId[messageId];
 
-        // Remove from lines
         let lineIndex = parentEntry.content.findIndex(line => {
           return line.id === messageId;
         });
@@ -248,12 +265,10 @@ function FeedStore() {
           wasRemoved = true;
         }
 
-        // Remove whole entry? (as it is now empty)
+        // #2. Remove whole entry? (as it is now empty)
         if (parentEntry.content.length === 0) {
-          // Remove entry from register
           delete this.__registers.feedEntriesById[parentEntry.id];
 
-          // Remove from entries
           let entryIndex = this.feed.entries.findIndex(entry => {
             return entry.id === parentEntry.id;
           });
@@ -276,6 +291,7 @@ function FeedStore() {
                 nextMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR)
             ) {
               delete this.__registers.feedEntriesById[previousMessage.id];
+
               this.feed.entries.splice(entryIndex - 1, 1);
             }
           }
@@ -295,8 +311,10 @@ function FeedStore() {
      */
     flush() {
       if (this.feed.entries.length > 0) {
-        // Clear messages store
+        // Clear all public stores
         this.feed.entries = [];
+
+        // Clear all private registers
         this.__registers.feedEntriesById = {};
         this.__registers.entryIdForLineId = {};
 

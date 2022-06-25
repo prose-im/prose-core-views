@@ -56,7 +56,7 @@ const MessageHelper = {
       messageModel.date = parsedDate;
     }
 
-    // Apply message content based on type
+    // Apply message content based on type? (if any)
     if (message.content && message.id) {
       let generatedLine = {
         id: message.id
