@@ -8,6 +8,7 @@
 // IMPORTS
 
 import { reactive } from "petite-vue";
+import { nanoid } from "nanoid";
 import DateHelper from "../helpers/date.js";
 import MessageHelper from "../helpers/message.js";
 
@@ -22,7 +23,8 @@ function FeedStore() {
     }),
 
     __registers: {
-      feedEntriesById: {}
+      feedEntriesById: {},
+      entryIdForLineId: {}
     },
 
     // --> METHODS <--
@@ -34,7 +36,7 @@ function FeedStore() {
      * @return {boolean} Message exist status
      */
     exists(messageId) {
-      return this.__registers.feedEntriesById[messageId] !== undefined
+      return this.__registers.entryIdForLineId[messageId] !== undefined
         ? true
         : false;
     },
@@ -46,7 +48,13 @@ function FeedStore() {
      * @return {object} Resolved message (if any)
      */
     resolve(messageId) {
-      return this.__registers.feedEntriesById[messageId] || null;
+      let parentEntryId = this.__registers.entryIdForLineId[messageId] || null;
+
+      if (parentEntryId !== null) {
+        return this.__registers.feedEntriesById[parentEntryId] || null;
+      }
+
+      return null;
     },
 
     /**
@@ -83,6 +91,9 @@ function FeedStore() {
           message
         );
 
+        // Assign a master entry identifier to the message group
+        storeMessage.id = nanoid();
+
         // Acquire previous message (relative to current message)
         let previousMessage = this.feed.entries[this.feed.entries.length - 1];
 
@@ -93,6 +104,9 @@ function FeedStore() {
           // Append a separator if previous message is from a different day
           let separatorMessage = MessageHelper.makeSeparatorModel(storeMessage);
 
+          // Assign a master entry identifier to the separator message
+          separatorMessage.id = nanoid();
+
           this.__registers.feedEntriesById[separatorMessage.id] =
             separatorMessage;
           this.feed.entries.push(separatorMessage);
@@ -101,8 +115,12 @@ function FeedStore() {
         // TODO: add a line if previous message is from the same user
         //   important: do this after inserting the date separator!
 
+        // TODO: add a line only if last message from same user is recent, eg. \
+        //   last than 10 minutes.
+
         // Insert message in store
         this.__registers.feedEntriesById[storeMessage.id] = storeMessage;
+        this.__registers.entryIdForLineId[message.id] = storeMessage.id;
         this.feed.entries.push(storeMessage);
       });
 
@@ -117,17 +135,22 @@ function FeedStore() {
      * @return {boolean} Message update status
      */
     update(messageId, messageDiff) {
-      let message = this.resolve(messageId);
+      let parentEntry = this.resolve(messageId);
 
-      if (message !== null) {
+      if (parentEntry !== null) {
+        // Force message identifier on differential object
+        messageDiff.id = messageId;
+
         // Transform message differential into model message differential
         let storeMessageDiff = MessageHelper.transformIntoModel(
-          message.type,
+          parentEntry.type,
           messageDiff
         );
 
+        // TODO: only update target line here!
+
         // Update message in store
-        Object.assign(message, storeMessageDiff);
+        Object.assign(parentEntry, storeMessageDiff);
 
         return true;
       }
@@ -142,14 +165,19 @@ function FeedStore() {
      * @return {boolean} Message retract status
      */
     retract(messageId) {
-      if (this.exists(messageId)) {
+      let parentEntry = this.resolve(messageId);
+
+      if (parentEntry !== null) {
         // Remove from register
-        delete this.__registers.feedEntriesById[messageId];
+        delete this.__registers.entryIdForLineId[messageId];
 
         // Remove from entries
         let messageIndex = this.feed.entries.findIndex(entry => {
-          return entry.id === messageId;
+          return entry.id === parentEntry.id;
         });
+
+        // TODO: retract line
+        // TODO: only retract entry if there are no lines anymore!
 
         if (messageIndex !== -1) {
           // Acquire boundary messages
@@ -168,9 +196,12 @@ function FeedStore() {
             (!nextMessage ||
               nextMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR)
           ) {
-            delete this.__registers.feedEntriesById[previousMessage.id];
+            delete this.__registers.entryIdForLineId[previousMessage.id];
             this.feed.entries.splice(messageIndex - 1, 1);
           }
+
+          // TODO: if line is removed and parent has no lines anymore, remove \
+          //   parent.
 
           return true;
         }
@@ -189,6 +220,7 @@ function FeedStore() {
         // Clear messages store
         this.feed.entries = [];
         this.__registers.feedEntriesById = {};
+        this.__registers.entryIdForLineId = {};
 
         return true;
       }

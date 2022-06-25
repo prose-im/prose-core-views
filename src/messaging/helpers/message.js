@@ -31,11 +31,6 @@ const MessageHelper = {
       type: this.ENTRY_TYPE_MESSAGE
     };
 
-    // Apply identifier? (if any)
-    if (message.id) {
-      messageModel.id = message.id;
-    }
-
     // Apply user? (if any)
     if (message.from) {
       // Validate user data
@@ -61,8 +56,10 @@ const MessageHelper = {
     }
 
     // Apply message content based on type
-    if (message.content) {
-      let generatedLines = [];
+    if (message.content && message.id) {
+      let generatedLine = {
+        id: message.id
+      };
 
       switch (type) {
         case "text": {
@@ -72,10 +69,8 @@ const MessageHelper = {
             );
           }
 
-          generatedLines.push({
-            type: "text",
-            text: message.content
-          });
+          generatedLine.type = "text";
+          generatedLine.text = message.content;
 
           break;
         }
@@ -88,10 +83,8 @@ const MessageHelper = {
             );
           }
 
-          generatedLines.push({
-            type: "file",
-            file: message.content
-          });
+          generatedLine.type = "file";
+          generatedLine.file = message.content;
 
           break;
         }
@@ -103,7 +96,7 @@ const MessageHelper = {
         }
       }
 
-      messageModel.content = generatedLines;
+      messageModel.content = [generatedLine];
     }
 
     return messageModel;
@@ -117,7 +110,6 @@ const MessageHelper = {
    */
   makeSeparatorModel: function (sourceMessage) {
     return {
-      id: `s-${sourceMessage.date.getTime()}`,
       type: this.ENTRY_TYPE_SEPARATOR,
       date: new Date(sourceMessage.date),
       label: DateHelper.formatDateString(sourceMessage.date)

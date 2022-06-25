@@ -53,7 +53,8 @@
     "lint": "npm run lint:js && npm run lint:prettier"
   },
   "dependencies": {
-    "petite-vue": "0.4.x"
+    "petite-vue": "0.4.x",
+    "nanoid": "4.0.x"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.18.x",
