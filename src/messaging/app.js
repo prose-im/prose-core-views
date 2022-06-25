@@ -8,11 +8,16 @@
 // IMPORTS
 
 import { createApp, reactive } from "petite-vue";
+import SandboxHelper from "./helpers/sandbox.js";
 import FeedStore from "./stores/feed.js";
 import Avatar from "./components/avatar/avatar.js";
 import Separator from "./components/separator/separator.js";
 import Message from "./components/message/message.js";
 import Entry from "./components/entry/entry.js";
+
+// CONSTANTS
+
+const IS_SANDBOX = process.env.NODE_ENV !== "production" ? true : false;
 
 // INSTANCES
 
@@ -49,6 +54,10 @@ createApp({
   Entry,
   $store
 }).mount("#app");
+
+if (IS_SANDBOX === true) {
+  SandboxHelper.loadAndApplyFixtures($store);
+}
 
 // EXPORTS
 
