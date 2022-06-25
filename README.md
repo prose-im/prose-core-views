@@ -63,7 +63,7 @@ Serialized data should be passed to the view whenever its model needs to be upda
 The messaging view exposes a programmatic API that lets applications manipulate its internal store:
 
 - Check if a message exists: `MessagingStore.exists(messageId<string>)<boolean>`
-- Resolve a message from the store: `MessagingStore.resolve(messageId<string>)<boolean>`
+- Resolve a message from the store: `MessagingStore.resolve(messageId<string>)<object>`
 - Insert one or multiple messages in the store: `MessagingStore.insert(...messages<object>)<boolean>`
 - Update a message in the store: `MessagingStore.update(messageId<string>, messageDiff<object>)<boolean>`
 - Pull out a message from the store: `MessagingStore.retract(messageId<string>)<boolean>`
