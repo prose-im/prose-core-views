@@ -191,7 +191,7 @@ function FeedStore() {
       }
 
       // Acquire parent entry
-      let parentEntry = this.resolve(messageId);
+      let parentEntry = this.__resolveEntry(messageId);
 
       if (parentEntry !== null) {
         // Only message types can be updated
@@ -247,7 +247,7 @@ function FeedStore() {
       let wasRemoved = false;
 
       // Acquire parent entry for message
-      let parentEntry = this.resolve(messageId);
+      let parentEntry = this.__resolveEntry(messageId);
 
       if (parentEntry !== null) {
         // #1. Remove line from message entry
@@ -322,6 +322,22 @@ function FeedStore() {
       }
 
       return false;
+    },
+
+    /**
+     * Acquires full parent entry from the store
+     * @private
+     * @param  {string} messageId
+     * @return {object} Resolved entry (if any)
+     */
+    __resolveEntry(messageId) {
+      let parentEntryId = this.__registers.entryIdForLineId[messageId] || null;
+
+      if (parentEntryId !== null) {
+        return this.__registers.feedEntriesById[parentEntryId] || null;
+      }
+
+      return null;
     }
   };
 }
