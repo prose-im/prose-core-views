@@ -8,16 +8,11 @@
 // IMPORTS
 
 import { createApp, reactive } from "petite-vue";
-import SandboxHelper from "./helpers/sandbox.js";
 import FeedStore from "./stores/feed.js";
 import Avatar from "./components/avatar/avatar.js";
 import Separator from "./components/separator/separator.js";
 import Message from "./components/message/message.js";
 import Entry from "./components/entry/entry.js";
-
-// CONSTANTS
-
-const IS_SANDBOX = process.env.NODE_ENV !== "production" ? true : false;
 
 // INSTANCES
 
@@ -55,7 +50,13 @@ createApp({
   $store
 }).mount("#app");
 
-if (IS_SANDBOX === true) {
+if (process.env.NODE_ENV !== "production") {
+  // Important: include sandbox helper for non-production builds only, as it \
+  //   adds up significant overhead on the final bundle size, since it \
+  //   includes sandbox fixtures, used for development and testing purposes \
+  //   only.
+  const SandboxHelper = require("./helpers/sandbox.js").default;
+
   SandboxHelper.loadAndApplyFixtures($store);
 }
 
