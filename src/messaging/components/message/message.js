@@ -63,9 +63,6 @@ function Message(message) {
             const imageSize = this.computeFileImageSize(content);
 
             // File line
-            // TODO: escape injected content
-            // TODO: source from renderer somewhere
-            // TODO: if not image, show download button
             type = content.type;
 
             html = `
