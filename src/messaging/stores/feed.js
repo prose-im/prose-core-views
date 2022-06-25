@@ -98,7 +98,8 @@ function FeedStore() {
         // Assign a master entry identifier to the message group
         storeMessage.id = nanoid();
 
-        // Assign initial updated time
+        // Assign initial insert and updated time
+        storeMessage.insertedAt = Date.now();
         storeMessage.updatedAt = 0;
 
         // Acquire previous message (relative to current message)
