@@ -57,6 +57,20 @@ const DateHelper = {
    */
   formatDateString: function (date) {
     return date.toLocaleDateString();
+  },
+
+  /**
+   * Checks if dates are within elapsed time
+   * @public
+   * @param  {object}  dateLeft
+   * @param  {object}  dateRight
+   * @param  {number}  [timeframe]
+   * @return {boolean} Within elapsed time status
+   */
+  areWithinElapsedTime: function (dateLeft, dateRight, timeframe = 0) {
+    let elapsedTime = dateRight.getTime() - dateLeft.getTime();
+
+    return elapsedTime >= 0 && elapsedTime < timeframe ? true : false;
   }
 };
 

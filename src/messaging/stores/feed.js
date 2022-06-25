@@ -12,6 +12,10 @@ import { nanoid } from "nanoid";
 import DateHelper from "../helpers/date.js";
 import MessageHelper from "../helpers/message.js";
 
+// CONSTANTS
+
+const ENTRY_NEST_TIMEFRAME = 600000; // 10 minutes
+
 // STORES
 
 function FeedStore() {
@@ -94,9 +98,13 @@ function FeedStore() {
         // Assign a master entry identifier to the message group
         storeMessage.id = nanoid();
 
+        // Assign initial updated time
+        storeMessage.updatedAt = 0;
+
         // Acquire previous message (relative to current message)
         let previousMessage = this.feed.entries[this.feed.entries.length - 1];
 
+        // Should a separator message be inserted?
         if (
           !previousMessage ||
           !DateHelper.areSameDay(previousMessage.date, storeMessage.date)
@@ -110,18 +118,45 @@ function FeedStore() {
           this.__registers.feedEntriesById[separatorMessage.id] =
             separatorMessage;
           this.feed.entries.push(separatorMessage);
+
+          // Update previous message reference (as we just pushed a new \
+          //   message, that should be considered the new previous message)
+          previousMessage = separatorMessage;
         }
 
-        // TODO: add a line if previous message is from the same user
-        //   important: do this after inserting the date separator!
+        // Should a line be inserted to an existing message entry?
+        // Notice: only if the previous message is from the same user as the \
+        //   current one, and has been sent within a similar timeframe (that \
+        //   is, recently).
+        if (
+          previousMessage &&
+          previousMessage.type === MessageHelper.ENTRY_TYPE_MESSAGE &&
+          previousMessage.user.jid === storeMessage.user.jid &&
+          DateHelper.areWithinElapsedTime(
+            previousMessage.date,
+            storeMessage.date,
+            ENTRY_NEST_TIMEFRAME
+          )
+        ) {
+          // Insert each line from the current message into the previous message
+          storeMessage.content.forEach(contentLine => {
+            previousMessage.content.push(contentLine);
+          });
 
-        // TODO: add a line only if last message from same user is recent, eg. \
-        //   last than 10 minutes.
+          // Update store message reference (as we re-used a previously-pushed \
+          //   message and appended a new line in this existing message)
+          storeMessage = previousMessage;
 
-        // Insert message in store
-        this.__registers.feedEntriesById[storeMessage.id] = storeMessage;
+          // Bump updated date (used to signal view to re-render)
+          storeMessage.updatedAt = Date.now();
+        } else {
+          // Insert message in store
+          this.__registers.feedEntriesById[storeMessage.id] = storeMessage;
+          this.feed.entries.push(storeMessage);
+        }
+
+        // Store line reference to its parent
         this.__registers.entryIdForLineId[message.id] = storeMessage.id;
-        this.feed.entries.push(storeMessage);
       });
 
       return messages.length > 0 ? true : false;
@@ -151,6 +186,9 @@ function FeedStore() {
 
         // Update message in store
         Object.assign(parentEntry, storeMessageDiff);
+
+        // Bump updated date (used to signal view to re-render)
+        parentEntry.updatedAt = Date.now();
 
         return true;
       }

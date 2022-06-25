@@ -98,6 +98,7 @@ function Message(message) {
         }
 
         return {
+          id: `${message.id}/${content.id}`,
           type,
           html
         };
