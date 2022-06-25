@@ -171,22 +171,44 @@ function FeedStore() {
      * @return {boolean} Message update status
      */
     update(messageId, messageDiff) {
+      // Ensure that inserted message data is valid
+      if (!messageDiff.type || !messageDiff.content) {
+        throw new Error("Message to update is incomplete (missing attribute)");
+      }
+
+      // Acquire parent entry
       let parentEntry = this.resolve(messageId);
 
       if (parentEntry !== null) {
+        // Only message types can be updated
+        if (parentEntry.type !== MessageHelper.ENTRY_TYPE_MESSAGE) {
+          throw new Error(
+            `Only entries of 'message' type can be updated ` +
+              `(got '${parentEntry.type}')`
+          );
+        }
+
         // Force message identifier on differential object
         messageDiff.id = messageId;
 
         // Transform message differential into model message differential
         let storeMessageDiff = MessageHelper.transformIntoModel(
-          parentEntry.type,
+          messageDiff.type,
           messageDiff
         );
 
-        // TODO: only update target line here!
-
         // Update message in store
-        Object.assign(parentEntry, storeMessageDiff);
+        storeMessageDiff.content.forEach(lineDiff => {
+          parentEntry.content.forEach(line => {
+            if (line.id === lineDiff.id) {
+              Object.assign(line, lineDiff);
+            }
+          });
+        });
+
+        if (storeMessageDiff.user) {
+          Object.assign(parentEntry.user, storeMessageDiff.user);
+        }
 
         // Bump updated date (used to signal view to re-render)
         parentEntry.updatedAt = Date.now();
