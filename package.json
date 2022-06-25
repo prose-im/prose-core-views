@@ -47,7 +47,7 @@
   },
   "scripts": {
     "dev": "parcel serve --target=development --port=5000 --host=localhost --no-autoinstall --watch-for-stdin",
-    "build": "parcel build --target=production",
+    "build": "rm -rf ./dist/* && parcel build --target=production",
     "lint:js": "eslint --ext \".js\" --ignore-path .gitignore .",
     "lint:prettier": "prettier --check .",
     "lint": "npm run lint:js && npm run lint:prettier"
