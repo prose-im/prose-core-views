@@ -30,7 +30,7 @@ jobs:
             node_modules
           key: ${{ runner.os }}-node
 
-      - name: "Get current tag"
+      - name: Get current tag
         id: current_tag
         uses: WyriHaximus/github-action-get-previous-tag@v1
         with:
