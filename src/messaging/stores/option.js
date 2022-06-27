@@ -8,6 +8,7 @@
 // IMPORTS
 
 import { reactive } from "petite-vue";
+import ToolboxHelper from "../helpers/toolbox.js";
 
 // CONSTANTS
 
@@ -20,7 +21,7 @@ function OptionStore() {
     // --> DATA <--
 
     style: reactive({
-      theme: "light"
+      theme: ToolboxHelper.detectAppearancePreference()
     }),
 
     // --> METHODS <--
