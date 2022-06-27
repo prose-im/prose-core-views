@@ -34,6 +34,8 @@
       }
     ]"
   >
+    <!-- CONTENT -->
+
     <div
       class="entry"
       v-for="entry in $store.feed.entries"
@@ -47,16 +49,32 @@
         <div class="message-inner" @vue:mounted="mounted">
           <div class="message-origin">
             <span class="message-origin-name">{{ user.name }}</span>
-            <span class="message-origin-date">{{ date }}</span>
+
+            <span v-if="date" class="message-origin-date">{{ date }}</span>
           </div>
 
           <div class="message-content">
             <p
-              v-for="line in lines"
-              v-html="line.html"
+              v-for="line in content"
               :key="line.id"
-              :class="[ 'message-content-line', ('message-' + line.type) ]"
-            ></p>
+              class="message-content-line"
+            >
+              <span
+                v-if="line.type === 'text'"
+                v-scope="MessageLineText(line)"
+                @vue:mounted="mounted"
+                class="message-text"
+              ></span>
+
+              <span
+                v-else-if="line.type === 'file'"
+                v-scope="MessageLineFile(line)"
+                @vue:mounted="mounted"
+                class="message-file"
+              ></span>
+
+              <span v-else class="message-other">(?)</span>
+            </p>
           </div>
         </div>
       </div>
@@ -69,5 +87,25 @@
         <span class="separator-label">{{ label }}</span>
       </div>
     </div>
+
+    <!-- TEMPLATES -->
+
+    <template id="template-message-line-text">
+      <span v-if="html" v-html="html" class="message-text-inner"></span>
+    </template>
+
+    <template id="template-message-line-file">
+      <span class="message-file-expander"> {{ file.name }} </span>
+
+      <a :href="file.url" class="message-file-image" target="_blank">
+        <img
+          v-if="imageSize"
+          :src="file.url"
+          :width="imageSize.width || null"
+          :height="imageSize.height || null"
+          alt=""
+        />
+      </a>
+    </template>
   </body>
 </html>

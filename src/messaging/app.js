@@ -12,8 +12,12 @@ import OptionStore from "./stores/option.js";
 import FeedStore from "./stores/feed.js";
 import Avatar from "./components/avatar/avatar.js";
 import Separator from "./components/separator/separator.js";
-import Message from "./components/message/message.js";
 import Entry from "./components/entry/entry.js";
+import {
+  Message,
+  MessageLineText,
+  MessageLineFile
+} from "./components/message/message.js";
 
 // INSTANCES
 
@@ -47,8 +51,10 @@ createApp({
   App,
   Avatar,
   Separator,
-  Message,
   Entry,
+  Message,
+  MessageLineText,
+  MessageLineFile,
   $store,
   $context
 }).mount("#app");

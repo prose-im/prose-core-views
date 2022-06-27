@@ -11,7 +11,6 @@ import { htmlEscape as _e } from "escape-goat";
 
 // CONSTANTS
 
-const INVALID_FALLBACK = "(?)";
 const LINE_BREAK_REGEX = /\n/g;
 const SPACE_REGEX = /\s/g;
 const DATE_FORMAT_LOCATION = "en-US";
@@ -23,9 +22,9 @@ function Message(message) {
   return {
     // --> DATA <--
 
+    content: message.content,
     user: message.user,
     date: null,
-    lines: null,
 
     // --> METHODS <--
 
@@ -35,77 +34,8 @@ function Message(message) {
      * @return {undefined}
      */
     mounted() {
-      // Generate message lines HTML (based on type)
-      this.lines = this.generateLines(message.content);
-
       // Generate message date text
       this.date = this.generateDate(message.date);
-    },
-
-    /**
-     * Generates message lines
-     * @public
-     * @param  {object} contents
-     * @return {object} Generated lines
-     */
-    generateLines(contents) {
-      // Generate lines
-      return contents.map(content => {
-        let type, html;
-
-        switch (content.type) {
-          case "text": {
-            // Text line
-            type = content.type;
-            html = _e(content.text).replace(LINE_BREAK_REGEX, "<br>");
-
-            break;
-          }
-
-          case "file": {
-            // Compute image size (pick the lowest size, up to baseline maximum)
-            const imageSize = this.computeFileImageSize(content);
-
-            // File line
-            type = content.type;
-
-            html = `
-              <span class="message-file">
-                <span class="message-file-expander">
-                  ${_e(content.file.name)}
-                </span>
-
-                <a
-                  class="message-file-image"
-                  href="${_e(content.file.url)}"
-                  target="_blank"
-                >
-                  <img
-                    src="${_e(content.file.url)}"
-                    width="${imageSize.width || ""}"
-                    height="${imageSize.height || ""}"
-                    alt=""
-                  />
-                </a>
-              </span>
-            `;
-
-            break;
-          }
-
-          default: {
-            // Type is invalid
-            type = null;
-            html = INVALID_FALLBACK;
-          }
-        }
-
-        return {
-          id: `${message.id}/${content.id}`,
-          type,
-          html
-        };
-      });
     },
 
     /**
@@ -129,7 +59,67 @@ function Message(message) {
       }
 
       // Date is invalid
-      return INVALID_FALLBACK;
+      return null;
+    }
+  };
+}
+
+function MessageLineText(content) {
+  return {
+    // --> TEMPLATE <--
+
+    $template: "#template-message-line-text",
+
+    // --> DATA <--
+
+    html: null,
+
+    // --> METHODS <--
+
+    /**
+     * Mounted hook
+     * @public
+     * @return {undefined}
+     */
+    mounted() {
+      // Generate text message HTML
+      this.html = this.generateHTML(content);
+    },
+
+    /**
+     * Generates message HTML
+     * @public
+     * @param  {object} content
+     * @return {object} Generated HTML
+     */
+    generateHTML(content) {
+      // Important: escape text, as it will be injected as-is to the DOM.
+      return _e(content.text).replace(LINE_BREAK_REGEX, "<br>");
+    }
+  };
+}
+
+function MessageLineFile(content) {
+  return {
+    // --> TEMPLATE <--
+
+    $template: "#template-message-line-file",
+
+    // --> DATA <--
+
+    file: content.file,
+    imageSize: null,
+
+    // --> METHODS <--
+
+    /**
+     * Mounted hook
+     * @public
+     * @return {undefined}
+     */
+    mounted() {
+      // Compute image size for file
+      this.imageSize = this.computeFileImageSize(content);
     },
 
     /**
@@ -158,4 +148,4 @@ function Message(message) {
 
 // EXPORTS
 
-export default Message;
+export { Message, MessageLineText, MessageLineFile };
