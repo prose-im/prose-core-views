@@ -5,6 +5,10 @@
  * License: Mozilla Public License v2.0 (MPL v2.0)
  */
 
+// IMPORTS
+
+import { htmlEscape as _e } from "escape-goat";
+
 // CONSTANTS
 
 const INVALID_FALLBACK = "(?)";
@@ -53,7 +57,7 @@ function Message(message) {
           case "text": {
             // Text line
             type = content.type;
-            html = content.text.replace(LINE_BREAK_REGEX, "<br>");
+            html = _e(content.text).replace(LINE_BREAK_REGEX, "<br>");
 
             break;
           }
@@ -67,15 +71,17 @@ function Message(message) {
 
             html = `
               <span class="message-file">
-                <span class="message-file-expander">${content.file.name}</span>
+                <span class="message-file-expander">
+                  ${_e(content.file.name)}
+                </span>
 
                 <a
                   class="message-file-image"
-                  href="${content.file.url}"
+                  href="${_e(content.file.url)}"
                   target="_blank"
                 >
                   <img
-                    src="${content.file.url}"
+                    src="${_e(content.file.url)}"
                     width="${imageSize.width || ""}"
                     height="${imageSize.height || ""}"
                     alt=""
