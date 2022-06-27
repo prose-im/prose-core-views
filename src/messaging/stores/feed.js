@@ -89,7 +89,8 @@ function FeedStore() {
           !message.type ||
           !message.date ||
           !message.content ||
-          !message.from
+          !message.from ||
+          !message.from.jid
         ) {
           throw new Error(
             "Message to insert is incomplete (missing attribute)"

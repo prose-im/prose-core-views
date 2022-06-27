@@ -73,7 +73,7 @@ The messaging view exposes a programmatic API that lets applications manipulate 
 - Pull out a message from the store: `MessagingStore.retract(messageId<string>)<boolean>`
 - Flush all content from the store: `MessagingStore.flush()<boolean>`
 
-All inserted message objects are required to hold the following keys: `id`, `type`, `date`, `content` and `from`. When updating an existing message, only modified keys need to be passed.
+All inserted message objects are required to hold the following keys: `id`, `type`, `date`, `content` and `from` (with at least `from.jid` set). When updating an existing message, only modified keys need to be passed.
 
 **Text messages are formatted as such:**
 

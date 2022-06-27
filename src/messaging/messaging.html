@@ -44,11 +44,18 @@
       :key="entry.id + '@' + (entry.updatedAt || 0)"
     >
       <div class="message" v-if="message" v-scope="Message(message)">
-        <img class="avatar" v-scope="Avatar(user)" :src="avatarUrl" alt="" />
+        <img
+          v-if="user.avatar"
+          class="avatar"
+          v-scope="Avatar(user)"
+          :src="avatarUrl"
+          alt=""
+        />
+        <span v-else class="avatar avatar--placeholder"></span>
 
         <div class="message-inner" @vue:mounted="mounted">
           <div class="message-origin">
-            <span class="message-origin-name">{{ user.name }}</span>
+            <span class="message-origin-name">{{ user.name || user.jid }}</span>
 
             <span v-if="date" class="message-origin-date">{{ date }}</span>
           </div>
