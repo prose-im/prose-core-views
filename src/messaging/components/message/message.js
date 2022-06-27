@@ -15,6 +15,17 @@ const LINE_BREAK_REGEX = /\n/g;
 const SPACE_REGEX = /\s/g;
 const DATE_FORMAT_LOCATION = "en-US";
 const FILE_IMAGE_BASELINE_WIDTH = 200;
+const PRESENTATION_DEFAULT = "download";
+
+const PRESENTATION_MIME_TYPES = {
+  image: new Set([
+    "image/jpeg",
+    "image/gif",
+    "image/png",
+    "image/tiff",
+    "image/webp"
+  ])
+};
 
 // COMPONENTS
 
@@ -108,7 +119,11 @@ function MessageLineFile(content) {
     // --> DATA <--
 
     file: content.file,
+
+    presentation: null,
     imageSize: null,
+
+    isExpanded: true,
 
     // --> METHODS <--
 
@@ -118,8 +133,36 @@ function MessageLineFile(content) {
      * @return {undefined}
      */
     mounted() {
-      // Compute image size for file
-      this.imageSize = this.computeFileImageSize(content);
+      // Acquire file presentation mode
+      this.presentation = this.acquireFilePresentation(content);
+
+      // Compute image size for file? (if presentation is image)
+      if (this.presentation === "image") {
+        this.imageSize = this.computeFileImageSize(content);
+      }
+    },
+
+    /**
+     * Acquires file presentation mode
+     * @public
+     * @param  {object} content
+     * @return {string} Acquired file presentation mode
+     */
+    acquireFilePresentation(content) {
+      const fileType = content.file.type;
+
+      if (fileType) {
+        // Scan known MIME types for a particular presentation
+        for (let presentation in PRESENTATION_MIME_TYPES) {
+          // Presentation found for MIME type? Return early.
+          if (PRESENTATION_MIME_TYPES[presentation].has(fileType) === true) {
+            return presentation;
+          }
+        }
+      }
+
+      // Fallback to default presentation
+      return PRESENTATION_DEFAULT;
     },
 
     /**
@@ -142,6 +185,17 @@ function MessageLineFile(content) {
           : null;
 
       return { width, height };
+    },
+
+    // --> EVENT LISTENERS <--
+
+    /**
+     * Triggers when file expander is clicked
+     * @public
+     * @return {undefined}
+     */
+    onExpanderClick() {
+      this.isExpanded = !this.isExpanded;
     }
   };
 }

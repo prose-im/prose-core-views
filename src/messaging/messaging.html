@@ -102,17 +102,33 @@
     </template>
 
     <template id="template-message-line-file">
-      <span class="message-file-expander"> {{ file.name }} </span>
+      <span
+        :class="[
+          'message-file-inner',
+          {
+            'message-file-inner--expanded': isExpanded
+          }
+        ]"
+      >
+        <span class="message-file-expander" @click="onExpanderClick">
+          {{ file.name }}
+        </span>
 
-      <a :href="file.url" class="message-file-image" target="_blank">
-        <img
-          v-if="imageSize"
-          :src="file.url"
-          :width="imageSize.width || null"
-          :height="imageSize.height || null"
-          alt=""
-        />
-      </a>
+        <a
+          v-if="presentation === 'image'"
+          :href="file.url"
+          class="message-file-image"
+          target="_blank"
+        >
+          <img
+            v-if="imageSize"
+            :src="file.url"
+            :width="imageSize.width || null"
+            :height="imageSize.height || null"
+            alt=""
+          />
+        </a>
+      </span>
     </template>
   </body>
 </html>

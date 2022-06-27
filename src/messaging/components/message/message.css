@@ -73,6 +73,11 @@
   display: block;
 }
 
+.message-text-inner,
+.message-file-inner {
+  display: block;
+}
+
 .message-text {
   hyphens: auto;
 }
@@ -81,8 +86,11 @@
   user-select: none;
 }
 
-.message-file-expander,
-.message-file-image {
+.message-file-inner.message-file-inner--expanded .message-file-expander::after {
+  transform: rotate(0deg);
+}
+
+.message-file-inner.message-file-inner--expanded .message-file-image {
   display: block;
 }
 
@@ -91,6 +99,7 @@
   line-height: 20px;
   margin-top: 9px;
   margin-bottom: 6px;
+  display: block;
   transition: color linear 75ms;
 }
 
@@ -102,13 +111,21 @@
   vertical-align: middle;
   width: 0;
   height: 0;
-  margin-left: 5px;
+  margin-left: 3px;
   display: inline-block;
+  transform: rotate(-90deg);
+  transform-origin: 50%;
+  transition: transform linear 150ms;
 }
 
 .message-file-expander:hover {
   color: var(--color-black-medium);
   cursor: pointer;
+}
+
+.message-file-image {
+  line-height: 0;
+  display: none;
 }
 
 .message-file-image img {
