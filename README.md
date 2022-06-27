@@ -62,6 +62,8 @@ Serialized data should be passed to the view whenever its model needs to be upda
 
 The messaging view can be included from path: `./dist/messaging.html`
 
+#### Pushing messages to the store
+
 The messaging view exposes a programmatic API that lets applications manipulate its internal store:
 
 - Check if a message exists: `MessagingStore.exists(messageId<string>)<boolean>`
@@ -116,6 +118,15 @@ All inserted message objects are required to hold the following keys: `id`, `typ
   }
 }
 ```
+
+#### Adjusting message view context options
+
+The message view exposes context helpers, that let some options be adjusted at runtime.
+
+As soon as the view is available, the following methods can be called:
+
+- Get style theme: `MessagingContext.getStyleTheme()<string>`
+- Set style theme: `MessagingStore.setStyleTheme(theme<string>)<undefined>` (where theme is any of: `light`, `dark`)
 
 ## License
 
