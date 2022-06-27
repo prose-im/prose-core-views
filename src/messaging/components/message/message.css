@@ -17,6 +17,10 @@
   background-color: var(--color-grey-light);
 }
 
+.message:hover .avatar {
+  background-color: var(--color-white-default);
+}
+
 .message-inner {
   margin-left: 12px;
   overflow: hidden;
