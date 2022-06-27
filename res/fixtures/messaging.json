@@ -73,6 +73,37 @@
         "name": "Valerian",
         "avatar": "https://gravatar.com/avatar/b4cb8302ee37f985cc76190aaae1b40b?size=80"
       }
+    },
+
+    {
+      "id": "e742a639-9e38-4d79-953d-0c3882791e2a",
+      "type": "text",
+      "date": "2021-12-21T09:05:01.000Z",
+      "content": "Haha yes! I'll keep calm for sure.\n\nIn the meantime, and before I forget, you asked me for some brand assets. Here they are:",
+
+      "from": {
+        "jid": "baptiste@prose.org",
+        "name": "Baptiste",
+        "avatar": "https://gravatar.com/avatar/5603c33823b047149d9996a1be53afd4?size=80"
+      }
+    },
+
+    {
+      "id": "397448ce-e7bd-4b23-b272-2c8262380d2b",
+      "type": "file",
+      "date": "2021-12-21T09:06:01.000Z",
+
+      "content": {
+        "name": "Brand Assets.zip",
+        "type": "application/zip",
+        "url": "https://storage.crisp.chat/public/documents/Brand%20Assets.zip"
+      },
+
+      "from": {
+        "jid": "baptiste@prose.org",
+        "name": "Baptiste",
+        "avatar": "https://gravatar.com/avatar/5603c33823b047149d9996a1be53afd4?size=80"
+      }
     }
   ]
 }
