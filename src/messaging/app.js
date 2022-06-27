@@ -49,7 +49,8 @@ createApp({
   Separator,
   Message,
   Entry,
-  $store
+  $store,
+  $context
 }).mount("#app");
 
 if (process.env.NODE_ENV !== "production") {

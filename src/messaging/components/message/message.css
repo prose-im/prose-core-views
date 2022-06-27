@@ -5,6 +5,8 @@
  * License: Mozilla Public License v2.0 (MPL v2.0)
  */
 
+/* SECTION: MESSAGE */
+
 .message {
   padding: 8px 28px;
   flex-direction: row;
@@ -12,7 +14,7 @@
 }
 
 .message:hover {
-  background-color: #f7f7f7;
+  background-color: var(--color-grey-light);
 }
 
 .message-inner {
@@ -34,7 +36,7 @@
 }
 
 .message-origin-name {
-  color: #232526;
+  color: var(--color-black-medium);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0;
@@ -42,7 +44,7 @@
 }
 
 .message-origin-date {
-  color: #797979;
+  color: var(--color-gray-default);
   font-size: 12px;
   letter-spacing: 0;
   margin-left: 5px;
@@ -50,7 +52,7 @@
 }
 
 .message-content {
-  color: #232526;
+  color: var(--color-black-medium);
   font-size: 13px;
   line-height: 17px;
   letter-spacing: 0;
@@ -85,7 +87,7 @@
 }
 
 .message-file-expander {
-  color: #797979;
+  color: var(--color-gray-default);
   line-height: 20px;
   margin-top: 9px;
   margin-bottom: 6px;
@@ -96,7 +98,7 @@
   content: "";
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-top: 5px solid #232526;
+  border-top: 5px solid var(--color-black-medium);
   vertical-align: middle;
   width: 0;
   height: 0;
@@ -105,12 +107,12 @@
 }
 
 .message-file-expander:hover {
-  color: #232526;
+  color: var(--color-black-medium);
   cursor: pointer;
 }
 
 .message-file-image img {
-  background-color: #ffffff;
+  background-color: var(--color-white-default);
   border-radius: 3px;
 }
 

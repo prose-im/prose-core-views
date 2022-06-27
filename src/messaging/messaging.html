@@ -27,7 +27,12 @@
     id="app"
     v-scope="App()"
     @vue:mounted="mounted"
-    :class="{ 'app--visible': isReady }"
+    :class="[
+      'app--' + $context.style.theme,
+      {
+        'app--visible': isReady
+      }
+    ]"
   >
     <div
       class="entry"

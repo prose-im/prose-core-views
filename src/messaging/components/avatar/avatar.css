@@ -5,8 +5,10 @@
  * License: Mozilla Public License v2.0 (MPL v2.0)
  */
 
+/* SECTION: AVATAR */
+
 .avatar {
-  background-color: #f7f7f7;
+  background-color: var(--color-grey-light);
   width: 32px;
   height: 32px;
   border-radius: 4px;

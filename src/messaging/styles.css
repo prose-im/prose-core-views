@@ -10,14 +10,49 @@
 @import "./components/message/message.css";
 @import "./components/entry/entry.css";
 
+/* SECTION: BODY */
+
 body {
   font-family: sans-serif;
   user-select: none;
-  background-color: #ffffff;
   margin: 0;
   padding: 12px 0;
 }
 
+/* SECTION: APPLICATION */
+
+#app {
+  background-color: var(--color-white-default);
+}
+
 #app.app--visible {
   visibility: visible;
+}
+
+/* VARIABLES */
+
+#app {
+  /* COLOR (LIGHT MODE): WHITE */
+  --color-white-default: #ffffff;
+  --color-white-dark: #eeeeee;
+
+  /* COLOR (LIGHT MODE): BLACK */
+  --color-black-medium: #232526;
+
+  /* COLOR (LIGHT MODE): GREY */
+  --color-grey-light: #f7f7f7;
+  --color-gray-default: #797979;
+}
+
+#app.app--dark {
+  /* COLOR (DARK MODE): WHITE */
+  --color-white-default: #000000;
+  --color-white-dark: #181818;
+
+  /* COLOR (DARK MODE): BLACK */
+  --color-black-medium: #ffffff;
+
+  /* COLOR (DARK MODE): GREY */
+  --color-grey-light: #161616;
+  --color-gray-default: #666666;
 }
