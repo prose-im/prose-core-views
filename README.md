@@ -62,7 +62,7 @@ Serialized data should be passed to the view whenever its model needs to be upda
 
 The messaging view can be included from path: `./dist/messaging.html`
 
-#### Pushing messages to the store
+#### 1. Pushing messages to the store
 
 The messaging view exposes a programmatic API that lets applications manipulate its internal store:
 
@@ -119,7 +119,7 @@ All inserted message objects are required to hold the following keys: `id`, `typ
 }
 ```
 
-#### Adjusting message view context options
+#### 2. Adjusting message view context options
 
 The message view exposes context helpers, that let some options be adjusted at runtime.
 
