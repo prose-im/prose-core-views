@@ -119,6 +119,7 @@
           :href="file.url"
           class="message-file-image"
           target="_blank"
+          rel="noopener noreferrer"
         >
           <img
             v-if="imageSize"
@@ -128,6 +129,17 @@
             alt=""
           />
         </a>
+
+        <ul v-else-if="presentation === 'other'" class="message-file-other">
+          <li>
+            <a
+              :href="file.url"
+              :download="file.name || file.url"
+              rel="noopener noreferrer"
+              class="message-file-other-option message-file-other-option--get"
+            ></a>
+          </li>
+        </ul>
       </span>
     </template>
   </body>

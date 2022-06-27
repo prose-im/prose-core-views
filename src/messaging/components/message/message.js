@@ -15,7 +15,7 @@ const LINE_BREAK_REGEX = /\n/g;
 const SPACE_REGEX = /\s/g;
 const DATE_FORMAT_LOCATION = "en-US";
 const FILE_IMAGE_BASELINE_WIDTH = 200;
-const PRESENTATION_DEFAULT = "download";
+const PRESENTATION_DEFAULT = "other";
 
 const PRESENTATION_MIME_TYPES = {
   image: new Set([

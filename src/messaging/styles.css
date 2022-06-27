@@ -37,11 +37,13 @@ body {
   --color-white-dark: #eeeeee;
 
   /* COLOR (LIGHT MODE): BLACK */
+  --color-black-default: #000000;
   --color-black-medium: #232526;
 
   /* COLOR (LIGHT MODE): GREY */
+  --color-grey-default: #797979;
   --color-grey-light: #f7f7f7;
-  --color-gray-default: #797979;
+  --color-grey-medium: #bfbfbf;
 }
 
 #app.app--dark {
@@ -50,9 +52,11 @@ body {
   --color-white-dark: #181818;
 
   /* COLOR (DARK MODE): BLACK */
+  --color-black-default: #ffffff;
   --color-black-medium: #ffffff;
 
   /* COLOR (DARK MODE): GREY */
+  --color-grey-default: #666666;
   --color-grey-light: #161616;
-  --color-gray-default: #666666;
+  --color-grey-medium: #313131;
 }
