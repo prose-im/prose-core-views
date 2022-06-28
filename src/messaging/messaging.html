@@ -44,14 +44,19 @@
       :key="entry.id + '@' + (entry.updatedAt || 0)"
     >
       <div class="message" v-if="message" v-scope="Message(message)">
-        <img
-          v-if="user.avatar"
-          class="avatar"
-          v-scope="Avatar(user)"
-          :src="avatarUrl"
-          alt=""
-        />
-        <span v-else class="avatar avatar--placeholder"></span>
+        <span class="avatar" v-scope="Avatar(user)" @vue:mounted="mounted">
+          <img v-if="avatarUrl" class="avatar-image" :src="avatarUrl" alt="" />
+
+          <span
+            v-else
+            :style="{ backgroundColor: defaultPalette }"
+            class="avatar-image avatar-image--placeholder"
+          >
+            <span v-if="defaultInitials" class="avatar-initials">
+              {{ defaultInitials }}
+            </span>
+          </span>
+        </span>
 
         <div class="message-inner" @vue:mounted="mounted">
           <div class="message-origin">

@@ -8,6 +8,10 @@
 /* SECTION: AVATAR */
 
 .avatar {
+  line-height: 0;
+}
+
+.avatar-image {
   background-color: var(--color-grey-light);
   width: 32px;
   height: 32px;
@@ -17,6 +21,18 @@
   display: block;
 }
 
-.avatar.avatar--placeholder {
+.avatar-image.avatar-image--placeholder {
   box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-initials {
+  color: var(--color-white-default);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0.25px;
+  margin-bottom: -2px;
 }
