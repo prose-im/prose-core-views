@@ -1,7 +1,7 @@
 {
   "name": "prose-core-views",
   "description": "Prose core views",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "homepage": "https://github.com/prose-im/prose-core-views",
   "license": "MIT",
   "browserslist": "since 2020",
