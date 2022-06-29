@@ -89,15 +89,12 @@ const ToolboxHelper = {
         window.matchMedia("(prefers-color-scheme: dark)").matches === true
       ) {
         mode = "dark";
-
-        // Abort detection there.
-        return;
       }
     } catch (_) {
       // Ignore errors.
-    } finally {
-      return mode || "light";
     }
+
+    return mode || "light";
   }
 };
 

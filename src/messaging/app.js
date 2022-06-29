@@ -7,7 +7,7 @@
 
 // IMPORTS
 
-import { createApp, reactive } from "petite-vue";
+import { createApp } from "petite-vue";
 import $context from "./stores/option.js";
 import $store from "./stores/feed.js";
 import Avatar from "./components/avatar/avatar.js";

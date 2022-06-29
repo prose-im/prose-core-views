@@ -2,6 +2,7 @@ module.exports = {
   root: true,
 
   env: {
+    es6: true,
     browser: true
   },
 
@@ -12,8 +13,15 @@ module.exports = {
     requireConfigFile: false
   },
 
-  extends: ["prettier"],
+  extends: ["eslint:recommended", "prettier"],
 
   plugins: [],
-  rules: {}
+  rules: {},
+
+  globals: {
+    require: false,
+    module: false,
+    process: false,
+    globalThis: false
+  }
 };
