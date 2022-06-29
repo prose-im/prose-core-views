@@ -86,8 +86,12 @@
   -webkit-mask-box-image: url("./images/origin-attribute-insecure.svg");
 }
 
-.message-content {
+.message-content,
+.message-content a {
   color: var(--color-black-medium);
+}
+
+.message-content {
   font-size: 13px;
   line-height: 17px;
   letter-spacing: 0;
@@ -115,6 +119,11 @@
 .message-text {
   user-select: text;
   hyphens: auto;
+}
+
+.message-text-inner a {
+  text-decoration-color: var(--color-grey-default);
+  font-weight: 600;
 }
 
 .message-file-inner.message-file-inner--expanded .message-file-expander::after {

@@ -8,12 +8,13 @@
 // IMPORTS
 
 import { htmlEscape as _e } from "escape-goat";
+import linkifyHtml from "linkify-html";
 import DateHelper from "../../helpers/date.js";
 
 // CONSTANTS
 
-const LINE_BREAK_REGEX = /\n/g;
 const FILE_IMAGE_BASELINE_WIDTH = 200;
+const TEXT_LINKS_TRUNCATE_SIZE = 80;
 const PRESENTATION_DEFAULT = "other";
 
 const PRESENTATION_MIME_TYPES = {
@@ -24,6 +25,14 @@ const PRESENTATION_MIME_TYPES = {
     "image/tiff",
     "image/webp"
   ])
+};
+
+const TEXT_LINKIFY_OPTIONS = {
+  defaultProtocol: "https",
+  target: "_blank",
+  rel: "noopener",
+  nl2br: true,
+  truncate: TEXT_LINKS_TRUNCATE_SIZE
 };
 
 // COMPONENTS
@@ -124,7 +133,9 @@ function MessageLineText(content) {
      */
     generateHTML(content) {
       // Important: escape text, as it will be injected as-is to the DOM.
-      return _e(content.text).replace(LINE_BREAK_REGEX, "<br>");
+      let safeText = _e(content.text);
+
+      return linkifyHtml(safeText, TEXT_LINKIFY_OPTIONS);
     }
   };
 }

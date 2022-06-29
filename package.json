@@ -55,6 +55,8 @@
   },
   "dependencies": {
     "petite-vue": "0.4.x",
+    "linkifyjs": "3.0.x",
+    "linkify-html": "3.0.x",
     "nanoid": "4.0.x",
     "escape-goat": "4.0.x"
   },

@@ -140,7 +140,7 @@
           :href="file.url"
           class="message-file-image"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
         >
           <img
             v-if="imageSize"
@@ -156,7 +156,7 @@
             <a
               :href="file.url"
               :download="file.name || file.url"
-              rel="noopener noreferrer"
+              rel="noopener"
               class="message-file-other-option message-file-other-option--get"
             ></a>
           </li>
