@@ -81,6 +81,9 @@
   background-color: var(--color-red-default);
   mask-image: url("./images/origin-attribute-insecure.svg");
   width: 13px;
+
+  /* Hack: WebKit Web Views do not support mask-image yet */
+  -webkit-mask-box-image: url("./images/origin-attribute-insecure.svg");
 }
 
 .message-content {
@@ -219,6 +222,9 @@
   background-color: var(--color-black-default);
   mask-image: url("./images/file-other-option-get.svg");
   width: 14px;
+
+  /* Hack: WebKit Web Views do not support mask-image yet */
+  -webkit-mask-box-image: url("./images/file-other-option-get.svg");
 }
 
 /* VARIABLES */
