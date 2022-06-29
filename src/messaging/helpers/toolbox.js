@@ -9,6 +9,7 @@
 
 const LanguageData = {
   en: require("../locales/en.json"),
+  de: require("../locales/de.json"),
   fr: require("../locales/fr.json")
 };
 
