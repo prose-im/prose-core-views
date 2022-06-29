@@ -44,6 +44,9 @@ body {
   --color-grey-default: #797979;
   --color-grey-light: #f7f7f7;
   --color-grey-medium: #bfbfbf;
+
+  /* COLOR (LIGHT MODE): RED */
+  --color-red-default: #d81313;
 }
 
 #app.app--dark {
@@ -59,4 +62,7 @@ body {
   --color-grey-default: #666666;
   --color-grey-light: #161616;
   --color-grey-medium: #313131;
+
+  /* COLOR (DARK MODE): RED */
+  --color-red-default: #ff2929;
 }

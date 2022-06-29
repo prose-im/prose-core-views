@@ -84,6 +84,10 @@ All inserted message objects are required to hold the following keys: `id`, `typ
   "date": "2021-12-20T19:15:03.000Z",
   "content": "Hello! This is a text message.",
 
+  "metas": {
+    "encrypted": true
+  },
+
   "from": {
     "jid": "john.doe@acme.inc",
     "name": "John Doe",
@@ -109,6 +113,10 @@ All inserted message objects are required to hold the following keys: `id`, `typ
       "width": 1920,
       "height": 1080
     }
+  },
+
+  "metas": {
+    "encrypted": false
   },
 
   "from": {

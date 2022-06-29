@@ -44,7 +44,11 @@
       :key="entry.id + '@' + (entry.updatedAt || 0)"
     >
       <div class="message" v-if="message" v-scope="Message(message)">
-        <span class="avatar" v-scope="Avatar(user)" @vue:mounted="mounted">
+        <span
+          class="message-avatar avatar"
+          v-scope="Avatar(user)"
+          @vue:mounted="mounted"
+        >
           <img v-if="avatarUrl" class="avatar-image" :src="avatarUrl" alt="" />
 
           <span
@@ -61,8 +65,20 @@
         <div class="message-inner" @vue:mounted="mounted">
           <div class="message-origin">
             <span class="message-origin-name">{{ user.name || user.jid }}</span>
-
             <span v-if="date" class="message-origin-date">{{ date }}</span>
+
+            <span
+              v-if="attributes && attributes.length > 0"
+              class="message-origin-attributes"
+            >
+              <span
+                v-for="attribute in attributes"
+                :class="[
+                  'message-origin-attribute',
+                  'message-origin-attribute--' + attribute
+                ]"
+              ></span>
+            </span>
           </div>
 
           <div class="message-content">

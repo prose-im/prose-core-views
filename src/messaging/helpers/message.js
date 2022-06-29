@@ -62,6 +62,12 @@ const MessageHelper = {
         id: message.id
       };
 
+      // Apply properties? (if any)
+      if (message.metas) {
+        generatedLine.properties = message.metas;
+      }
+
+      // Apply type + text
       switch (type) {
         case "text": {
           if (typeof message.content !== "string") {

@@ -6,6 +6,10 @@
       "date": "2022-06-22T19:15:03.000Z",
       "content": "Quick message just to confirm that I asked the designers for a new illustration.",
 
+      "metas": {
+        "encrypted": true
+      },
+
       "from": {
         "jid": "valerian@prose.org",
         "name": "Valerian"
@@ -17,6 +21,10 @@
       "type": "text",
       "date": "2022-06-22T19:15:04.000Z",
       "content": "We need one more for the blog.",
+
+      "metas": {
+        "encrypted": true
+      },
 
       "from": {
         "jid": "valerian@prose.org",
@@ -30,6 +38,10 @@
       "date": "2022-06-24T19:15:05.000Z",
       "content": "Might be done tomorrow 😀",
 
+      "metas": {
+        "encrypted": true
+      },
+
       "from": {
         "jid": "valerian@prose.org",
         "name": "Valerian"
@@ -41,6 +53,10 @@
       "type": "text",
       "date": "2022-06-26T09:03:07.832Z",
       "content": "They forgot to ship the package. But that is no problem, I will go pick it up this afternoon!",
+
+      "metas": {
+        "encrypted": false
+      },
 
       "from": {
         "jid": "baptiste@prose.org",
@@ -64,6 +80,10 @@
         }
       },
 
+      "metas": {
+        "encrypted": true
+      },
+
       "from": {
         "jid": "valerian@prose.org",
         "name": "Valerian",
@@ -76,6 +96,10 @@
       "type": "text",
       "date": "2022-06-27T09:05:01.000Z",
       "content": "Haha yes! I'll keep calm for sure.\n\nIn the meantime, and before I forget, you asked me for some brand assets. Here they are:",
+
+      "metas": {
+        "encrypted": false
+      },
 
       "from": {
         "jid": "baptiste@prose.org",
@@ -93,6 +117,10 @@
         "name": "Brand Assets.zip",
         "type": "application/zip",
         "url": "https://storage.crisp.chat/public/documents/Brand%20Assets.zip"
+      },
+
+      "metas": {
+        "encrypted": false
       },
 
       "from": {

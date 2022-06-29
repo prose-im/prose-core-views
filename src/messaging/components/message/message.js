@@ -35,6 +35,7 @@ function Message(message) {
     content: message.content,
     user: message.user,
     date: null,
+    attributes: null,
 
     // --> METHODS <--
 
@@ -46,6 +47,9 @@ function Message(message) {
     mounted() {
       // Generate message date text
       this.date = this.generateDate(message.date);
+
+      // Generate message attributes
+      this.attributes = this.generateAttributes(message.content);
     },
 
     /**
@@ -64,6 +68,28 @@ function Message(message) {
 
       // Date is invalid
       return null;
+    },
+
+    /**
+     * Generates message attributes
+     * @public
+     * @param  {string} dateString
+     * @return {string} Message date
+     */
+    generateAttributes(content) {
+      let attributesMap = {};
+
+      // Apply attributes for each line
+      content.forEach(line => {
+        let lineProperties = line.properties || {};
+
+        // Not encrypted? Add insecure attribute.
+        if (lineProperties.encrypted !== true) {
+          attributesMap.insecure = true;
+        }
+      });
+
+      return Object.keys(attributesMap);
     }
   };
 }
