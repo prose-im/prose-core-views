@@ -8,6 +8,11 @@
       "friday": "Vendredi",
       "saturday": "Samedi",
       "sunday": "Dimanche"
+    },
+
+    "epochs": {
+      "today": "Aujourd'hui",
+      "yesterday": "Hier"
     }
   }
 }

@@ -13,6 +13,7 @@ import $context from "../stores/option.js";
 
 const SPACE_REGEX = /\s/g;
 const WEEK_DAYS = 7;
+const DAY_MILLISECONDS = 1000 * 60 * 60 * 24;
 
 const DATE_DAYS_OF_THE_WEEK = [
   "sunday",
@@ -23,6 +24,11 @@ const DATE_DAYS_OF_THE_WEEK = [
   "friday",
   "saturday"
 ];
+
+const DATE_DAY_EPOCHS = {
+  ["-1"]: "yesterday",
+  ["0"]: "today"
+};
 
 // HELPERS
 
@@ -69,6 +75,61 @@ const DateHelper = {
   },
 
   /**
+   * Checks if dates are within elapsed time
+   * @public
+   * @param  {object}  dateLeft
+   * @param  {object}  dateRight
+   * @param  {number}  [timeframe]
+   * @return {boolean} Within elapsed time status
+   */
+  areWithinElapsedTime: function (dateLeft, dateRight, timeframe = 0) {
+    let elapsedTime = dateRight.getTime() - dateLeft.getTime();
+
+    return elapsedTime >= 0 && elapsedTime < timeframe ? true : false;
+  },
+
+  /**
+   * Formats date as a day of the week string
+   * @public
+   * @param  {object} date
+   * @return {string} Formatted day of the week
+   */
+  formatDayOfTheWeekString: function (date) {
+    let dateDayOfTheWeek = DATE_DAYS_OF_THE_WEEK[date.getDay()] || null;
+
+    if (dateDayOfTheWeek !== null) {
+      return $context.i18n._.dates.days[dateDayOfTheWeek];
+    }
+
+    return null;
+  },
+
+  /**
+   * Formats relative day epoch string
+   * @public
+   * @param  {object} dateLeft
+   * @param  {object} dateRight
+   * @return {string} Formatted relative day epoch
+   */
+  formatRelativeDayEpochString: function (dateLeft, dateRight) {
+    let daysDifference = Math.floor(
+      (dateLeft.getTime() - dateRight.getTime()) / DAY_MILLISECONDS
+    );
+
+    // Only process relative epochs going to the past (it doesnt make sense \
+    //   to look forward to the future)
+    if (daysDifference >= 0) {
+      let dayEpoch = DATE_DAY_EPOCHS[`${-1 * daysDifference}`] || null;
+
+      if (dayEpoch !== null) {
+        return $context.i18n._.dates.epochs[dayEpoch];
+      }
+    }
+
+    return null;
+  },
+
+  /**
    * Formats date to time string
    * @public
    * @param  {object} date
@@ -101,8 +162,11 @@ const DateHelper = {
    * @return {string} Formatted date
    */
   formatDateOrDayString: function (date) {
+    // Acquire now date
+    let nowDate = new Date();
+
     // Generate week limit date (relative to now, in local time)
-    var weekLimitDate = new Date();
+    let weekLimitDate = new Date(nowDate);
 
     weekLimitDate.setDate(weekLimitDate.getDate() - (WEEK_DAYS - 1));
 
@@ -111,30 +175,23 @@ const DateHelper = {
     weekLimitDate.setSeconds(0);
     weekLimitDate.setMilliseconds(0);
 
+    // Acquire epoch difference (ie. number of days between dates)
+    let epochRelativeDays = this.formatRelativeDayEpochString(nowDate, date);
+
+    if (epochRelativeDays !== null) {
+      return epochRelativeDays;
+    }
+
     // Date is from less than a week ago (relative to now)
     if (date >= weekLimitDate) {
-      const dateDayOfTheWeek = DATE_DAYS_OF_THE_WEEK[date.getDay()] || null;
+      let dayName = this.formatDayOfTheWeekString(date);
 
-      if (dateDayOfTheWeek !== null) {
-        return $context.i18n._.dates.days[dateDayOfTheWeek];
+      if (dayName !== null) {
+        return dayName;
       }
     }
 
     return this.formatDateString(date);
-  },
-
-  /**
-   * Checks if dates are within elapsed time
-   * @public
-   * @param  {object}  dateLeft
-   * @param  {object}  dateRight
-   * @param  {number}  [timeframe]
-   * @return {boolean} Within elapsed time status
-   */
-  areWithinElapsedTime: function (dateLeft, dateRight, timeframe = 0) {
-    let elapsedTime = dateRight.getTime() - dateLeft.getTime();
-
-    return elapsedTime >= 0 && elapsedTime < timeframe ? true : false;
   }
 };
 
