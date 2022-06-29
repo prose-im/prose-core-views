@@ -88,7 +88,6 @@
   font-size: 13px;
   line-height: 17px;
   letter-spacing: 0;
-  user-select: text;
 }
 
 .message-content-line {
@@ -111,11 +110,8 @@
 }
 
 .message-text {
+  user-select: text;
   hyphens: auto;
-}
-
-.message-file {
-  user-select: none;
 }
 
 .message-file-inner.message-file-inner--expanded .message-file-expander::after {
