@@ -136,6 +136,15 @@
 .message-file-image img {
   background-color: var(--color-white-default);
   border-radius: 3px;
+  transition: filter linear 100ms;
+}
+
+.message-file-image img:hover {
+  filter: brightness(110%);
+}
+
+.message-file-image img:active {
+  filter: brightness(105%);
 }
 
 .message-file-other {
