@@ -5,6 +5,25 @@
  * License: Mozilla Public License v2.0 (MPL v2.0)
  */
 
+// IMPORTS
+
+import $context from "../stores/option.js";
+
+// CONSTANTS
+
+const SPACE_REGEX = /\s/g;
+const WEEK_DAYS = 7;
+
+const DATE_DAYS_OF_THE_WEEK = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday"
+];
+
 // HELPERS
 
 const DateHelper = {
@@ -50,13 +69,58 @@ const DateHelper = {
   },
 
   /**
+   * Formats date to time string
+   * @public
+   * @param  {object} date
+   * @return {string} Formatted time
+   */
+  formatTimeString: function (date) {
+    let timeString = date.toLocaleString($context.i18n.code, {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true
+    });
+
+    return timeString.toLowerCase().replace(SPACE_REGEX, "");
+  },
+
+  /**
    * Formats date to date string
    * @public
    * @param  {object} date
    * @return {string} Formatted date
    */
   formatDateString: function (date) {
-    return date.toLocaleDateString();
+    return date.toLocaleDateString($context.i18n.code);
+  },
+
+  /**
+   * Formats date to date string (or show day, if recent)
+   * @public
+   * @param  {object} date
+   * @return {string} Formatted date
+   */
+  formatDateOrDayString: function (date) {
+    // Generate week limit date (relative to now, in local time)
+    var weekLimitDate = new Date();
+
+    weekLimitDate.setDate(weekLimitDate.getDate() - (WEEK_DAYS - 1));
+
+    weekLimitDate.setHours(0);
+    weekLimitDate.setMinutes(0);
+    weekLimitDate.setSeconds(0);
+    weekLimitDate.setMilliseconds(0);
+
+    // Date is from less than a week ago (relative to now)
+    if (date >= weekLimitDate) {
+      const dateDayOfTheWeek = DATE_DAYS_OF_THE_WEEK[date.getDay()] || null;
+
+      if (dateDayOfTheWeek !== null) {
+        return $context.i18n._.dates.days[dateDayOfTheWeek];
+      }
+    }
+
+    return this.formatDateString(date);
   },
 
   /**

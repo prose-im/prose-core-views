@@ -345,4 +345,4 @@ function FeedStore() {
 
 // EXPORTS
 
-export default FeedStore;
+export default FeedStore();

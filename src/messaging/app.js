@@ -8,8 +8,8 @@
 // IMPORTS
 
 import { createApp, reactive } from "petite-vue";
-import OptionStore from "./stores/option.js";
-import FeedStore from "./stores/feed.js";
+import $context from "./stores/option.js";
+import $store from "./stores/feed.js";
 import Avatar from "./components/avatar/avatar.js";
 import Separator from "./components/separator/separator.js";
 import Entry from "./components/entry/entry.js";
@@ -18,11 +18,6 @@ import {
   MessageLineText,
   MessageLineFile
 } from "./components/message/message.js";
-
-// INSTANCES
-
-const $context = OptionStore();
-const $store = FeedStore();
 
 // COMPONENTS
 

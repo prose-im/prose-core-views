@@ -90,4 +90,4 @@ function OptionStore() {
 
 // EXPORTS
 
-export default OptionStore;
+export default OptionStore();

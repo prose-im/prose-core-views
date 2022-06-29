@@ -113,7 +113,7 @@ const MessageHelper = {
     return this.__finalize({
       type: this.ENTRY_TYPE_SEPARATOR,
       date: new Date(sourceMessage.date),
-      label: DateHelper.formatDateString(sourceMessage.date)
+      label: DateHelper.formatDateOrDayString(sourceMessage.date)
     });
   },
 

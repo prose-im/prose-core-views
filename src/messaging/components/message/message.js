@@ -8,12 +8,11 @@
 // IMPORTS
 
 import { htmlEscape as _e } from "escape-goat";
+import DateHelper from "../../helpers/date.js";
 
 // CONSTANTS
 
 const LINE_BREAK_REGEX = /\n/g;
-const SPACE_REGEX = /\s/g;
-const DATE_FORMAT_LOCATION = "en-US";
 const FILE_IMAGE_BASELINE_WIDTH = 200;
 const PRESENTATION_DEFAULT = "other";
 
@@ -60,13 +59,7 @@ function Message(message) {
 
       // Date is valid?
       if (isNaN(date.getTime()) === false) {
-        let timeString = date.toLocaleString(DATE_FORMAT_LOCATION, {
-          hour: "numeric",
-          minute: "numeric",
-          hour12: true
-        });
-
-        return timeString.toLowerCase().replace(SPACE_REGEX, "");
+        return DateHelper.formatTimeString(date);
       }
 
       // Date is invalid
