@@ -125,8 +125,15 @@ The message view exposes context helpers, that let some options be adjusted at r
 
 As soon as the view is available, the following methods can be called:
 
+**Option getters:**
+
+- Get interface language: `MessagingContext.getLanguage()<string>`
 - Get style theme: `MessagingContext.getStyleTheme()<string>`
-- Set style theme: `MessagingStore.setStyleTheme(theme<string>)<undefined>` (where theme is any of: `light`, `dark`)
+
+**Option setters:**
+
+- Set interface language: `MessagingContext.setLanguage(code<string>)<undefined>` (where `code` is supported locale code)
+- Set style theme: `MessagingStore.setStyleTheme(theme<string>)<undefined>` (where `theme` is any of: `light`, `dark`)
 
 ## License
 

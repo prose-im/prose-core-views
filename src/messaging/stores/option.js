@@ -12,7 +12,7 @@ import ToolboxHelper from "../helpers/toolbox.js";
 
 // CONSTANTS
 
-const STYLE_THEME_VALUES = ["light", "dark"];
+const DETECTED_USER_LANGUAGE = ToolboxHelper.detectLanguagePreference();
 
 // STORES
 
@@ -20,11 +20,25 @@ function OptionStore() {
   return {
     // --> DATA <--
 
+    i18n: reactive({
+      code: DETECTED_USER_LANGUAGE,
+      _: ToolboxHelper.acquireLanguageData(DETECTED_USER_LANGUAGE)
+    }),
+
     style: reactive({
       theme: ToolboxHelper.detectAppearancePreference()
     }),
 
     // --> METHODS <--
+
+    /**
+     * Gets language
+     * @public
+     * @return {string} Language code
+     */
+    getLanguage() {
+      return this.i18n.code;
+    },
 
     /**
      * Gets style theme
@@ -36,6 +50,25 @@ function OptionStore() {
     },
 
     /**
+     * Sets language
+     * @public
+     * @param  {string} code
+     * @return {undefined}
+     */
+    setLanguage(code) {
+      // Language is not supported?
+      if (!code || ToolboxHelper.LANGUAGE_VALUES.has(code) === false) {
+        throw new Error(
+          `Language invalid, allowed values: ` +
+            `${Array.from(ToolboxHelper.LANGUAGE_VALUES.values()).join(", ")}`
+        );
+      }
+
+      this.i18n.code = code;
+      this.i18n._ = ToolboxHelper.acquireLanguageData(code);
+    },
+
+    /**
      * Sets style theme
      * @public
      * @param  {string} theme
@@ -43,10 +76,10 @@ function OptionStore() {
      */
     setStyleTheme(theme) {
       // Style theme not allowed?
-      if (!theme || STYLE_THEME_VALUES.includes(theme) === false) {
+      if (!theme || ToolboxHelper.APPEARANCE_VALUES.has(theme) === false) {
         throw new Error(
           `Style theme invalid, allowed values: ` +
-            `${STYLE_THEME_VALUES.join(", ")}`
+            `${Array.from(ToolboxHelper.APPEARANCE_VALUES.values()).join(", ")}`
         );
       }
 
