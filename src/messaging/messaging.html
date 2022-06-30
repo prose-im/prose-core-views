@@ -86,6 +86,7 @@
             <p
               v-for="line in content"
               :key="line.id"
+              :id="'message-' + line.id"
               class="message-content-line"
             >
               <span
