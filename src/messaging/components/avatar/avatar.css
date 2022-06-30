@@ -16,24 +16,27 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  width: 32px;
-  height: 32px;
+  width: var(--avatar-image-size);
+  height: var(--avatar-image-size);
   border-radius: 4px;
   object-fit: cover;
   display: block;
 }
 
 .avatar-image.avatar-image--placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  line-height: var(--avatar-image-size);
+  text-align: center;
 }
 
 .avatar-initials {
   color: var(--color-white-default);
   font-weight: 600;
   font-size: 15px;
-  line-height: 100%;
   letter-spacing: 0.25px;
-  margin-bottom: -2px;
+}
+
+/* VARIABLES */
+
+.avatar {
+  --avatar-image-size: 32px;
 }
