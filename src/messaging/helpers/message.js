@@ -11,6 +11,7 @@ import { reactive, nextTick } from "petite-vue";
 
 // CONSTANTS
 
+const SCROLL_BYPASS_SAFETY_OFFSET = 80; // 80 pixels
 const SCROLL_DEBOUNCE_DELAY = 50; // 50 milliseconds
 
 const SCROLL_INTO_VIEW_OPTIONS = {
@@ -145,7 +146,7 @@ const MessageHelper = {
    */
   scheduleScrollTo: function (messageId, immediate = false) {
     // Acquire current scroll position
-    const initialScrollTop = document.documentElement.scrollTop || 0;
+    let initialScrollTop = document.documentElement.scrollTop || 0;
 
     // Clear any existing scheduled timer
     this.unscheduleScrollTo();
@@ -186,12 +187,39 @@ const MessageHelper = {
    * @return {undefined}
    */
   fireScrollTo: function (messageId, scrollTopPosition = -1) {
+    // Acquire message and its entry parent
     let messageElement =
       document.getElementById(`message-${messageId}`) || null;
+    let entryElement =
+      messageElement !== null
+        ? messageElement.closest(".message") || null
+        : null;
 
-    if (messageElement !== null) {
+    if (messageElement !== null && entryElement !== null) {
       // Check if may scroll to message
-      let mayScroll = scrollTopPosition === -1 ? false : true;
+      let mayScroll = true,
+        entryHeight = entryElement.offsetHeight || 0,
+        documentVisibleHeight = document.documentElement.clientHeight || 0,
+        documentTotalHeight = document.documentElement.offsetHeight || 0;
+
+      // Important: if scroll position is zero or negative, ALWAYS process \
+      //   scroll. The same applies if element heights could not be acquired.
+      if (scrollTopPosition > 0 && entryHeight > 0 && documentTotalHeight > 0) {
+        let effectiveScrollThreshold =
+          documentTotalHeight -
+          documentVisibleHeight -
+          entryHeight -
+          SCROLL_BYPASS_SAFETY_OFFSET;
+
+        // User scrolled upwards too much, eg. to read a previous message in \
+        //   history? We may not auto-scroll down then.
+        if (
+          effectiveScrollThreshold > 0 &&
+          scrollTopPosition < effectiveScrollThreshold
+        ) {
+          mayScroll = false;
+        }
+      }
 
       // Scroll to message?
       if (mayScroll === true) {
