@@ -82,6 +82,8 @@ function FeedStore() {
      * @return {boolean}   Messages push status
      */
     insert(...messages) {
+      let lastMessageId = null;
+
       messages.forEach(message => {
         // Guard: ensure that inserted message data is valid
         if (
@@ -173,7 +175,15 @@ function FeedStore() {
 
         // Store line reference to its parent
         this.__registers.entryIdForLineId[message.id] = storeMessage.id;
+
+        // Update last message identifier
+        lastMessageId = message.id;
       });
+
+      // Schedule to scroll to target message?
+      if (lastMessageId !== null) {
+        MessageHelper.scheduleScrollTo(lastMessageId);
+      }
 
       return messages.length > 0 ? true : false;
     },
@@ -318,6 +328,9 @@ function FeedStore() {
         // Clear all private registers
         this.__registers.feedEntriesById = {};
         this.__registers.entryIdForLineId = {};
+
+        // Unschedule any planned scroll to target message
+        MessageHelper.unscheduleScrollTo();
 
         return true;
       }

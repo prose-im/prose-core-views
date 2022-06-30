@@ -16,7 +16,7 @@ const LanguageData = {
 // HELPERS
 
 const ToolboxHelper = {
-  // CONSTANTS
+  // VALUES
 
   LANGUAGE_DEFAULT: "en",
   LANGUAGE_VALUES: new Set(Object.keys(LanguageData)),

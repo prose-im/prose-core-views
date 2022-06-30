@@ -7,15 +7,30 @@
 
 // IMPORTS
 
-import { reactive } from "petite-vue";
+import { reactive, nextTick } from "petite-vue";
+
+// CONSTANTS
+
+const SCROLL_DEBOUNCE_DELAY = 50; // 50 milliseconds
+
+const SCROLL_INTO_VIEW_OPTIONS = {
+  block: "start",
+  inline: "start"
+};
 
 // HELPERS
 
 const MessageHelper = {
-  // CONSTANTS
+  // VALUES
 
   ENTRY_TYPE_SEPARATOR: "separator",
   ENTRY_TYPE_MESSAGE: "message",
+
+  // DATA
+
+  __timers: {
+    scrollDebounce: null
+  },
 
   // METHODS
 
@@ -119,6 +134,70 @@ const MessageHelper = {
       type: this.ENTRY_TYPE_SEPARATOR,
       date: new Date(sourceMessage.date)
     });
+  },
+
+  /**
+   * Schedules to scroll to target message
+   * @public
+   * @param  {string}  messageId
+   * @param  {boolean} [immediate]
+   * @return {undefined}
+   */
+  scheduleScrollTo: function (messageId, immediate = false) {
+    // Acquire current scroll position
+    const initialScrollTop = document.documentElement.scrollTop || 0;
+
+    // Clear any existing scheduled timer
+    this.unscheduleScrollTo();
+
+    // Schedule debounce timer
+    this.__timers.scrollDebounce = setTimeout(
+      () => {
+        this.__timers.scrollDebounce = null;
+
+        // Ensure DOM has been rendered w/ latest data
+        nextTick(() => {
+          // Scroll to target message now
+          this.fireScrollTo(messageId, initialScrollTop);
+        });
+      },
+      immediate === true ? 0 : SCROLL_DEBOUNCE_DELAY
+    );
+  },
+
+  /**
+   * Unschedules a scroll order to message (if any)
+   * @public
+   * @return {undefined}
+   */
+  unscheduleScrollTo: function () {
+    if (this.__timers.scrollDebounce !== null) {
+      clearTimeout(this.__timers.scrollDebounce);
+
+      this.__timers.scrollDebounce = null;
+    }
+  },
+
+  /**
+   * Schedules to scroll to target message
+   * @public
+   * @param  {string} messageId
+   * @param  {number} [scrollTopPosition]
+   * @return {undefined}
+   */
+  fireScrollTo: function (messageId, scrollTopPosition = -1) {
+    let messageElement =
+      document.getElementById(`message-${messageId}`) || null;
+
+    if (messageElement !== null) {
+      // Check if may scroll to message
+      let mayScroll = scrollTopPosition === -1 ? false : true;
+
+      // Scroll to message?
+      if (mayScroll === true) {
+        messageElement.scrollIntoView(SCROLL_INTO_VIEW_OPTIONS);
+      }
+    }
   },
 
   /**
