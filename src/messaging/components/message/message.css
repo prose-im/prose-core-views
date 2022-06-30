@@ -123,11 +123,22 @@
   text-decoration: underline;
 }
 
+.message-file-inner {
+  line-height: 0;
+}
+
+.message-file-inner.message-file-inner--expanded .message-file-expander {
+  margin-bottom: 6px;
+}
+
 .message-file-inner.message-file-inner--expanded .message-file-expander::after {
   transform: rotate(0deg);
 }
 
-.message-file-inner.message-file-inner--expanded .message-file-image,
+.message-file-inner.message-file-inner--expanded .message-file-image {
+  display: inline-block;
+}
+
 .message-file-inner.message-file-inner--expanded .message-file-other {
   display: block;
 }
@@ -135,8 +146,6 @@
 .message-file-expander {
   color: var(--color-grey-default);
   line-height: 20px;
-  margin-top: 9px;
-  margin-bottom: 6px;
   display: block;
   transition: color linear 75ms;
 }
@@ -164,10 +173,6 @@
 .message-file-image,
 .message-file-other {
   display: none;
-}
-
-.message-file-image {
-  line-height: 0;
 }
 
 .message-file-thumbnail {
