@@ -182,7 +182,7 @@ function FeedStore() {
 
       // Schedule to scroll to target message?
       if (lastMessageId !== null) {
-        MessageHelper.scheduleScrollTo(lastMessageId);
+        MessageHelper.scheduleScrollTo(lastMessageId, true);
       }
 
       return messages.length > 0 ? true : false;
