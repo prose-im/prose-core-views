@@ -31,7 +31,7 @@ const TEXT_LINKIFY_OPTIONS = {
   defaultProtocol: "https",
   target: "_blank",
   rel: "noopener",
-  nl2br: true,
+  nl2br: false,
   truncate: TEXT_LINKS_TRUNCATE_SIZE
 };
 

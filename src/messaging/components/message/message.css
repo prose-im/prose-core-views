@@ -115,6 +115,10 @@
 .message-text {
   user-select: text;
   cursor: text;
+}
+
+.message-text-inner {
+  white-space: pre-wrap;
   hyphens: auto;
 }
 
