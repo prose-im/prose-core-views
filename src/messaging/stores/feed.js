@@ -16,6 +16,9 @@ import MessageHelper from "../helpers/message.js";
 
 const ENTRY_NEST_TIMEFRAME = 600000; // 10 minutes
 
+const INJECT_MODE_APPEND = 0;
+const INJECT_MODE_PREPEND = 1;
+
 // STORES
 
 function FeedStore() {
@@ -76,116 +79,50 @@ function FeedStore() {
     },
 
     /**
+     * Restores each provided message to the store
+     * @public
+     * @param  {...object} messages
+     * @return {boolean}   Messages prepend status
+     */
+    restore(...messages) {
+      if (messages.length > 0) {
+        // Inject messages to the store (prepend mode)
+        // Important: prepend in reverse order, given that the restore order \
+        //   is provided in natural order.
+        for (let i = messages.length - 1; i >= 0; i--) {
+          this.__injectMessage(INJECT_MODE_PREPEND, messages[i]);
+        }
+
+        return true;
+      }
+
+      return false;
+    },
+
+    /**
      * Pushes each provided message to the store
      * @public
      * @param  {...object} messages
-     * @return {boolean}   Messages push status
+     * @return {boolean}   Messages append status
      */
     insert(...messages) {
-      let lastMessageId = null;
-
-      messages.forEach(message => {
-        // Guard: ensure that inserted message data is valid
-        if (
-          !message.id ||
-          !message.type ||
-          !message.date ||
-          !message.content ||
-          !message.from ||
-          !message.from.jid
-        ) {
-          throw new Error(
-            "Message to insert is incomplete (missing attribute)"
-          );
+      if (messages.length > 0) {
+        // Inject messages to the store (append mode)
+        for (let i = 0; i < messages.length; i++) {
+          this.__injectMessage(INJECT_MODE_APPEND, messages[i]);
         }
 
-        // Guard: check that message has not been already inserted?
-        if (this.exists(message.id) === true) {
-          throw new Error(
-            "Message with this identifier has already been inserted"
-          );
+        // Schedule to scroll to target message
+        let lastMessage = messages[messages.length - 1] || null;
+
+        if (lastMessage !== null) {
+          MessageHelper.scheduleScrollTo(lastMessage.id, true);
         }
 
-        // Transform message into model message
-        let storeMessage = MessageHelper.transformIntoModel(
-          message.type,
-          message
-        );
-
-        // Assign a master entry identifier to the message group
-        storeMessage.id = nanoid();
-
-        // Assign initial insert and updated time
-        storeMessage.insertedAt = Date.now();
-        storeMessage.updatedAt = 0;
-
-        // Acquire previous message (relative to current message)
-        let previousMessage = this.feed.entries[this.feed.entries.length - 1];
-
-        // #1. Should a separator message be inserted?
-        if (
-          !previousMessage ||
-          !DateHelper.areSameDay(previousMessage.date, storeMessage.date)
-        ) {
-          // Append a separator if previous message is from a different day
-          let separatorMessage = MessageHelper.makeSeparatorModel(storeMessage);
-
-          // Assign a master entry identifier to the separator message
-          separatorMessage.id = nanoid();
-
-          this.__registers.feedEntriesById[separatorMessage.id] =
-            separatorMessage;
-          this.feed.entries.push(separatorMessage);
-
-          // Update previous message reference (as we just pushed a new \
-          //   message, that should be considered the new previous message)
-          previousMessage = separatorMessage;
-        }
-
-        // #2. Should a line be inserted to an existing message entry?
-        // Notice: only if the previous message is from the same user as the \
-        //   current one, and has been sent within a similar timeframe (that \
-        //   is, recently).
-        if (
-          previousMessage &&
-          previousMessage.type === MessageHelper.ENTRY_TYPE_MESSAGE &&
-          previousMessage.user.jid === storeMessage.user.jid &&
-          DateHelper.areWithinElapsedTime(
-            previousMessage.date,
-            storeMessage.date,
-            ENTRY_NEST_TIMEFRAME
-          )
-        ) {
-          // Insert each line from the current message into the previous message
-          storeMessage.content.forEach(contentLine => {
-            previousMessage.content.push(contentLine);
-          });
-
-          // Update store message reference (as we re-used a previously-pushed \
-          //   message and appended a new line in this existing message)
-          storeMessage = previousMessage;
-
-          // Bump updated date (used to signal view to re-render)
-          storeMessage.updatedAt = Date.now();
-        } else {
-          // Insert message in store
-          this.__registers.feedEntriesById[storeMessage.id] = storeMessage;
-          this.feed.entries.push(storeMessage);
-        }
-
-        // Store line reference to its parent
-        this.__registers.entryIdForLineId[message.id] = storeMessage.id;
-
-        // Update last message identifier
-        lastMessageId = message.id;
-      });
-
-      // Schedule to scroll to target message?
-      if (lastMessageId !== null) {
-        MessageHelper.scheduleScrollTo(lastMessageId, true);
+        return true;
       }
 
-      return messages.length > 0 ? true : false;
+      return false;
     },
 
     /**
@@ -286,7 +223,7 @@ function FeedStore() {
 
           if (entryIndex !== -1) {
             // Acquire boundary messages
-            let previousMessage = this.feed.entries[entryIndex - 1],
+            let boundaryMessage = this.feed.entries[entryIndex - 1],
               nextMessage = this.feed.entries[entryIndex + 1];
 
             // Remove message from store
@@ -296,12 +233,12 @@ function FeedStore() {
             //   was preceded by a date separator, and followed by a date \
             //   separator (or nothing)
             if (
-              previousMessage &&
-              previousMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR &&
+              boundaryMessage &&
+              boundaryMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR &&
               (!nextMessage ||
                 nextMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR)
             ) {
-              delete this.__registers.feedEntriesById[previousMessage.id];
+              delete this.__registers.feedEntriesById[boundaryMessage.id];
 
               this.feed.entries.splice(entryIndex - 1, 1);
             }
@@ -352,6 +289,143 @@ function FeedStore() {
       }
 
       return null;
+    },
+
+    /**
+     * Injects provided message to the store
+     * @private
+     * @param  {number} mode
+     * @param  {object} message
+     * @return {undefined}
+     */
+    __injectMessage(mode, message) {
+      // Guard: ensure that inserted message data is valid
+      if (
+        !message.id ||
+        !message.type ||
+        !message.date ||
+        !message.content ||
+        !message.from ||
+        !message.from.jid
+      ) {
+        throw new Error("Message to insert is incomplete (missing attribute)");
+      }
+
+      // Guard: check that message has not been already inserted?
+      if (this.exists(message.id) === true) {
+        throw new Error(
+          "Message with this identifier has already been inserted"
+        );
+      }
+
+      // Initialize the stack of entries to inject
+      let injectStack = [];
+
+      // Transform message into model message
+      let storeMessage = MessageHelper.transformIntoModel(
+        message.type,
+        message
+      );
+
+      // Assign a master entry identifier to the message group
+      storeMessage.id = nanoid();
+
+      // Assign initial insert and updated time
+      storeMessage.insertedAt = Date.now();
+      storeMessage.updatedAt = 0;
+
+      // Acquire boundary message (relative to current message)
+      let boundaryIndex =
+        mode === INJECT_MODE_PREPEND ? 0 : this.feed.entries.length - 1;
+      let boundaryMessage = this.feed.entries[boundaryIndex];
+
+      // #1. Should a separator message be inserted?
+      // Notice: always pre-inject a separator if mode is prepend
+      let boundaryIsSameDay = boundaryMessage
+        ? DateHelper.areSameDay(boundaryMessage.date, storeMessage.date)
+        : false;
+      let boundarySeparatorShouldReplace =
+        boundaryIsSameDay === true &&
+        mode === INJECT_MODE_PREPEND &&
+        boundaryMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR;
+
+      if (
+        boundaryIsSameDay === false ||
+        boundarySeparatorShouldReplace === true
+      ) {
+        // Pull out separator message at the boundary? (as we wish to replace \
+        //   it)
+        if (boundaryMessage && boundarySeparatorShouldReplace === true) {
+          delete this.__registers.feedEntriesById[boundaryMessage.id];
+
+          this.feed.entries.splice(boundaryIndex, 1);
+        }
+
+        // Append a separator if boundary message is from a different day
+        let separatorMessage = MessageHelper.makeSeparatorModel(storeMessage);
+
+        // Assign a master entry identifier to the separator message
+        separatorMessage.id = nanoid();
+
+        this.__registers.feedEntriesById[separatorMessage.id] =
+          separatorMessage;
+
+        injectStack.push(separatorMessage);
+
+        // Update boundary message reference (as we just pushed a new \
+        //   message, that should be considered the new boundary message)
+        boundaryMessage = separatorMessage;
+      }
+
+      // #2. Should a line be inserted to an existing message entry?
+      // Notice: only if the boundary message is from the same user as the \
+      //   current one, and has been sent within a similar timeframe (that \
+      //   is, recently).
+      if (
+        boundaryMessage &&
+        boundaryMessage.type === MessageHelper.ENTRY_TYPE_MESSAGE &&
+        boundaryMessage.user.jid === storeMessage.user.jid &&
+        DateHelper.areWithinElapsedTime(
+          boundaryMessage.date,
+          storeMessage.date,
+          ENTRY_NEST_TIMEFRAME
+        )
+      ) {
+        // Insert each line from the current message into the boundary message
+        storeMessage.content.forEach(contentLine => {
+          boundaryMessage.content.push(contentLine);
+        });
+
+        // Update store message reference (as we re-used a previously-pushed \
+        //   message and appended a new line in this existing message)
+        storeMessage = boundaryMessage;
+
+        // Bump updated date (used to signal view to re-render)
+        storeMessage.updatedAt = Date.now();
+      } else {
+        // Insert message in store
+        this.__registers.feedEntriesById[storeMessage.id] = storeMessage;
+
+        injectStack.push(storeMessage);
+      }
+
+      // Store line reference to its parent
+      this.__registers.entryIdForLineId[message.id] = storeMessage.id;
+
+      // Merge all stack contents with the feed of entries?
+      if (injectStack.length > 0) {
+        if (mode === INJECT_MODE_PREPEND) {
+          for (let i = injectStack.length - 1; i >= 0; i--) {
+            // Prepend entry from the stack
+            this.feed.entries.unshift(injectStack[i]);
+          }
+        } else {
+          for (let i = 0; i < injectStack.length; i++) {
+            // Append entry from the stack
+            this.feed.entries.push(injectStack[i]);
+          }
+        }
+      }
     }
   };
 }
