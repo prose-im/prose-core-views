@@ -14,5 +14,9 @@
       "today": "Aujourd'hui",
       "yesterday": "Hier"
     }
+  },
+
+  "attributes": {
+    "insecure": "Non chiffré"
   }
 }

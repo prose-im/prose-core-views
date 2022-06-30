@@ -14,5 +14,9 @@
       "today": "Today",
       "yesterday": "Yesterday"
     }
+  },
+
+  "attributes": {
+    "insecure": "Not encrypted"
   }
 }

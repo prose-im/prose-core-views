@@ -73,6 +73,7 @@
             >
               <span
                 v-for="attribute in attributes"
+                :title="$context.i18n._.attributes[attribute] || ''"
                 :class="[
                   'message-origin-attribute',
                   'message-origin-attribute--' + attribute
