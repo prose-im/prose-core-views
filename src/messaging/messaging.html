@@ -150,13 +150,15 @@
           target="_blank"
           rel="noopener"
         >
-          <img
+          <span
             v-if="imageSize"
-            :src="file.url"
-            :width="imageSize.width || null"
-            :height="imageSize.height || null"
-            alt=""
-          />
+            :style="{
+              backgroundImage: ('url(\'' + file.url + '\')'),
+              width: (imageSize.width ? (imageSize.width + 'px') : null),
+              height: (imageSize.height ? (imageSize.height + 'px') : null)
+            }"
+            class="message-file-thumbnail"
+          ></span>
         </a>
 
         <ul v-else-if="presentation === 'other'" class="message-file-other">

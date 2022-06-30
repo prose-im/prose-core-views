@@ -169,17 +169,21 @@
   line-height: 0;
 }
 
-.message-file-image img {
-  background-color: var(--color-white-default);
+.message-file-thumbnail {
+  background-color: var(--color-grey-light);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: block;
   border-radius: 3px;
   transition: filter linear 100ms;
 }
 
-.message-file-image img:hover {
+.message-file-thumbnail:hover {
   filter: brightness(110%);
 }
 
-.message-file-image img:active {
+.message-file-thumbnail:active {
   filter: brightness(105%);
 }
 
