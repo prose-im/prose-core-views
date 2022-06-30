@@ -114,6 +114,7 @@
 
 .message-text {
   user-select: text;
+  cursor: text;
   hyphens: auto;
 }
 

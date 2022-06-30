@@ -17,6 +17,13 @@ body {
   user-select: none;
   margin: 0;
   padding: 12px 0;
+  cursor: default;
+}
+
+/* SECTION: ELEMENTS */
+
+a {
+  cursor: pointer;
 }
 
 /* SECTION: APPLICATION */
