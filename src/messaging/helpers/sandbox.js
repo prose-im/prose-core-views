@@ -10,7 +10,7 @@
 const SandboxHelper = {
   // CONSTANTS
 
-  FIXTURE_APPLY_NEXT_DELAY: 500, // 1/2 second
+  FIXTURE_APPLY_NEXT_DELAY: 250, // 1/4 second
 
   // METHODS
 
