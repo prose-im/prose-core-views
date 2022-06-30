@@ -13,6 +13,9 @@
 
 .avatar-image {
   background-color: var(--color-grey-light);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   width: 32px;
   height: 32px;
   border-radius: 4px;
