@@ -80,10 +80,16 @@ const DateHelper = {
    * @param  {object}  dateLeft
    * @param  {object}  dateRight
    * @param  {number}  [timeframe]
+   * @param  {number}  [signFactor]
    * @return {boolean} Within elapsed time status
    */
-  areWithinElapsedTime: function (dateLeft, dateRight, timeframe = 0) {
-    let elapsedTime = dateRight.getTime() - dateLeft.getTime();
+  areWithinElapsedTime: function (
+    dateLeft,
+    dateRight,
+    timeframe = 0,
+    signFactor = 1
+  ) {
+    let elapsedTime = (dateRight.getTime() - dateLeft.getTime()) * signFactor;
 
     return elapsedTime >= 0 && elapsedTime < timeframe ? true : false;
   },

@@ -339,28 +339,20 @@ function FeedStore() {
         mode === INJECT_MODE_PREPEND ? 0 : this.feed.entries.length - 1;
       let boundaryMessage = this.feed.entries[boundaryIndex];
 
-      // #1. Should a separator message be inserted?
-      // Notice: always pre-inject a separator if mode is prepend
+      // Check if boundary is from the same day + if should reuse any \
+      //   already-inserted separator (if any)
       let boundaryIsSameDay = boundaryMessage
         ? DateHelper.areSameDay(boundaryMessage.date, storeMessage.date)
         : false;
-      let boundarySeparatorShouldReplace =
+      let boundarySeparatorShouldReuse =
         boundaryIsSameDay === true &&
-        mode === INJECT_MODE_PREPEND &&
         boundaryMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR;
 
+      // #1. Should a separator message be inserted?
       if (
-        boundaryIsSameDay === false ||
-        boundarySeparatorShouldReplace === true
+        boundaryIsSameDay === false &&
+        boundarySeparatorShouldReuse === false
       ) {
-        // Pull out separator message at the boundary? (as we wish to replace \
-        //   it)
-        if (boundaryMessage && boundarySeparatorShouldReplace === true) {
-          delete this.__registers.feedEntriesById[boundaryMessage.id];
-
-          this.feed.entries.splice(boundaryIndex, 1);
-        }
-
         // Append a separator if boundary message is from a different day
         let separatorMessage = MessageHelper.makeSeparatorModel(storeMessage);
 
@@ -377,28 +369,42 @@ function FeedStore() {
         boundaryMessage = separatorMessage;
       }
 
-      // #2. Should a line be inserted to an existing message entry?
+      // #2. Should a line be inserted to an existing nested message entry?
       // Notice: only if the boundary message is from the same user as the \
       //   current one, and has been sent within a similar timeframe (that \
       //   is, recently).
+      let nestedMessage =
+        boundarySeparatorShouldReuse === true
+          ? this.feed.entries[boundaryIndex + 1]
+          : boundaryMessage;
+
       if (
-        boundaryMessage &&
-        boundaryMessage.type === MessageHelper.ENTRY_TYPE_MESSAGE &&
-        boundaryMessage.user.jid === storeMessage.user.jid &&
+        nestedMessage &&
+        nestedMessage.type === MessageHelper.ENTRY_TYPE_MESSAGE &&
+        nestedMessage.user.jid === storeMessage.user.jid &&
         DateHelper.areWithinElapsedTime(
-          boundaryMessage.date,
+          nestedMessage.date,
           storeMessage.date,
-          ENTRY_NEST_TIMEFRAME
+          ENTRY_NEST_TIMEFRAME,
+          mode === INJECT_MODE_PREPEND ? -1 : 1
         )
       ) {
-        // Insert each line from the current message into the boundary message
-        storeMessage.content.forEach(contentLine => {
-          boundaryMessage.content.push(contentLine);
-        });
+        // Insert each line from the current message into the boundary message?
+        if (storeMessage.content.length > 0) {
+          if (mode === INJECT_MODE_PREPEND) {
+            for (let i = storeMessage.content.length - 1; i >= 0; i--) {
+              nestedMessage.content.unshift(storeMessage.content[i]);
+            }
+          } else {
+            for (let i = 0; i < storeMessage.content.length; i++) {
+              nestedMessage.content.push(storeMessage.content[i]);
+            }
+          }
+        }
 
         // Update store message reference (as we re-used a previously-pushed \
         //   message and appended a new line in this existing message)
-        storeMessage = boundaryMessage;
+        storeMessage = nestedMessage;
 
         // Bump updated date (used to signal view to re-render)
         storeMessage.updatedAt = Date.now();
@@ -415,9 +421,17 @@ function FeedStore() {
       // Merge all stack contents with the feed of entries?
       if (injectStack.length > 0) {
         if (mode === INJECT_MODE_PREPEND) {
-          for (let i = injectStack.length - 1; i >= 0; i--) {
+          // Acquire prepend start index
+          // Notice: this lets us re-use an existing separator for \
+          //   subsequently prepended messages. As we prepend in reverse \
+          //   order, the mechanics are not quite the same as append mode, \
+          //   where time is guaranteed to progress monotonically.
+          let prependStartIndex =
+            boundarySeparatorShouldReuse === true ? boundaryIndex + 1 : 0;
+
+          for (let i = 0; i < injectStack.length; i++) {
             // Prepend entry from the stack
-            this.feed.entries.unshift(injectStack[i]);
+            this.feed.entries.splice(prependStartIndex + i, 0, injectStack[i]);
           }
         } else {
           for (let i = 0; i < injectStack.length; i++) {
