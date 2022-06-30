@@ -6,7 +6,7 @@
  -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,7 +41,7 @@
       v-for="entry in $store.feed.entries"
       v-scope="Entry(entry)"
       v-once
-      :key="entry.id + '@' + (entry.updatedAt || 0)"
+      :key="$context.i18n.code + '/' + entry.id + '@' + (entry.updatedAt || 0)"
     >
       <div class="message" v-if="message" v-scope="Message(message)">
         <span

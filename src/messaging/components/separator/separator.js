@@ -5,13 +5,17 @@
  * License: Mozilla Public License v2.0 (MPL v2.0)
  */
 
+// IMPORTS
+
+import DateHelper from "../../helpers/date.js";
+
 // COMPONENTS
 
 function Separator(separator) {
   return {
     // --> DATA <--
 
-    label: separator.label
+    label: DateHelper.formatDateOrDayString(separator.date)
   };
 }
 

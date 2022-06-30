@@ -8,7 +8,6 @@
 // IMPORTS
 
 import { reactive } from "petite-vue";
-import DateHelper from "./date.js";
 
 // HELPERS
 
@@ -118,8 +117,7 @@ const MessageHelper = {
   makeSeparatorModel: function (sourceMessage) {
     return this.__finalize({
       type: this.ENTRY_TYPE_SEPARATOR,
-      date: new Date(sourceMessage.date),
-      label: DateHelper.formatDateOrDayString(sourceMessage.date)
+      date: new Date(sourceMessage.date)
     });
   },
 
