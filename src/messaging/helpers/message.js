@@ -11,7 +11,8 @@ import { reactive, nextTick } from "petite-vue";
 
 // CONSTANTS
 
-const SCROLL_BYPASS_SAFETY_OFFSET = 80; // 80 pixels
+const SCROLL_BYPASS_SAFETY_RATIO = 0.4; // 40% of height
+const SCROLL_BYPASS_SAFETY_OFFSET_MINIMUM = 80; // 80 pixels
 const SCROLL_DEBOUNCE_DELAY = 50; // 50 milliseconds
 
 const SCROLL_INTO_VIEW_OPTIONS = {
@@ -205,11 +206,16 @@ const MessageHelper = {
       // Important: if scroll position is zero or negative, ALWAYS process \
       //   scroll. The same applies if element heights could not be acquired.
       if (scrollTopPosition > 0 && entryHeight > 0 && documentTotalHeight > 0) {
+        let effectiveSafetyOffset = Math.max(
+          SCROLL_BYPASS_SAFETY_OFFSET_MINIMUM,
+          Math.floor(SCROLL_BYPASS_SAFETY_RATIO * documentVisibleHeight)
+        );
+
         let effectiveScrollThreshold =
           documentTotalHeight -
           documentVisibleHeight -
           entryHeight -
-          SCROLL_BYPASS_SAFETY_OFFSET;
+          effectiveSafetyOffset;
 
         // User scrolled upwards too much, eg. to read a previous message in \
         //   history? We may not auto-scroll down then.
