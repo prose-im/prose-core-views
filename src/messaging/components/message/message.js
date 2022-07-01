@@ -14,6 +14,7 @@ import DateHelper from "../../helpers/date.js";
 // CONSTANTS
 
 const FILE_IMAGE_BASELINE_WIDTH = 200;
+const FILE_IMAGE_FALLBACK_HEIGHT = 60;
 const TEXT_LINKS_TRUNCATE_SIZE = 120;
 const PRESENTATION_DEFAULT = "other";
 
@@ -212,7 +213,7 @@ function MessageLineFile(content) {
       const height =
         fileSize && fileSize.width && fileSize.height
           ? (fileSize.height / fileSize.width) * width
-          : null;
+          : FILE_IMAGE_FALLBACK_HEIGHT;
 
       return { width, height };
     },
