@@ -51,23 +51,23 @@ function Avatar(user) {
     mounted() {
       // Generate message avatar defaults (if needed)
       if (this.avatarUrl === null) {
-        this.defaultInitials = this.generateDefaultInitials(
+        this.defaultInitials = this.__generateDefaultInitials(
           user.jid,
           user.name
         );
 
-        this.defaultPalette = this.generateDefaultPalette(user.jid);
+        this.defaultPalette = this.__generateDefaultPalette(user.jid);
       }
     },
 
     /**
      * Generates default initials
-     * @public
+     * @private
      * @param  {string} jid
      * @param  {string} [name]
      * @return {string} Default initials
      */
-    generateDefaultInitials(jid, name = "") {
+    __generateDefaultInitials(jid, name = "") {
       // #1. Extract initials from name (if any, and if long enough)
       if (name) {
         let nameChunks = name
@@ -103,11 +103,11 @@ function Avatar(user) {
 
     /**
      * Generates default palette
-     * @public
+     * @private
      * @param  {string} [jid]
      * @return {string} Default palette
      */
-    generateDefaultPalette(jid = "") {
+    __generateDefaultPalette(jid = "") {
       // Compute JID fingerprint
       let jidFingerprint = 0;
 

@@ -30,9 +30,9 @@ function App() {
     // --> DATA <--
 
     isReady: false,
-
-    dayChangeTimer: null,
     dayChangeCount: 0,
+
+    __dayChangeTimer: null,
 
     // --> METHODS <--
 
@@ -43,7 +43,7 @@ function App() {
      */
     mounted() {
       // Schedule all timers
-      this.scheduleTimers();
+      this.__scheduleTimers();
 
       // Mark as ready
       this.isReady = true;
@@ -56,36 +56,36 @@ function App() {
      */
     unmounted() {
       // Unschedule all timers
-      this.unscheduleTimers();
+      this.__unscheduleTimers();
     },
 
     /**
      * Schedules all timers
-     * @public
+     * @private
      * @return {undefined}
      */
-    scheduleTimers() {
+    __scheduleTimers() {
       // Schedule day change timer
-      this.scheduleNextDayChangeTimer();
+      this.__scheduleNextDayChangeTimer();
     },
 
     /**
      * Unschedules all timers
-     * @public
+     * @private
      * @return {undefined}
      */
-    unscheduleTimers() {
+    __unscheduleTimers() {
       // Unschedule day change timer
-      this.unscheduleNextDayChangeTimer();
+      this.__unscheduleNextDayChangeTimer();
     },
 
     /**
      * Schedules next day change timer
-     * @public
+     * @private
      * @return {undefined}
      */
-    scheduleNextDayChangeTimer() {
-      if (this.dayChangeTimer === null) {
+    __scheduleNextDayChangeTimer() {
+      if (this.__dayChangeTimer === null) {
         // Acquire time to next day
         // Notice: add a few seconds to the time to next day used in the \
         //   delay, as a way to correct for any leap second eg. when changing \
@@ -103,29 +103,29 @@ function App() {
           NEXT_DAY_CHANGE_BUFFER_TIME;
 
         // Schedule timer
-        this.dayChangeTimer = setTimeout(() => {
-          this.dayChangeTimer = null;
+        this.__dayChangeTimer = setTimeout(() => {
+          this.__dayChangeTimer = null;
 
           // Day changed: increment count
           this.dayChangeCount++;
 
           // Schedule next day change timer (ie. for tomorrow)
-          this.scheduleNextDayChangeTimer();
+          this.__scheduleNextDayChangeTimer();
         }, timeToNextDay);
       }
     },
 
     /**
      * Unschedules next day change timer
-     * @public
+     * @private
      * @return {undefined}
      */
-    unscheduleNextDayChangeTimer() {
+    __unscheduleNextDayChangeTimer() {
       // Clear day change timer?
-      if (this.dayChangeTimer !== null) {
-        clearTimeout(this.dayChangeTimer);
+      if (this.__dayChangeTimer !== null) {
+        clearTimeout(this.__dayChangeTimer);
 
-        this.dayChangeTimer = null;
+        this.__dayChangeTimer = null;
       }
     }
   };

@@ -160,7 +160,7 @@ const MessageHelper = {
         // Ensure DOM has been rendered w/ latest data
         nextTick(() => {
           // Scroll to target message now
-          this.fireScrollTo(messageId, initialScrollTop);
+          this.__fireScrollTo(messageId, initialScrollTop);
         });
       },
       immediate === true ? 0 : SCROLL_DEBOUNCE_DELAY
@@ -182,12 +182,12 @@ const MessageHelper = {
 
   /**
    * Schedules to scroll to target message
-   * @public
+   * @private
    * @param  {string} messageId
    * @param  {number} [scrollTopPosition]
    * @return {undefined}
    */
-  fireScrollTo: function (messageId, scrollTopPosition = -1) {
+  __fireScrollTo: function (messageId, scrollTopPosition = -1) {
     // Acquire message and its entry parent
     let messageElement =
       document.getElementById(`message-${messageId}`) || null;

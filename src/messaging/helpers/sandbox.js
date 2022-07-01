@@ -5,13 +5,13 @@
  * License: Mozilla Public License v2.0 (MPL v2.0)
  */
 
+// CONSTANTS
+
+const FIXTURE_APPLY_NEXT_DELAY = 250; // 1/4 second
+
 // HELPERS
 
 const SandboxHelper = {
-  // CONSTANTS
-
-  FIXTURE_APPLY_NEXT_DELAY: 250, // 1/4 second
-
   // METHODS
 
   /**
@@ -30,7 +30,7 @@ const SandboxHelper = {
         // Insert each message sequentially, with a delay
         setTimeout(() => {
           store.insert(fixtureEntry);
-        }, (index + 1) * this.FIXTURE_APPLY_NEXT_DELAY);
+        }, (index + 1) * FIXTURE_APPLY_NEXT_DELAY);
       });
     } catch (error) {
       console.error("Failed to apply sandbox fixture", error);

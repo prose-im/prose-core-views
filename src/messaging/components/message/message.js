@@ -55,19 +55,19 @@ function Message(message) {
      */
     mounted() {
       // Generate message date text
-      this.date = this.generateDate(message.date);
+      this.date = this.__generateDate(message.date);
 
       // Generate message attributes
-      this.attributes = this.generateAttributes(message.content);
+      this.attributes = this.__generateAttributes(message.content);
     },
 
     /**
      * Generates message date
-     * @public
+     * @private
      * @param  {string} dateString
      * @return {string} Message date
      */
-    generateDate(dateString) {
+    __generateDate(dateString) {
       let date = new Date(dateString);
 
       // Date is valid?
@@ -81,11 +81,11 @@ function Message(message) {
 
     /**
      * Generates message attributes
-     * @public
+     * @private
      * @param  {string} dateString
      * @return {string} Message date
      */
-    generateAttributes(content) {
+    __generateAttributes(content) {
       let attributesMap = {};
 
       // Apply attributes for each line
@@ -122,16 +122,16 @@ function MessageLineText(content) {
      */
     mounted() {
       // Generate text message HTML
-      this.html = this.generateHTML(content);
+      this.html = this.__generateHTML(content);
     },
 
     /**
      * Generates message HTML
-     * @public
+     * @private
      * @param  {object} content
      * @return {object} Generated HTML
      */
-    generateHTML(content) {
+    __generateHTML(content) {
       // Important: escape text, as it will be injected as-is to the DOM.
       let safeText = _e(content.text);
 
@@ -164,21 +164,21 @@ function MessageLineFile(content) {
      */
     mounted() {
       // Acquire file presentation mode
-      this.presentation = this.acquireFilePresentation(content);
+      this.presentation = this.__acquireFilePresentation(content);
 
       // Compute image size for file? (if presentation is image)
       if (this.presentation === "image") {
-        this.imageSize = this.computeFileImageSize(content);
+        this.imageSize = this.__computeFileImageSize(content);
       }
     },
 
     /**
      * Acquires file presentation mode
-     * @public
+     * @private
      * @param  {object} content
      * @return {string} Acquired file presentation mode
      */
-    acquireFilePresentation(content) {
+    __acquireFilePresentation(content) {
       const fileType = content.file.type;
 
       if (fileType) {
@@ -197,11 +197,11 @@ function MessageLineFile(content) {
 
     /**
      * Computes file image size
-     * @public
+     * @private
      * @param  {object} content
      * @return {object} Computed file image size
      */
-    computeFileImageSize(content) {
+    __computeFileImageSize(content) {
       // Compute image size (pick the lowest size, up to baseline maximum)
       const fileSize = content.file.size;
 
