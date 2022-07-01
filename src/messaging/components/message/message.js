@@ -14,7 +14,7 @@ import DateHelper from "../../helpers/date.js";
 // CONSTANTS
 
 const FILE_IMAGE_BASELINE_WIDTH = 200;
-const TEXT_LINKS_TRUNCATE_SIZE = 80;
+const TEXT_LINKS_TRUNCATE_SIZE = 120;
 const PRESENTATION_DEFAULT = "other";
 
 const PRESENTATION_MIME_TYPES = {
