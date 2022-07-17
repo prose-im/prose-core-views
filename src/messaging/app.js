@@ -220,6 +220,7 @@ if (process.env.NODE_ENV !== "production") {
 
   SandboxHelper.loadAndApplyFixtures($store);
   SandboxHelper.registerEventHooks($event);
+  SandboxHelper.configureContext($context);
 }
 
 // EXPORTS

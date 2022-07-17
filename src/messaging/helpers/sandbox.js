@@ -50,6 +50,17 @@ const SandboxHelper = {
         console.debug(`[sandbox] event received: ${namespace}`, data);
       });
     });
+  },
+
+  /**
+   * Configures context
+   * @public
+   * @param  {object} context
+   * @return {undefined}
+   */
+  configureContext: function (context) {
+    context.setLanguage("en");
+    context.setStyleTheme("light");
   }
 };
 
