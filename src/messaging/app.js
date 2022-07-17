@@ -19,6 +19,7 @@ import {
   MessageLineText,
   MessageLineFile
 } from "./components/message/message.js";
+import MessageHelper from "./helpers/message.js";
 
 // CONSTANTS
 
@@ -186,15 +187,10 @@ function App() {
     __handleContextMenuEvent(event) {
       event.preventDefault();
 
-      // Acquire selected message identifiers
-      // TODO: find parent or self w/ data-line-id
-      // TODO: otherwise, find parent or self w/ data-entry-id
-      let messageIds = [];
-
       // Emit message actions view event
       $event._emit("message:actions:view", {
-        origin: [event.clientX || 0, event.clientY || 0],
-        messageIds
+        ids: MessageHelper.listIdentifiersFromElement(event.target),
+        origin: [event.clientX || 0, event.clientY || 0]
       });
     }
   };

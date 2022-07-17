@@ -8,6 +8,7 @@
 // IMPORTS
 
 import { reactive, nextTick } from "petite-vue";
+import $store from "../stores/feed.js";
 
 // CONSTANTS
 
@@ -178,6 +179,45 @@ const MessageHelper = {
 
       this.__timers.scrollDebounce = null;
     }
+  },
+
+  /**
+   * Lists message identifiers from target element
+   * @public
+   * @param  {object} element
+   * @return {object} Listed message identifiers
+   */
+  listIdentifiersFromElement: function (element) {
+    // #1. Attempt to acquire message identifier from line
+    let lineElement = element.closest("[data-line-id]") || null;
+
+    if (lineElement !== null) {
+      let lineIdentifier = lineElement.getAttribute("data-line-id") || null;
+
+      if (lineIdentifier !== null) {
+        return [lineIdentifier];
+      }
+    }
+
+    // #2. Attempt to acquire all message identifiers from parent entry
+    let entryElement = element.closest("[data-entry-id]") || null;
+
+    if (entryElement !== null) {
+      let entryIdentifier = entryElement.getAttribute("data-entry-id") || null;
+
+      if (entryIdentifier !== null) {
+        let entry = $store._resolveEntry(null, entryIdentifier);
+
+        if (entry !== null) {
+          return (entry.content || []).map(line => {
+            return line.id;
+          });
+        }
+      }
+    }
+
+    // #3. Fallback to no identifiers (default)
+    return [];
   },
 
   /**

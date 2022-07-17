@@ -130,7 +130,7 @@ function FeedStore() {
       }
 
       // Acquire parent entry
-      let parentEntry = this.__resolveEntry(messageId);
+      let parentEntry = this._resolveEntry(messageId);
 
       if (parentEntry !== null) {
         // Only message types can be updated
@@ -186,7 +186,7 @@ function FeedStore() {
       let wasRemoved = false;
 
       // Acquire parent entry for message
-      let parentEntry = this.__resolveEntry(messageId);
+      let parentEntry = this._resolveEntry(messageId);
 
       if (parentEntry !== null) {
         // #1. Remove line from message entry
@@ -298,7 +298,7 @@ function FeedStore() {
 
       // Highlight target message?
       if (messageId !== null) {
-        let messageEntry = this.__resolveEntry(messageId);
+        let messageEntry = this._resolveEntry(messageId);
         let messageLine = this.__resolveLine(messageId, messageEntry);
 
         if (
@@ -321,12 +321,14 @@ function FeedStore() {
 
     /**
      * Acquires full parent entry from the store
-     * @private
-     * @param  {string} messageId
+     * @protected
+     * @param  {string} [messageId]
+     * @param  {string} [parentEntryId]
      * @return {object} Resolved entry (if any)
      */
-    __resolveEntry(messageId) {
-      let parentEntryId = this.__registers.entryIdForLineId[messageId] || null;
+    _resolveEntry(messageId = null, parentEntryId = null) {
+      parentEntryId =
+        parentEntryId || this.__registers.entryIdForLineId[messageId] || null;
 
       if (parentEntryId !== null) {
         return this.__registers.feedEntriesById[parentEntryId] || null;
@@ -343,7 +345,7 @@ function FeedStore() {
      * @return {object} Resolved line (if any)
      */
     __resolveLine(messageId, parentEntry = null) {
-      parentEntry = parentEntry || this.__resolveEntry(messageId);
+      parentEntry = parentEntry || this._resolveEntry(messageId);
 
       if (parentEntry !== null) {
         let messageLine = parentEntry.content.find(line => {
