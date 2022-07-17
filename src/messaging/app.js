@@ -218,9 +218,9 @@ if (process.env.NODE_ENV !== "production") {
   //   only.
   const SandboxHelper = require("./helpers/sandbox.js").default;
 
-  SandboxHelper.loadAndApplyFixtures($store);
-  SandboxHelper.registerEventHooks($event);
   SandboxHelper.configureContext($context);
+  SandboxHelper.registerEventHooks($event);
+  SandboxHelper.loadAndApplyFixtures($store);
 }
 
 // EXPORTS
