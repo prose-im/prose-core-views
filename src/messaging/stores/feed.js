@@ -19,6 +19,8 @@ const ENTRY_NEST_TIMEFRAME = 600000; // 10 minutes
 const INJECT_MODE_APPEND = 0;
 const INJECT_MODE_PREPEND = 1;
 
+const HIGHLIGHT_TYPES = ["text"];
+
 // STORES
 
 function FeedStore() {
@@ -55,24 +57,13 @@ function FeedStore() {
      * @return {object} Resolved message (if any)
      */
     resolve(messageId) {
-      let parentEntryId = this.__registers.entryIdForLineId[messageId] || null;
+      let messageLine = this.__resolveLine(messageId);
 
-      if (parentEntryId !== null) {
-        let parentEntry =
-          this.__registers.feedEntriesById[parentEntryId] || null;
-
-        if (parentEntry !== null) {
-          // Rebuild the returned parent entry object, to a new safe object
-          let messageLine = parentEntry.content.find(line => {
-            return line.id === messageId;
-          });
-
-          if (messageLine) {
-            // Important: escape from the Proxy wrapper in the returned \
-            //   partial message object.
-            return { ...messageLine };
-          }
-        }
+      // Rebuild the returned parent entry object? (to a new safe object)
+      if (messageLine !== null) {
+        // Important: escape from the Proxy wrapper in the returned \
+        //   partial message object.
+        return { ...messageLine };
       }
 
       return null;
@@ -276,6 +267,59 @@ function FeedStore() {
     },
 
     /**
+     * Highlight target message (used for editing)
+     * @public
+     * @param  {string}  [messageId]
+     * @return {boolean} Message highlight status
+     */
+    highlight(messageId = null) {
+      // Un-highlight any previously highlighted message
+      entries: for (let i = 0; i < this.feed.entries.length; i++) {
+        let entry = this.feed.entries[i];
+
+        if (entry.type === MessageHelper.ENTRY_TYPE_MESSAGE) {
+          for (let j = 0; j < entry.content.length; j++) {
+            let entryLine = entry.content[j];
+
+            if (
+              entryLine.properties &&
+              entryLine.properties.highlighted === true
+            ) {
+              delete entryLine.properties.highlighted;
+
+              // Bump updated date (used to signal view to re-render)
+              entry.updatedAt = Date.now();
+
+              break entries;
+            }
+          }
+        }
+      }
+
+      // Highlight target message?
+      if (messageId !== null) {
+        let messageEntry = this.__resolveEntry(messageId);
+        let messageLine = this.__resolveLine(messageId, messageEntry);
+
+        if (
+          messageEntry !== null &&
+          messageLine !== null &&
+          HIGHLIGHT_TYPES.includes(messageLine.type) === true
+        ) {
+          messageLine.properties = messageLine.properties || {};
+          messageLine.properties.highlighted = true;
+
+          // Bump updated date (used to signal view to re-render)
+          messageEntry.updatedAt = Date.now();
+
+          return true;
+        }
+      }
+
+      return false;
+    },
+
+    /**
      * Acquires full parent entry from the store
      * @private
      * @param  {string} messageId
@@ -286,6 +330,29 @@ function FeedStore() {
 
       if (parentEntryId !== null) {
         return this.__registers.feedEntriesById[parentEntryId] || null;
+      }
+
+      return null;
+    },
+
+    /**
+     * Acquires entry line from the store
+     * @private
+     * @param  {string} messageId
+     * @param  {object} [parentEntry]
+     * @return {object} Resolved line (if any)
+     */
+    __resolveLine(messageId, parentEntry = null) {
+      parentEntry = parentEntry || this.__resolveEntry(messageId);
+
+      if (parentEntry !== null) {
+        let messageLine = parentEntry.content.find(line => {
+          return line.id === messageId;
+        });
+
+        if (messageLine) {
+          return messageLine;
+        }
       }
 
       return null;

@@ -71,6 +71,7 @@ The messaging view exposes a programmatic API that lets applications manipulate 
 - Restore one or multiple past messages in the store (ie. prepend): `MessagingStore.restore(...messages<object>)<boolean>`
 - Insert one or multiple messages in the store (ie. append): `MessagingStore.insert(...messages<object>)<boolean>`
 - Update a message in the store: `MessagingStore.update(messageId<string>, messageDiff<object>)<boolean>`
+- Highlight message in the store: `MessagingStore.highlight(messageId<string>)<boolean>`
 - Pull out a message from the store: `MessagingStore.retract(messageId<string>)<boolean>`
 - Flush all content from the store: `MessagingStore.flush()<boolean>`
 

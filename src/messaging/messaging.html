@@ -94,7 +94,12 @@
               v-for="line in content"
               :key="line.id"
               :id="'message-' + line.id"
-              class="message-content-line"
+              :class="[
+                'message-content-line',
+                {
+                  'message-content-line--highlighted': (line.properties && line.properties.highlighted)
+                }
+              ]"
             >
               <span
                 v-if="line.type === 'text'"

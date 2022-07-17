@@ -101,6 +101,11 @@
   margin-bottom: 0;
 }
 
+.message-content-line.message-content-line--highlighted {
+  background-color: var(--color-yellow-light);
+  padding: 4px 7px;
+}
+
 .message-content-line br {
   content: "";
   margin: 2px;

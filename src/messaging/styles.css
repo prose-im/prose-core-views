@@ -57,6 +57,10 @@ a {
 
   /* COLOR (LIGHT MODE): BLUE */
   --color-blue-default: #0072fe;
+
+  /* COLOR (LIGHT MODE): YELLOW */
+  --color-yellow-default: #ffff78;
+  --color-yellow-light: #ffffc2;
 }
 
 #app.app--dark {
@@ -78,4 +82,8 @@ a {
 
   /* COLOR (DARK MODE): BLUE */
   --color-blue-default: #157eff;
+
+  /* COLOR (DARK MODE): YELLOW */
+  --color-yellow-default: #a4a455;
+  --color-yellow-light: #2b2b21;
 }
