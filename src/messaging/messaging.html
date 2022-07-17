@@ -122,6 +122,13 @@
               ></span>
 
               <span v-else class="message-other">(?)</span>
+
+              <span class="message-actions">
+                <span
+                  class="message-action message-action--more"
+                  @click="onActionMoreClick($event, line.id)"
+                ></span>
+              </span>
             </p>
           </div>
         </div>

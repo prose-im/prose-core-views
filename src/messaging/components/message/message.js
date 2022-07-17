@@ -10,6 +10,7 @@
 import { htmlEscape as _e } from "escape-goat";
 import linkifyHtml from "linkify-html";
 import DateHelper from "../../helpers/date.js";
+import $event from "../../stores/broker.js";
 
 // CONSTANTS
 
@@ -100,6 +101,23 @@ function Message(message) {
       });
 
       return Object.keys(attributesMap);
+    },
+
+    // --> EVENT LISTENERS <--
+
+    /**
+     * Triggers when the more action is clicked
+     * @public
+     * @param  {object} event
+     * @param  {string} lineId
+     * @return {undefined}
+     */
+    onActionMoreClick(event, lineId) {
+      // Emit message actions view event
+      $event._emit("message:actions:view", {
+        ids: [lineId],
+        origin: [event.clientX || 0, event.clientY || 0]
+      });
     }
   };
 }

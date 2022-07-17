@@ -95,10 +95,15 @@
 
 .message-content-line {
   margin: 0 0 4px;
+  position: relative;
 }
 
 .message-content-line:last-child {
   margin-bottom: 0;
+}
+
+.message-content-line:hover .message-actions {
+  display: flex;
 }
 
 .message-content-line.message-content-line--highlighted {
@@ -110,6 +115,52 @@
   content: "";
   margin: 2px;
   display: block;
+}
+
+.message-actions {
+  background-color: var(--color-white-default);
+  border: 1px solid var(--color-grey-medium-lighter);
+  padding: 2px;
+  position: absolute;
+  top: -10px;
+  right: 0;
+  border-radius: 5px;
+  display: none;
+}
+
+.message-action {
+  width: 24px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+
+.message-action:hover {
+  background-color: var(--color-grey-light-darker);
+}
+
+.message-action:active {
+  background-color: var(--color-grey-medium-lighter);
+}
+
+.message-action::after {
+  content: "";
+  background-color: var(--color-grey-dark);
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+}
+
+.message-action.message-action--more::after {
+  mask-image: url("./images/action-more.svg");
+  width: 14px;
+  height: 4px;
+
+  /* Hack: WebKit Web Views do not support mask-image yet */
+  -webkit-mask-box-image: url("./images/action-more.svg");
 }
 
 .message-text-inner,
@@ -156,7 +207,6 @@
   color: var(--color-grey-default);
   line-height: 20px;
   display: block;
-  transition: color linear 75ms;
 }
 
 .message-file-expander::after {
@@ -191,7 +241,6 @@
   background-position: center;
   display: block;
   border-radius: 3px;
-  transition: filter linear 100ms;
 }
 
 .message-file-thumbnail:hover {
@@ -222,7 +271,6 @@
   justify-content: center;
   align-items: center;
   border-radius: 100%;
-  transition: border-color linear 100ms;
 }
 
 .message-file-other-option:hover {
