@@ -10,6 +10,7 @@
 import { createApp } from "petite-vue";
 import $context from "./stores/option.js";
 import $store from "./stores/feed.js";
+import $event from "./stores/broker.js";
 import Avatar from "./components/avatar/avatar.js";
 import Separator from "./components/separator/separator.js";
 import Entry from "./components/entry/entry.js";
@@ -42,8 +43,11 @@ function App() {
      * @return {undefined}
      */
     mounted() {
-      // Schedule all timers
-      this.__scheduleTimers();
+      // Schedule all global timers
+      this.__scheduleGlobalTimers();
+
+      // Schedule all global events
+      this.__bindGlobalEvents();
 
       // Mark as ready
       this.isReady = true;
@@ -56,27 +60,50 @@ function App() {
      */
     unmounted() {
       // Unschedule all timers
-      this.__unscheduleTimers();
+      this.__unscheduleGlobalTimers();
+
+      // Unbind all global events
+      this.__unbindGlobalEvents();
     },
 
     /**
-     * Schedules all timers
+     * Schedules all global timers
      * @private
      * @return {undefined}
      */
-    __scheduleTimers() {
+    __scheduleGlobalTimers() {
       // Schedule day change timer
       this.__scheduleNextDayChangeTimer();
     },
 
     /**
-     * Unschedules all timers
+     * Unschedules all global timers
      * @private
      * @return {undefined}
      */
-    __unscheduleTimers() {
+    __unscheduleGlobalTimers() {
       // Unschedule day change timer
       this.__unscheduleNextDayChangeTimer();
+    },
+
+    /**
+     * Binds all global events
+     * @private
+     * @return {undefined}
+     */
+    __bindGlobalEvents() {
+      // Bind context menu event
+      this.__bindContextMenuEvent();
+    },
+
+    /**
+     * Unbinds all global events
+     * @private
+     * @return {undefined}
+     */
+    __unbindGlobalEvents() {
+      // Unbind context menu event
+      this.__unbindContextMenuEvent();
     },
 
     /**
@@ -127,6 +154,48 @@ function App() {
 
         this.__dayChangeTimer = null;
       }
+    },
+
+    /**
+     * Binds context menu event
+     * @private
+     * @return {undefined}
+     */
+    __bindContextMenuEvent() {
+      document.addEventListener("contextmenu", this.__handleContextMenuEvent);
+    },
+
+    /**
+     * Unbinds context menu event
+     * @private
+     * @return {undefined}
+     */
+    __unbindContextMenuEvent() {
+      document.removeEventListener(
+        "contextmenu",
+        this.__handleContextMenuEvent
+      );
+    },
+
+    /**
+     * Handles context menu event
+     * @private
+     * @param  {object} event
+     * @return {undefined}
+     */
+    __handleContextMenuEvent(event) {
+      event.preventDefault();
+
+      // Acquire selected message identifiers
+      // TODO: find parent or self w/ data-line-id
+      // TODO: otherwise, find parent or self w/ data-entry-id
+      let messageIds = [];
+
+      // Emit message actions view event
+      $event._emit("message:actions:view", {
+        origin: [event.clientX || 0, event.clientY || 0],
+        messageIds
+      });
     }
   };
 }
@@ -142,7 +211,8 @@ createApp({
   MessageLineText,
   MessageLineFile,
   $store,
-  $context
+  $context,
+  $event
 }).mount("#app");
 
 if (process.env.NODE_ENV !== "production") {
@@ -153,9 +223,11 @@ if (process.env.NODE_ENV !== "production") {
   const SandboxHelper = require("./helpers/sandbox.js").default;
 
   SandboxHelper.loadAndApplyFixtures($store);
+  SandboxHelper.registerEventHooks($event);
 }
 
 // EXPORTS
 
 globalThis.MessagingContext = $context;
 globalThis.MessagingStore = $store;
+globalThis.MessagingEvent = $event;

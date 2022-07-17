@@ -33,8 +33,23 @@ const SandboxHelper = {
         }, (index + 1) * FIXTURE_APPLY_NEXT_DELAY);
       });
     } catch (error) {
-      console.error("Failed to apply sandbox fixture", error);
+      console.error("[sandbox] failed to apply sandbox fixture", error);
     }
+  },
+
+  /**
+   * Registers event hooks
+   * @public
+   * @param  {object} event
+   * @return {undefined}
+   */
+  registerEventHooks: function (event) {
+    event.NAMESPACE_VALUES.forEach(namespace => {
+      event.on(namespace, data => {
+        // Log received event
+        console.debug(`[sandbox] event received: ${namespace}`, data);
+      });
+    });
   }
 };
 

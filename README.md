@@ -145,6 +145,19 @@ As soon as the view is available, the following methods can be called:
 - Set interface language: `MessagingContext.setLanguage(code<string>)<undefined>` (where `code` is supported locale code)
 - Set style theme: `MessagingStore.setStyleTheme(theme<string>)<undefined>` (where `theme` is any of: `light`, `dark`)
 
+#### 3. Subscribing to messaging events
+
+The message view may raise events when certain things happen, such as when the user interacts with a message.
+
+Events can be subscribed to, on per-namespace basis:
+
+- Subscribe to an event namespace: `MessagingEvent.on(namespace<string>, handler<function>)<boolean>`
+- Unsubscribe from an event namespace: `MessagingEvent.off(namespace<string>)<boolean>`
+
+The following namespaces are available for use:
+
+- `message:actions:view`: show the list of actions for a message (eg. user right-clicks on a message)
+
 ## License
 
 Licensing information can be found in the [LICENSE.md](./LICENSE.md) document.
