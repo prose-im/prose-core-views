@@ -172,11 +172,6 @@
   -webkit-mask-box-image: url("./images/action-reactions.svg");
 }
 
-.message-text-inner,
-.message-file-inner {
-  display: block;
-}
-
 .message-text {
   user-select: text;
   cursor: text;
@@ -194,6 +189,7 @@
 
 .message-file-inner {
   line-height: 0;
+  display: block;
 }
 
 .message-file-inner.message-file-inner--expanded .message-file-expander {
