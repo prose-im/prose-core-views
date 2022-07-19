@@ -163,6 +163,15 @@
   -webkit-mask-box-image: url("./images/action-more.svg");
 }
 
+.message-action.message-action--reactions::after {
+  mask-image: url("./images/action-reactions.svg");
+  width: 14px;
+  height: 14px;
+
+  /* Hack: WebKit Web Views do not support mask-image yet */
+  -webkit-mask-box-image: url("./images/action-reactions.svg");
+}
+
 .message-text-inner,
 .message-file-inner {
   display: block;

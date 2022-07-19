@@ -157,6 +157,7 @@ Events can be subscribed to, on per-namespace basis:
 The following namespaces are available for use:
 
 - `message:actions:view`: show the list of actions for a message (eg. user right-clicks on a message)
+- `message:reactions:view`: show the list of reactions that can be sent for message
 
 ## License
 

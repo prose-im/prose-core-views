@@ -11,7 +11,10 @@ function BrokerStore() {
   return {
     // --> VALUES <--
 
-    NAMESPACE_VALUES: new Set(["message:actions:view"]),
+    NAMESPACE_VALUES: new Set([
+      "message:actions:view",
+      "message:reactions:view"
+    ]),
 
     // --> DATA <--
 

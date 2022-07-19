@@ -118,6 +118,21 @@ function Message(message) {
         ids: [lineId],
         origin: [event.clientX || 0, event.clientY || 0]
       });
+    },
+
+    /**
+     * Triggers when the reactions action is clicked
+     * @public
+     * @param  {object} event
+     * @param  {string} lineId
+     * @return {undefined}
+     */
+    onActionReactionsClick(event, lineId) {
+      // Emit message reactions view event
+      $event._emit("message:reactions:view", {
+        ids: [lineId],
+        origin: [event.clientX || 0, event.clientY || 0]
+      });
     }
   };
 }

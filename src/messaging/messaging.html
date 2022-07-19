@@ -125,6 +125,11 @@
 
               <span class="message-actions">
                 <span
+                  class="message-action message-action--reactions"
+                  @click="onActionReactionsClick($event, line.id)"
+                ></span>
+
+                <span
                   class="message-action message-action--more"
                   @click="onActionMoreClick($event, line.id)"
                 ></span>
