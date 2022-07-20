@@ -13,7 +13,8 @@ function BrokerStore() {
 
     NAMESPACE_VALUES: new Set([
       "message:actions:view",
-      "message:reactions:view"
+      "message:reactions:view",
+      "message:reactions:react"
     ]),
 
     // --> DATA <--

@@ -125,21 +125,22 @@
 
               <span v-if="line.reactions" class="message-reactions">
                 <span
-                  v-for="(reaction_authors, reaction_image) in line.reactions"
-                  :key="'reaction/' + reaction_image"
+                  v-for="(reactionAuthors, reactionImage) in line.reactions"
+                  @click="onReactionClick(line.id, reactionImage, reactionAuthors)"
+                  :key="'reaction/' + reactionImage"
                   :class="[
                     'message-reaction',
                     {
-                      'message-reaction--active': ($context.account.jid && reaction_authors.includes($context.account.jid))
+                      'message-reaction--active': ($context.account.jid && reactionAuthors.includes($context.account.jid))
                     }
                   ]"
                 >
                   <span class="message-reaction-image">
-                    {{ reaction_image }}
+                    {{ reactionImage }}
                   </span>
 
                   <span class="message-reaction-count">
-                    {{ (reaction_authors.length || 1) }}
+                    {{ (reactionAuthors.length || 1) }}
                   </span>
                 </span>
               </span>

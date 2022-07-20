@@ -10,6 +10,7 @@
 import { htmlEscape as _e } from "escape-goat";
 import linkifyHtml from "linkify-html";
 import DateHelper from "../../helpers/date.js";
+import $context from "../../stores/option.js";
 import $event from "../../stores/broker.js";
 
 // CONSTANTS
@@ -104,6 +105,28 @@ function Message(message) {
     },
 
     // --> EVENT LISTENERS <--
+
+    /**
+     * Triggers when the reaction button is clicked
+     * @public
+     * @param  {string} lineId
+     * @param  {string} reactionImage
+     * @param  {object} [reactionAuthors]
+     * @return {undefined}
+     */
+    onReactionClick(lineId, reactionImage, reactionAuthors = []) {
+      // Emit message reactions react event
+      // Notice: if reaction was already set for local author, then active \
+      //   should be toggled back to OFF.
+      $event._emit("message:reactions:react", {
+        ids: [lineId],
+        reaction: reactionImage,
+
+        active: $context.account.jid
+          ? !reactionAuthors.includes($context.account.jid)
+          : true
+      });
+    },
 
     /**
      * Triggers when the more action is clicked
