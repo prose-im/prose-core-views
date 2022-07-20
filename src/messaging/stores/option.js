@@ -29,6 +29,10 @@ function OptionStore() {
       theme: ToolboxHelper.detectAppearancePreference()
     }),
 
+    account: reactive({
+      jid: null
+    }),
+
     // --> METHODS <--
 
     /**
@@ -47,6 +51,15 @@ function OptionStore() {
      */
     getStyleTheme() {
       return this.style.theme;
+    },
+
+    /**
+     * Gets account JID
+     * @public
+     * @return {string} Style theme value
+     */
+    getAccountJID() {
+      return this.account.jid;
     },
 
     /**
@@ -84,6 +97,26 @@ function OptionStore() {
       }
 
       this.style.theme = theme;
+    },
+
+    /**
+     * Sets account JID
+     * @public
+     * @param  {string} jid
+     * @return {undefined}
+     */
+    setAccountJID(jid) {
+      // Account JID is invalid?
+      // Notice: only allowed format is a bare JID, eg. john.doe@acme.inc; any \
+      //   other format such as john.doe@acme.inc/resource is invalid.
+      if (!jid || jid.includes("@") === false || jid.includes("/") === true) {
+        throw new Error(
+          "Account JID invalid, please provide a valid Jabber IDentifier " +
+            "in bare format"
+        );
+      }
+
+      this.account.jid = jid;
     }
   };
 }

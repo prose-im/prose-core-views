@@ -127,7 +127,12 @@
                 <span
                   v-for="(reaction_authors, reaction_image) in line.reactions"
                   :key="'reaction/' + reaction_image"
-                  class="message-reaction"
+                  :class="[
+                    'message-reaction',
+                    {
+                      'message-reaction--active': ($context.account.jid && reaction_authors.includes($context.account.jid))
+                    }
+                  ]"
                 >
                   <span class="message-reaction-image">
                     {{ reaction_image }}

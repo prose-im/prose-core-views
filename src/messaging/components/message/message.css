@@ -148,6 +148,19 @@
   margin-right: 0;
 }
 
+.message-reaction.message-reaction--active {
+  background-color: var(--color-blue-light);
+  border-color: var(--color-blue-default);
+}
+
+.message-reaction.message-reaction--active:hover {
+  border-color: var(--color-blue-dark);
+}
+
+.message-reaction.message-reaction--active .message-reaction-count {
+  color: var(--color-black-default);
+}
+
 .message-reaction-image,
 .message-reaction-count {
   vertical-align: middle;

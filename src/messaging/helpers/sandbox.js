@@ -20,12 +20,16 @@ const SandboxHelper = {
    * @param  {object} store
    * @return {undefined}
    */
-  loadAndApplyFixtures: function (store) {
+  loadAndApplyFixtures: function (store, context) {
     // Important: do not bubble up any failure up the stack, as this can fail \
     //   while testing the store methods behavior in certain cases.
     try {
       const fixtures = require("../../../res/fixtures/messaging.json");
 
+      // Configure account data
+      context.setAccountJID(fixtures.account.jid);
+
+      // Insert all messages
       fixtures.messages.forEach((fixtureEntry, index) => {
         // Insert each message sequentially, with a delay
         setTimeout(() => {

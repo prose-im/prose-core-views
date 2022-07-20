@@ -61,6 +61,8 @@ a {
 
   /* COLOR (LIGHT MODE): BLUE */
   --color-blue-default: #0072fe;
+  --color-blue-light: #e9f2ff;
+  --color-blue-dark: #003e8c;
 
   /* COLOR (LIGHT MODE): YELLOW */
   --color-yellow-default: #ffff78;
@@ -90,6 +92,8 @@ a {
 
   /* COLOR (DARK MODE): BLUE */
   --color-blue-default: #157eff;
+  --color-blue-light: #081d37;
+  --color-blue-dark: #53a0ff;
 
   /* COLOR (DARK MODE): YELLOW */
   --color-yellow-default: #a4a455;
