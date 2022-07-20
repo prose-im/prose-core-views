@@ -51,8 +51,9 @@ a {
   --color-grey-default: #797979;
   --color-grey-light: #f7f7f7;
   --color-grey-light-darker: #efefef;
-  --color-grey-medium-lighter: #e5e5e5;
   --color-grey-medium: #bfbfbf;
+  --color-grey-medium-lighter: #e5e5e5;
+  --color-grey-medium-darker: #a6a6a6;
   --color-grey-dark: #575757;
 
   /* COLOR (LIGHT MODE): RED */
@@ -79,8 +80,9 @@ a {
   --color-grey-default: #666666;
   --color-grey-light: #161616;
   --color-grey-light-darker: #1a1a1a;
-  --color-grey-medium-lighter: #1f1f1f;
   --color-grey-medium: #313131;
+  --color-grey-medium-lighter: #1f1f1f;
+  --color-grey-medium-darker: #3c3c3c;
   --color-grey-dark: #8a8a8a;
 
   /* COLOR (DARK MODE): RED */

@@ -42,6 +42,11 @@
         "encrypted": true
       },
 
+      "reactions": {
+        "🤠": ["valerian@prose.org", "baptiste@prose.org"],
+        "🚀": ["baptiste@prose.org"]
+      },
+
       "from": {
         "jid": "valerian@prose.org",
         "name": "Valerian"
@@ -56,6 +61,10 @@
 
       "metas": {
         "encrypted": false
+      },
+
+      "reactions": {
+        "🤯": ["valerian@prose.org"]
       },
 
       "from": {

@@ -123,6 +123,22 @@
 
               <span v-else class="message-other">(?)</span>
 
+              <span v-if="line.reactions" class="message-reactions">
+                <span
+                  v-for="(reaction_authors, reaction_image) in line.reactions"
+                  :key="'reaction/' + reaction_image"
+                  class="message-reaction"
+                >
+                  <span class="message-reaction-image">
+                    {{ reaction_image }}
+                  </span>
+
+                  <span class="message-reaction-count">
+                    {{ (reaction_authors.length || 1) }}
+                  </span>
+                </span>
+              </span>
+
               <span class="message-actions">
                 <span
                   @click="onActionReactionsClick($event, line.id)"

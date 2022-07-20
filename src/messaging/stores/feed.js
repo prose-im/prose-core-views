@@ -125,7 +125,7 @@ function FeedStore() {
      */
     update(messageId, messageDiff) {
       // Guard: ensure that inserted message data is valid
-      if (!messageDiff.type || !messageDiff.content) {
+      if (!messageDiff || !messageDiff.type || !messageDiff.content) {
         throw new Error("Message to update is incomplete (missing attribute)");
       }
 
@@ -152,15 +152,17 @@ function FeedStore() {
           messageDiff
         );
 
-        // Update message content in store
-        storeMessageDiff.content.forEach(lineDiff => {
-          parentEntry.content.forEach(line => {
-            // Line to update found in entry model? Update it.
-            if (line.id === lineDiff.id) {
-              Object.assign(line, lineDiff);
-            }
+        // Update message content in store? (if any set)
+        if (storeMessageDiff.content) {
+          storeMessageDiff.content.forEach(lineDiff => {
+            parentEntry.content.forEach(line => {
+              // Line to update found in entry model? Update it.
+              if (line.id === lineDiff.id) {
+                Object.assign(line, lineDiff);
+              }
+            });
           });
-        });
+        }
 
         // Update message user in store? (if any set)
         if (storeMessageDiff.user) {

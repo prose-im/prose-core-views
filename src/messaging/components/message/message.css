@@ -117,14 +117,60 @@
   display: block;
 }
 
+.message-reaction,
 .message-actions {
   background-color: var(--color-white-default);
   border: 1px solid var(--color-grey-medium-lighter);
+  border-radius: 5px;
+}
+
+.message-reactions {
+  line-height: 18px;
+  margin-top: 6px;
+  display: flex;
+}
+
+.message-reaction {
+  margin-right: 4px;
+  padding: 4px 5px 0;
+  cursor: pointer;
+}
+
+.message-reaction:hover {
+  border-color: var(--color-grey-medium);
+}
+
+.message-reaction:active {
+  border-color: var(--color-grey-medium-darker);
+}
+
+.message-reaction:last-child {
+  margin-right: 0;
+}
+
+.message-reaction-image,
+.message-reaction-count {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.message-reaction-image {
+  font-size: 15.5px;
+  margin-top: -1px;
+}
+
+.message-reaction-count {
+  color: var(--color-grey-dark);
+  font-size: 10.5px;
+  margin-top: -3px;
+  margin-left: 1px;
+}
+
+.message-actions {
   padding: 2px;
   position: absolute;
   top: -10px;
   right: 0;
-  border-radius: 5px;
   display: none;
 }
 

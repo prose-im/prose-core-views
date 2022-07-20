@@ -79,6 +79,19 @@ const MessageHelper = {
         id: message.id
       };
 
+      // Apply reactions? (if any)
+      if (message.reactions) {
+        if (Object.keys(message.reactions).length > 0) {
+          generatedLine.reactions = message.reactions;
+        } else {
+          // Important: do not delete key, rather void its value to NULL, as \
+          //   to indicate reactions previously existed but are no more, which \
+          //   will let this being merged with any existing line object in the \
+          //   store.
+          generatedLine.reactions = null;
+        }
+      }
+
       // Apply properties? (if any)
       if (message.metas) {
         generatedLine.properties = message.metas;
