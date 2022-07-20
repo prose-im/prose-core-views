@@ -18,5 +18,10 @@
 
   "attributes": {
     "insecure": "Nicht verschlüsselt"
+  },
+
+  "actions": {
+    "reactions": "Reaktionen",
+    "more": "Mehr Aktionen"
   }
 }

@@ -125,13 +125,15 @@
 
               <span class="message-actions">
                 <span
-                  class="message-action message-action--reactions"
                   @click="onActionReactionsClick($event, line.id)"
+                  :title="$context.i18n._.actions.reactions"
+                  class="message-action message-action--reactions"
                 ></span>
 
                 <span
-                  class="message-action message-action--more"
                   @click="onActionMoreClick($event, line.id)"
+                  :title="$context.i18n._.actions.more"
+                  class="message-action message-action--more"
                 ></span>
               </span>
             </p>

@@ -18,5 +18,10 @@
 
   "attributes": {
     "insecure": "Non chiffré"
+  },
+
+  "actions": {
+    "reactions": "Réactions",
+    "more": "Plus d'actions"
   }
 }
