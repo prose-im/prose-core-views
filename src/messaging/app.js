@@ -190,7 +190,11 @@ function App() {
       // Emit message actions view event
       $event._emit("message:actions:view", {
         ids: MessageHelper.listIdentifiersFromElement(event.target),
-        origin: [event.clientX || 0, event.clientY || 0]
+
+        origin: {
+          x: event.clientX || 0,
+          y: event.clientY || 0
+        }
       });
     }
   };

@@ -139,7 +139,11 @@ function Message(message) {
       // Emit message actions view event
       $event._emit("message:actions:view", {
         ids: [lineId],
-        origin: [event.clientX || 0, event.clientY || 0]
+
+        origin: {
+          x: event.clientX || 0,
+          y: event.clientY || 0
+        }
       });
     },
 
@@ -154,7 +158,11 @@ function Message(message) {
       // Emit message reactions view event
       $event._emit("message:reactions:view", {
         ids: [lineId],
-        origin: [event.clientX || 0, event.clientY || 0]
+
+        origin: {
+          x: event.clientX || 0,
+          y: event.clientY || 0
+        }
       });
     }
   };
