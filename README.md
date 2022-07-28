@@ -151,8 +151,8 @@ As soon as the view is available, the following methods can be called:
 **Option setters:**
 
 - Set interface language: `MessagingContext.setLanguage(code<string>)<undefined>` (where `code` is supported locale code)
-- Set style theme: `MessagingStore.setStyleTheme(theme<string>)<undefined>` (where `theme` is any of: `light`, `dark`)
-- Set account JID: `MessagingStore.setAccountJID(jid<string>)<undefined>` (where `jid` is a valid Jabber IDentifier)
+- Set style theme: `MessagingContext.setStyleTheme(theme<string>)<undefined>` (where `theme` is any of: `light`, `dark`)
+- Set account JID: `MessagingContext.setAccountJID(jid<string>)<undefined>` (where `jid` is a valid Jabber IDentifier)
 
 #### 3. Subscribing to messaging events
 
