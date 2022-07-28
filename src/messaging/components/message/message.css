@@ -168,8 +168,11 @@
 }
 
 .message-reaction-image {
-  font-size: 15.5px;
-  margin-top: -1px;
+  font-family: "Apple Color Emoji", "Android Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Twemoji Mozilla", "Noto Color Emoji", "EmojiOne Color",
+    sans-serif;
+  font-size: 13px;
+  margin-top: -6px;
 }
 
 .message-reaction-count {
