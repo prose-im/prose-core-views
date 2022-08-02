@@ -81,7 +81,7 @@ const MessageHelper = {
 
       // Apply reactions? (if any)
       if (message.reactions) {
-        if (Object.keys(message.reactions).length > 0) {
+        if (message.reactions.length > 0) {
           generatedLine.reactions = message.reactions;
         } else {
           // Important: do not delete key, rather void its value to NULL, as \

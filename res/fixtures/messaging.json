@@ -46,10 +46,17 @@
         "encrypted": true
       },
 
-      "reactions": {
-        "🤠": ["valerian@prose.org", "baptiste@prose.org"],
-        "🚀": ["baptiste@prose.org"]
-      },
+      "reactions": [
+        {
+          "reaction": "🤠",
+          "authors": ["valerian@prose.org", "baptiste@prose.org"]
+        },
+
+        {
+          "reaction": "🚀",
+          "authors": ["baptiste@prose.org"]
+        }
+      ],
 
       "from": {
         "jid": "valerian@prose.org",
@@ -67,9 +74,12 @@
         "encrypted": false
       },
 
-      "reactions": {
-        "🤯": ["valerian@prose.org"]
-      },
+      "reactions": [
+        {
+          "reaction": "🤯",
+          "authors": ["valerian@prose.org"]
+        }
+      ],
 
       "from": {
         "jid": "baptiste@prose.org",

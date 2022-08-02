@@ -90,10 +90,17 @@ All inserted message objects are required to hold the following keys: `id`, `typ
     "encrypted": true
   },
 
-  "reactions": {
-    "🤠": ["john.doe@acme.inc", "jane.doe@acme.inc"],
-    "👋": ["jane.doe@acme.inc"]
-  },
+  "reactions": [
+    {
+      "reaction": "🤠",
+      "authors": ["john.doe@acme.inc", "jane.doe@acme.inc"]
+    },
+
+    {
+      "reaction": "👋",
+      "authors": ["jane.doe@acme.inc"]
+    }
+  ],
 
   "from": {
     "jid": "john.doe@acme.inc",
@@ -126,7 +133,7 @@ All inserted message objects are required to hold the following keys: `id`, `typ
     "encrypted": false
   },
 
-  "reactions": {},
+  "reactions": [],
 
   "from": {
     "jid": "valerian@prose.org",
