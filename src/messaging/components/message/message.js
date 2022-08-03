@@ -12,6 +12,7 @@ import linkifyHtml from "linkify-html";
 import DateHelper from "../../helpers/date.js";
 import $context from "../../stores/option.js";
 import $event from "../../stores/broker.js";
+import MessageHelper from "../../helpers/message.js";
 
 // CONSTANTS
 
@@ -139,11 +140,7 @@ function Message(message) {
       // Emit message actions view event
       $event._emit("message:actions:view", {
         id: lineId,
-
-        origin: {
-          x: event.clientX || 0,
-          y: event.clientY || 0
-        }
+        origin: MessageHelper.generateEventOrigin("button", event)
       });
     },
 
@@ -158,11 +155,7 @@ function Message(message) {
       // Emit message reactions view event
       $event._emit("message:reactions:view", {
         id: lineId,
-
-        origin: {
-          x: event.clientX || 0,
-          y: event.clientY || 0
-        }
+        origin: MessageHelper.generateEventOrigin("button", event)
       });
     }
   };

@@ -190,16 +190,19 @@ function App() {
       // List identifiers from target element
       let identifiers = MessageHelper.listIdentifiersFromElement(event.target);
 
-      // Emit message actions view event
-      // Notice: pick the first available identifier in the hierarchy
-      $event._emit("message:actions:view", {
-        id: identifiers[0] || null,
+      // Emit message actions view event? (if any)
+      if (identifiers.length > 0) {
+        // Notice: pick the first available identifier in the hierarchy
+        $event._emit("message:actions:view", {
+          id: identifiers[0],
 
-        origin: {
-          x: event.clientX || 0,
-          y: event.clientY || 0
-        }
-      });
+          origin: MessageHelper.generateEventOrigin(
+            "context-menu",
+            event,
+            false
+          )
+        });
+      }
     }
   };
 }

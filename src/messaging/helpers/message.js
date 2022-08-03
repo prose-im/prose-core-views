@@ -195,6 +195,46 @@ const MessageHelper = {
   },
 
   /**
+   * Generates event origin object
+   * @public
+   * @param  {string}  type
+   * @param  {object}  event
+   * @param  {boolean} [withBoundingParent]
+   * @return {undefined}
+   */
+  generateEventOrigin: function (type, event, withBoundingParent = true) {
+    // Generate anchor properties
+    let anchor = {
+      x: event.clientX || 0,
+      y: event.clientY || 0
+    };
+
+    // Acquire origin parent properties (if any)
+    let parent;
+
+    if (withBoundingParent === true && event.target) {
+      let parentBoundingBox = event.target.getBoundingClientRect();
+
+      // Important: round up maybe-floats to guaranteed integer as the IPC \
+      //   receiver usually expects stable types.
+      parent = {
+        x: Math.round(parentBoundingBox.left || 0),
+        y: Math.round(parentBoundingBox.top || 0),
+        width: Math.round(event.target.offsetWidth || 0),
+        height: Math.round(event.target.offsetHeight || 0)
+      };
+    } else {
+      parent = null;
+    }
+
+    return {
+      type,
+      anchor,
+      parent
+    };
+  },
+
+  /**
    * Lists message identifiers from target element
    * @public
    * @param  {object} element
