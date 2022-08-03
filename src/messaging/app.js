@@ -187,9 +187,13 @@ function App() {
     __handleContextMenuEvent(event) {
       event.preventDefault();
 
+      // List identifiers from target element
+      let identifiers = MessageHelper.listIdentifiersFromElement(event.target);
+
       // Emit message actions view event
+      // Notice: pick the first available identifier in the hierarchy
       $event._emit("message:actions:view", {
-        ids: MessageHelper.listIdentifiersFromElement(event.target),
+        id: identifiers[0] || null,
 
         origin: {
           x: event.clientX || 0,

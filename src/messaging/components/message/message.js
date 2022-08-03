@@ -119,7 +119,7 @@ function Message(message) {
       // Notice: if reaction was already set for local author, then active \
       //   should be toggled back to OFF.
       $event._emit("message:reactions:react", {
-        ids: [lineId],
+        id: lineId,
         reaction: reactionImage,
 
         active: $context.account.jid
@@ -138,7 +138,7 @@ function Message(message) {
     onActionMoreClick(event, lineId) {
       // Emit message actions view event
       $event._emit("message:actions:view", {
-        ids: [lineId],
+        id: lineId,
 
         origin: {
           x: event.clientX || 0,
@@ -157,7 +157,7 @@ function Message(message) {
     onActionReactionsClick(event, lineId) {
       // Emit message reactions view event
       $event._emit("message:reactions:view", {
-        ids: [lineId],
+        id: lineId,
 
         origin: {
           x: event.clientX || 0,
