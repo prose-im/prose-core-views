@@ -145,17 +145,36 @@
                 </span>
               </span>
 
-              <span class="message-actions">
+              <span
+                :class="[
+                  'message-actions',
+                  {
+                    'message-actions--locked': line.locks
+                  }
+                ]"
+              >
                 <span
                   @click="onActionReactionsClick($event, line.id)"
                   :title="$context.i18n._.actions.reactions"
-                  class="message-action message-action--reactions"
+                  :class="[
+                    'message-action',
+                    'message-action--reactions',
+                    {
+                      'message-action--active': (line.locks && line.locks.reactions === true)
+                    }
+                  ]"
                 ></span>
 
                 <span
                   @click="onActionMoreClick($event, line.id)"
                   :title="$context.i18n._.actions.more"
-                  class="message-action message-action--more"
+                  :class="[
+                    'message-action',
+                    'message-action--more',
+                    {
+                      'message-action--active': (line.locks && line.locks.actions === true)
+                    }
+                  ]"
                 ></span>
               </span>
             </p>

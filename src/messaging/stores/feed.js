@@ -20,6 +20,7 @@ const INJECT_MODE_APPEND = 0;
 const INJECT_MODE_PREPEND = 1;
 
 const HIGHLIGHT_TYPES = ["text"];
+const INTERACT_ACTIONS = ["reactions", "actions"];
 
 // STORES
 
@@ -269,7 +270,7 @@ function FeedStore() {
     },
 
     /**
-     * Highlight target message (used for editing)
+     * Highlights target message (used for editing)
      * @public
      * @param  {string}  [messageId]
      * @return {boolean} Message highlight status
@@ -316,6 +317,54 @@ function FeedStore() {
 
           return true;
         }
+      }
+
+      return false;
+    },
+
+    /**
+     * Interacts with a message action
+     * @public
+     * @param  {string}  messageId
+     * @param  {string}  action
+     * @param  {boolean} [isActive]
+     * @return {boolean} Message interact status
+     */
+    interact(messageId, action, isActive = true) {
+      // Provided action is not valid?
+      if (!action || INTERACT_ACTIONS.includes(action) === false) {
+        throw new Error(
+          `Action invalid, allowed values: ${INTERACT_ACTIONS.join(", ")}`
+        );
+      }
+
+      // Mark action as active or inactive for target message
+      let messageEntry = this._resolveEntry(messageId);
+      let messageLine = this.__resolveLine(messageId, messageEntry);
+
+      if (
+        messageEntry !== null &&
+        messageLine !== null &&
+        messageEntry.type === MessageHelper.ENTRY_TYPE_MESSAGE
+      ) {
+        // Set or unset lock?
+        if (isActive === true) {
+          messageLine.locks = messageLine.locks || {};
+
+          messageLine.locks[action] = true;
+        } else if (messageLine.locks !== undefined) {
+          delete messageLine.locks[action];
+
+          // Clear out locks storage? (nothing left)
+          if (Object.keys(messageLine.locks).length === 0) {
+            delete messageLine.locks;
+          }
+        }
+
+        // Bump updated date (used to signal view to re-render)
+        messageEntry.updatedAt = Date.now();
+
+        return true;
       }
 
       return false;
