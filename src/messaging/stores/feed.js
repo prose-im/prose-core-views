@@ -29,6 +29,11 @@ function FeedStore() {
     // --> DATA <--
 
     feed: reactive({
+      loaders: {
+        backwards: false,
+        forwards: false
+      },
+
       entries: []
     }),
 

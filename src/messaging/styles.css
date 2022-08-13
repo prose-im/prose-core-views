@@ -9,6 +9,7 @@
 @import "./components/separator/separator.css";
 @import "./components/message/message.css";
 @import "./components/entry/entry.css";
+@import "./components/loader/loader.css";
 
 /* SECTION: BODY */
 

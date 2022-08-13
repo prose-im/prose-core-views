@@ -14,6 +14,7 @@ import $event from "./stores/broker.js";
 import Avatar from "./components/avatar/avatar.js";
 import Separator from "./components/separator/separator.js";
 import Entry from "./components/entry/entry.js";
+import Loader from "./components/loader/loader.js";
 import {
   Message,
   MessageLineText,
@@ -213,6 +214,7 @@ createApp({
   App,
   Avatar,
   Separator,
+  Loader,
   Entry,
   Message,
   MessageLineText,

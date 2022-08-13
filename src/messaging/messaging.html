@@ -38,6 +38,12 @@
     <!-- CONTENT -->
 
     <div
+      class="loader loader--backwards"
+      v-scope="Loader()"
+      v-if="$store.feed.loaders.backwards"
+    ></div>
+
+    <div
       class="entry"
       v-for="entry in $store.feed.entries"
       v-scope="Entry(entry)"
@@ -190,6 +196,12 @@
         <span class="separator-label">{{ label }}</span>
       </div>
     </div>
+
+    <div
+      class="loader loader--forwards"
+      v-scope="Loader()"
+      v-if="$store.feed.loaders.forwards"
+    ></div>
 
     <!-- TEMPLATES -->
 

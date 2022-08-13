@@ -1,0 +1,50 @@
+/*
+ * prose-core-views
+ *
+ * Copyright: 2022, Valerian Saliou <valerian@valeriansaliou.name>
+ * License: Mozilla Public License v2.0 (MPL v2.0)
+ */
+
+/* SECTION: LOADER */
+
+.loader {
+  display: flex;
+  justify-content: center;
+}
+
+.loader::after {
+  content: "";
+  border: 2px solid var(--color-grey-medium-lighter);
+  border-top-color: var(--color-black-default);
+  width: var(--loader-spinner-size);
+  height: var(--loader-spinner-size);
+  box-sizing: border-box;
+  border-radius: 100%;
+  animation: loader-spin 900ms linear infinite;
+}
+
+.loader.loader--backwards {
+  margin-top: var(--loader-spinner-margin-top);
+  margin-bottom: var(--loader-spinner-margin-bottom);
+}
+
+.loader.loader--forwards {
+  margin-top: var(--loader-spinner-margin-bottom);
+  margin-bottom: var(--loader-spinner-margin-top);
+}
+
+/* VARIABLES */
+
+.loader {
+  --loader-spinner-size: 18px;
+  --loader-spinner-margin-top: 5px;
+  --loader-spinner-margin-bottom: 20px;
+}
+
+/* KEYFRAMES */
+
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
