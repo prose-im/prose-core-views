@@ -26,6 +26,8 @@ import MessageHelper from "./helpers/message.js";
 
 const NEXT_DAY_CHANGE_BUFFER_TIME = 5 * 1000; // 5 seconds
 
+const SCROLL_ACTIVE_AREA_OFFSET = 140; // 140 pixels
+
 // COMPONENTS
 
 function App() {
@@ -36,6 +38,12 @@ function App() {
     dayChangeCount: 0,
 
     __dayChangeTimer: null,
+    __scrollLastPosition: 0,
+
+    __scrollActiveAreas: {
+      backwards: false,
+      forwards: false
+    },
 
     // --> METHODS <--
 
@@ -94,6 +102,9 @@ function App() {
      * @return {undefined}
      */
     __bindGlobalEvents() {
+      // Bind scroll event
+      this.__bindScrollEvent();
+
       // Bind context menu event
       this.__bindContextMenuEvent();
     },
@@ -104,6 +115,9 @@ function App() {
      * @return {undefined}
      */
     __unbindGlobalEvents() {
+      // Unbind scroll event
+      this.__unbindScrollEvent();
+
       // Unbind context menu event
       this.__unbindContextMenuEvent();
     },
@@ -159,12 +173,30 @@ function App() {
     },
 
     /**
+     * Binds scroll event
+     * @private
+     * @return {undefined}
+     */
+    __bindScrollEvent() {
+      document.addEventListener("scroll", this.__handleScrollEvent);
+    },
+
+    /**
      * Binds context menu event
      * @private
      * @return {undefined}
      */
     __bindContextMenuEvent() {
       document.addEventListener("contextmenu", this.__handleContextMenuEvent);
+    },
+
+    /**
+     * Unbinds scroll event
+     * @private
+     * @return {undefined}
+     */
+    __unbindScrollEvent() {
+      document.removeEventListener("scroll", this.__handleScrollEvent);
     },
 
     /**
@@ -177,6 +209,53 @@ function App() {
         "contextmenu",
         this.__handleContextMenuEvent
       );
+    },
+
+    /**
+     * Handles scroll event
+     * @private
+     * @param  {object} event
+     * @return {undefined}
+     */
+    __handleScrollEvent(event) {
+      let scrollBox = document.documentElement,
+        scrollDifference = scrollBox.scrollTop - this.__scrollLastPosition;
+
+      // Acquire previous active backwards and active forwards values
+      let previousActive = {
+        backwards: this.__scrollActiveAreas.backwards,
+        forwards: this.__scrollActiveAreas.forwards
+      };
+
+      // Update backwards active area state
+      this.__scrollActiveAreas.backwards =
+        scrollBox.scrollTop <= SCROLL_ACTIVE_AREA_OFFSET;
+
+      // Update forwards active area state
+      this.__scrollActiveAreas.forwards =
+        scrollBox.clientHeight + scrollBox.scrollTop >=
+        scrollBox.scrollHeight - SCROLL_ACTIVE_AREA_OFFSET;
+
+      // Update last scroll position
+      this.__scrollLastPosition = scrollBox.scrollTop;
+
+      // Entered active area? Dispatch event.
+      let emitEvents = {
+        backwards: scrollDifference < 0,
+        forwards: scrollDifference > 0
+      };
+
+      for (let direction in previousActive) {
+        if (
+          this.__scrollActiveAreas[direction] === true &&
+          previousActive[direction] !== this.__scrollActiveAreas[direction] &&
+          emitEvents[direction] === true
+        ) {
+          $event._emit("message:history:seek", {
+            direction
+          });
+        }
+      }
     },
 
     /**
