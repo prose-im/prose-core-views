@@ -71,10 +71,11 @@ The messaging view exposes a programmatic API that lets applications manipulate 
 - Restore one or multiple past messages in the store (ie. prepend): `MessagingStore.restore(...messages<object>)<boolean>`
 - Insert one or multiple messages in the store (ie. append): `MessagingStore.insert(...messages<object>)<boolean>`
 - Update a message in the store: `MessagingStore.update(messageId<string>, messageDiff<object>)<boolean>`
-- Highlight a message in the store: `MessagingStore.highlight(messageId<string>)<boolean>`
-- Interacts with a message action: `MessagingStore.interact(messageId<string>, action<string>, isActive<boolean>)<boolean>`
 - Pull out a message from the store: `MessagingStore.retract(messageId<string>)<boolean>`
 - Flush all content from the store: `MessagingStore.flush()<boolean>`
+- Highlight a message in the store: `MessagingStore.highlight(messageId<string>)<boolean>`
+- Interact with a message action: `MessagingStore.interact(messageId<string>, action<string>, isActive<boolean>)<boolean>`
+- Toggle `backwards` or `forwards` loader in the store: `MessagingStore.loader(type<string>, isVisible<boolean>)<boolean>`
 
 All inserted message objects are required to hold the following keys: `id`, `type`, `date`, `content` and `from` (with at least `from.jid` set). When updating an existing message, only modified keys need to be passed.
 

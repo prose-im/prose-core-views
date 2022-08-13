@@ -376,6 +376,34 @@ function FeedStore() {
     },
 
     /**
+     * Toggles the visibility of a loader
+     * @public
+     * @param  {string}  type
+     * @param  {boolean} [isVisible]
+     * @return {boolean} New visibility state
+     */
+    loader(type, isVisible = null) {
+      // Provided loader type is not valid?
+      if (this.feed.loaders[type] === undefined) {
+        throw new Error(
+          `Loader type invalid, allowed values: ${Object.keys(
+            this.feed.loaders
+          ).join(", ")}`
+        );
+      }
+
+      // Compute new visibility?
+      if (isVisible === null) {
+        isVisible = this.feed.loaders[type] === true ? false : true;
+      }
+
+      // Update loader visibility
+      this.feed.loaders[type] = isVisible;
+
+      return isVisible;
+    },
+
+    /**
      * Acquires full parent entry from the store
      * @protected
      * @param  {string} [messageId]
