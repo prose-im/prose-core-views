@@ -214,10 +214,9 @@ function App() {
     /**
      * Handles scroll event
      * @private
-     * @param  {object} event
      * @return {undefined}
      */
-    __handleScrollEvent(event) {
+    __handleScrollEvent() {
       let scrollBox = document.documentElement,
         scrollDifference = scrollBox.scrollTop - this.__scrollLastPosition;
 
