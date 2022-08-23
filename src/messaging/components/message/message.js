@@ -170,6 +170,7 @@ function MessageLineText(content) {
     // --> DATA <--
 
     html: null,
+    edited: (content.properties || {}).edited || false,
 
     // --> METHODS <--
 

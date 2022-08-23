@@ -253,6 +253,15 @@
   text-decoration: underline;
 }
 
+.message-text-flag {
+  color: var(--color-grey-medium-darker);
+  font-size: 0.95em;
+  text-transform: lowercase;
+  user-select: none;
+  cursor: default;
+  margin-left: 2px;
+}
+
 .message-file-inner {
   line-height: 0;
   display: block;

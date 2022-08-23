@@ -17,7 +17,8 @@
   },
 
   "attributes": {
-    "insecure": "Nicht verschlüsselt"
+    "insecure": "Nicht verschlüsselt",
+    "edited": "Bearbeitet"
   },
 
   "actions": {

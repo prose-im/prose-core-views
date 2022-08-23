@@ -17,7 +17,8 @@
   },
 
   "attributes": {
-    "insecure": "Not encrypted"
+    "insecure": "Not encrypted",
+    "edited": "Edited"
   },
 
   "actions": {

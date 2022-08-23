@@ -207,6 +207,10 @@
 
     <template id="template-message-line-text">
       <span v-if="html" v-html="html" class="message-text-inner"></span>
+
+      <span v-if="edited" class="message-text-flag">
+        ({{ $context.i18n._.attributes.edited }})
+      </span>
     </template>
 
     <template id="template-message-line-file">

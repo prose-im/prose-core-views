@@ -17,7 +17,8 @@
   },
 
   "attributes": {
-    "insecure": "Non chiffré"
+    "insecure": "Non chiffré",
+    "edited": "Édité"
   },
 
   "actions": {
