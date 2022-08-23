@@ -89,7 +89,8 @@ All inserted message objects are required to hold the following keys: `id`, `typ
   "content": "Hello! This is a text message.",
 
   "metas": {
-    "encrypted": true
+    "encrypted": true,
+    "edited": false
   },
 
   "reactions": [
@@ -132,7 +133,8 @@ All inserted message objects are required to hold the following keys: `id`, `typ
   },
 
   "metas": {
-    "encrypted": false
+    "encrypted": false,
+    "edited": false
   },
 
   "reactions": [],
