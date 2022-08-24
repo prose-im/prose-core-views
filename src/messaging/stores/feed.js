@@ -409,36 +409,58 @@ function FeedStore() {
      * @public
      * @param  {string}  jid
      * @param  {object}  [identity]
-     * @return {boolean} User identify status
+     * @return {boolean} User identify change status
      */
     identify(jid, identity = null) {
-      let doExist = this.feed.identities[jid] !== undefined;
+      let storeIdentity = this.feed.identities[jid],
+        doExist = storeIdentity !== undefined,
+        hasChanged = false;
 
       // Clear any existing identity?
       if (identity === null) {
         if (doExist === true) {
           delete this.feed.identities[jid];
+
+          hasChanged = true;
         }
-
-        // Only return 'true' state if deleted
-        return doExist;
-      }
-
-      // Set or update identity
-      // Important: if setting, retain JID in the identity object as well, as \
-      //   a convenience way for store consumers to use an identity by \
-      //   reference w/ all the keys that they require pre-populated, without \
-      //   re-building the identity object and copying nested values.
-      if (doExist === true) {
-        Object.assign(this.feed.identities[jid], identity);
       } else {
-        this.feed.identities[jid] = {
-          ...identity,
-          jid
-        };
+        // Set or update identity
+        // Important: if setting, retain JID in the identity object as well, \
+        //   as a convenience way for store consumers to use an identity by \
+        //   reference w/ all the keys that they require pre-populated, \
+        //   without re-building the identity object and copying nested values.
+        if (doExist === true) {
+          // Mark as has changed?
+          if (
+            (identity.name && storeIdentity.name !== identity.name) ||
+            (identity.avatar && storeIdentity.avatar !== identity.avatar)
+          ) {
+            hasChanged = true;
+          }
+
+          Object.assign(storeIdentity, identity);
+        } else {
+          this.feed.identities[jid] = {
+            ...identity,
+            jid
+          };
+
+          hasChanged = true;
+        }
       }
 
-      return true;
+      // Force a refresh of messages in the view? (as to update shown identity)
+      if (hasChanged === true) {
+        let nowDate = Date.now();
+
+        this.feed.entries.forEach(entry => {
+          if (entry.jid === jid) {
+            entry.updatedAt = nowDate;
+          }
+        });
+      }
+
+      return hasChanged;
     },
 
     /**
