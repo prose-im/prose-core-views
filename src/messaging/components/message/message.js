@@ -10,6 +10,7 @@
 import { htmlEscape as _e } from "escape-goat";
 import linkifyHtml from "linkify-html";
 import DateHelper from "../../helpers/date.js";
+import $store from "../../stores/feed.js";
 import $context from "../../stores/option.js";
 import $event from "../../stores/broker.js";
 import MessageHelper from "../../helpers/message.js";
@@ -46,7 +47,7 @@ function Message(message) {
     // --> DATA <--
 
     content: message.content,
-    user: message.user,
+    user: null,
     date: null,
     attributes: null,
 
@@ -58,11 +59,37 @@ function Message(message) {
      * @return {undefined}
      */
     mounted() {
+      // Acquire message user identity
+      this.user = this.__acquireUserIdentity(message.jid);
+
       // Generate message date text
       this.date = this.__generateDate(message.date);
 
       // Generate message attributes
       this.attributes = this.__generateAttributes(message.content);
+    },
+
+    /**
+     * Acquires message user identity (by reference at best)
+     * @private
+     * @param  {string} jid
+     * @return {object} Message user identity
+     */
+    __acquireUserIdentity(jid) {
+      let userIdentity = $store.feed.identities[jid] || null;
+
+      // Any identity available in store? Use that one.
+      // Notice: this returns a direct reference to the store, meaning that we \
+      //   do not have to make a local copy of eg. a potentially heavy avatar \
+      //   data URL at every component instance mount.
+      if (userIdentity !== null) {
+        return userIdentity;
+      }
+
+      // Generate default local identity (as a fallback)
+      return {
+        jid
+      };
     },
 
     /**

@@ -34,6 +34,7 @@ function FeedStore() {
         forwards: false
       },
 
+      identities: {},
       entries: []
     }),
 
@@ -171,8 +172,8 @@ function FeedStore() {
         }
 
         // Update message user in store? (if any set)
-        if (storeMessageDiff.user) {
-          Object.assign(parentEntry.user, storeMessageDiff.user);
+        if (storeMessageDiff.jid) {
+          parentEntry.jid = storeMessageDiff.jid;
         }
 
         // Bump updated date (used to signal view to re-render)
@@ -404,6 +405,43 @@ function FeedStore() {
     },
 
     /**
+     * Identifies target user JID with profile data
+     * @public
+     * @param  {string}  jid
+     * @param  {object}  [identity]
+     * @return {boolean} User identify status
+     */
+    identify(jid, identity = null) {
+      let doExist = this.feed.identities[jid] !== undefined;
+
+      // Clear any existing identity?
+      if (identity === null) {
+        if (doExist === true) {
+          delete this.feed.identities[jid];
+        }
+
+        // Only return 'true' state if deleted
+        return doExist;
+      }
+
+      // Set or update identity
+      // Important: if setting, retain JID in the identity object as well, as \
+      //   a convenience way for store consumers to use an identity by \
+      //   reference w/ all the keys that they require pre-populated, without \
+      //   re-building the identity object and copying nested values.
+      if (doExist === true) {
+        Object.assign(this.feed.identities[jid], identity);
+      } else {
+        this.feed.identities[jid] = {
+          ...identity,
+          jid
+        };
+      }
+
+      return true;
+    },
+
+    /**
      * Acquires full parent entry from the store
      * @protected
      * @param  {string} [messageId]
@@ -458,8 +496,7 @@ function FeedStore() {
         !message.type ||
         !message.date ||
         !message.content ||
-        !message.from ||
-        !message.from.jid
+        !message.from
       ) {
         throw new Error("Message to insert is incomplete (missing attribute)");
       }
@@ -534,7 +571,7 @@ function FeedStore() {
       if (
         nestedMessage &&
         nestedMessage.type === MessageHelper.ENTRY_TYPE_MESSAGE &&
-        nestedMessage.user.jid === storeMessage.user.jid &&
+        nestedMessage.jid === storeMessage.jid &&
         DateHelper.areWithinElapsedTime(
           nestedMessage.date,
           storeMessage.date,

@@ -51,14 +51,7 @@ const MessageHelper = {
 
     // Apply user? (if any)
     if (message.from) {
-      // Validate user data
-      if (!message.from.jid) {
-        throw new Error(
-          "Message model JID is not set on user (required if 'from' is set)"
-        );
-      }
-
-      messageModel.user = message.from;
+      messageModel.jid = message.from;
     }
 
     // Parse message date? (if any)

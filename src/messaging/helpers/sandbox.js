@@ -29,6 +29,11 @@ const SandboxHelper = {
       // Configure account data
       context.setAccountJID(fixtures.account.jid);
 
+      // Identify users
+      for (let jid in fixtures.identities) {
+        store.identify(jid, fixtures.identities[jid]);
+      }
+
       // Insert all messages
       fixtures.messages.forEach((fixtureEntry, index) => {
         // Insert each message sequentially, with a delay

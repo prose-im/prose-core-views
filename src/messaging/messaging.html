@@ -58,6 +58,7 @@
       >
         <span
           class="message-avatar avatar"
+          v-if="user"
           v-scope="Avatar(user)"
           @vue:mounted="mounted"
         >
@@ -81,7 +82,7 @@
         </span>
 
         <div class="message-inner" @vue:mounted="mounted">
-          <div class="message-origin">
+          <div v-if="user" class="message-origin">
             <span class="message-origin-name">{{ user.name || user.jid }}</span>
             <span v-if="date" class="message-origin-date">{{ date }}</span>
 

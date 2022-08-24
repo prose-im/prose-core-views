@@ -18,11 +18,11 @@
 }
 
 .message-avatar {
+  margin-right: 12px;
   flex: 0 0 auto;
 }
 
 .message-inner {
-  margin-left: 12px;
   overflow: hidden;
   flex: 1;
 }

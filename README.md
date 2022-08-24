@@ -76,8 +76,9 @@ The messaging view exposes a programmatic API that lets applications manipulate 
 - Highlight a message in the store: `MessagingStore.highlight(messageId<string>)<boolean>`
 - Interact with a message action: `MessagingStore.interact(messageId<string>, action<string>, isActive<boolean>)<boolean>`
 - Toggle `backwards` or `forwards` loader in the store: `MessagingStore.loader(type<string>, isVisible<boolean>)<boolean>`
+- Identify a JID with its `name` and `avatar`: `MessagingStore.identify(jid<string>, identity<object>)<boolean>`
 
-All inserted message objects are required to hold the following keys: `id`, `type`, `date`, `content` and `from` (with at least `from.jid` set). When updating an existing message, only modified keys need to be passed.
+All inserted message objects are required to hold the following keys: `id`, `type`, `date`, `content` and `from`. When updating an existing message, only modified keys need to be passed.
 
 **Text messages are formatted as such:**
 
@@ -86,6 +87,7 @@ All inserted message objects are required to hold the following keys: `id`, `typ
   "id": "b4d303b1-17c9-4863-81b7-bc5281f3590f",
   "type": "text",
   "date": "2021-12-20T19:15:03.000Z",
+  "from": "john.doe@acme.inc",
   "content": "Hello! This is a text message.",
 
   "metas": {
@@ -103,13 +105,7 @@ All inserted message objects are required to hold the following keys: `id`, `typ
       "reaction": "👋",
       "authors": ["jane.doe@acme.inc"]
     }
-  ],
-
-  "from": {
-    "jid": "john.doe@acme.inc",
-    "name": "John Doe",
-    "avatar": "data:image/jpeg;base64,(...)"
-  }
+  ]
 }
 ```
 
@@ -120,6 +116,7 @@ All inserted message objects are required to hold the following keys: `id`, `typ
   "id": "07b4af91-c5f4-45be-98f4-77f554c042c8",
   "type": "file",
   "date": "2021-12-21T09:04:01.000Z",
+  "from": "valerian@prose.org",
 
   "content": {
     "name": "crisp-keep-calm.jpg",
@@ -137,13 +134,7 @@ All inserted message objects are required to hold the following keys: `id`, `typ
     "edited": false
   },
 
-  "reactions": [],
-
-  "from": {
-    "jid": "valerian@prose.org",
-    "name": "Valerian",
-    "avatar": "data:image/jpeg;base64,(...)"
-  }
+  "reactions": []
 }
 ```
 
