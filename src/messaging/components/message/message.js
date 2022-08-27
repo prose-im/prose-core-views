@@ -9,6 +9,7 @@
 
 import { htmlEscape as _e } from "escape-goat";
 import linkifyHtml from "linkify-html";
+import snarkdown from "snarkdown";
 import DateHelper from "../../helpers/date.js";
 import $store from "../../stores/feed.js";
 import $context from "../../stores/option.js";
@@ -34,8 +35,7 @@ const PRESENTATION_MIME_TYPES = {
 
 const TEXT_LINKIFY_OPTIONS = {
   defaultProtocol: "https",
-  target: "_blank",
-  rel: "noopener",
+  target: "_self",
   nl2br: false,
   truncate: TEXT_LINKS_TRUNCATE_SIZE
 };
@@ -219,9 +219,15 @@ function MessageLineText(content) {
      */
     __generateHTML(content) {
       // Important: escape text, as it will be injected as-is to the DOM.
-      let safeText = _e(content.text);
+      let htmlContent = _e(content.text);
 
-      return linkifyHtml(safeText, TEXT_LINKIFY_OPTIONS);
+      // Parse Markdown into HTML
+      htmlContent = snarkdown(htmlContent);
+
+      // Transform links into HTML
+      htmlContent = linkifyHtml(htmlContent, TEXT_LINKIFY_OPTIONS);
+
+      return htmlContent;
     }
   };
 }

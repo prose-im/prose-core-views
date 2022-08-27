@@ -253,6 +253,12 @@
   text-decoration: underline;
 }
 
+.message-text-inner ul,
+.message-text-inner ol {
+  margin: 6px 0;
+  padding-left: 24px;
+}
+
 .message-text-flag {
   color: var(--color-grey-medium-darker);
   font-size: 0.95em;

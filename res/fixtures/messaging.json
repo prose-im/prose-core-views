@@ -71,7 +71,7 @@
       "type": "text",
       "date": "2022-06-26T09:03:07.832Z",
       "from": "baptiste@prose.org",
-      "content": "They forgot to ship the package. But that is no problem, I will go pick it up this afternoon!",
+      "content": "They forgot to ship the ~~box~~ package. But _that_ is **no problem**, I will go pick it up this afternoon! In the meantime, can you check for me:\n* The tracking number\n* Its current location",
 
       "metas": {
         "encrypted": false,
@@ -114,7 +114,7 @@
       "type": "text",
       "date": "2022-06-27T09:05:01.000Z",
       "from": "baptiste@prose.org",
-      "content": "Haha yes! I'll keep calm for sure.\n\nIn the meantime, and before I forget, you asked me for some brand assets. Here they are, but you can also find them at: https://crisp.chat/en/ or crisp.chat and even email them at: contact@crisp.chat",
+      "content": "Haha yes! I'll keep calm for sure.\n\nIn the meantime, and before I forget, you asked me for some brand assets. Here they are, but you can also find them at: [Crisp website](https://crisp.chat/), https://crisp.chat/en/ or crisp.chat and even email them at: contact@crisp.chat",
 
       "metas": {
         "encrypted": false,
