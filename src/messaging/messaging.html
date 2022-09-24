@@ -50,12 +50,7 @@
       v-once
       :key="dayChangeCount + '/' + $context.i18n.code + '/' + entry.id + '@' + (entry.updatedAt || 0)"
     >
-      <div
-        class="message"
-        v-if="message"
-        v-scope="Message(message)"
-        :data-entry-id="entry.id"
-      >
+      <div class="message" v-if="message" v-scope="Message(message)">
         <span
           class="message-avatar avatar"
           v-if="user"
