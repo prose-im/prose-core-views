@@ -8,7 +8,6 @@
 // IMPORTS
 
 import { reactive, nextTick } from "petite-vue";
-import $store from "../stores/feed.js";
 
 // CONSTANTS
 
