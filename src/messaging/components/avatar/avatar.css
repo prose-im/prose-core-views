@@ -28,6 +28,11 @@
   text-align: center;
 }
 
+.avatar-image.avatar-image--ghost {
+  visibility: hidden;
+  height: 0;
+}
+
 .avatar-initials {
   color: var(--color-white-default);
   font-weight: 600;
