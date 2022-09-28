@@ -13,6 +13,10 @@
   display: flex;
 }
 
+.message:hover {
+  background-color: var(--color-grey-light);
+}
+
 .message-avatar {
   margin-right: calc(5px + var(--message-inner-padding-sides));
   flex: 0 0 auto;
@@ -98,7 +102,7 @@
 }
 
 .message-content-line:hover {
-  background-color: var(--color-grey-light);
+  background-color: var(--color-grey-light-darker);
 }
 
 .message-content-line:hover .message-actions,

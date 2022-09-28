@@ -8,6 +8,7 @@
 // IMPORTS
 
 import { reactive, nextTick } from "petite-vue";
+import $store from "../stores/feed.js";
 
 // CONSTANTS
 
@@ -244,7 +245,24 @@ const MessageHelper = {
       }
     }
 
-    // #2. Fallback to no identifiers (default)
+    // #2. Attempt to acquire all message identifiers from parent entry
+    let entryElement = element.closest("[data-entry-id]") || null;
+
+    if (entryElement !== null) {
+      let entryIdentifier = entryElement.getAttribute("data-entry-id") || null;
+
+      if (entryIdentifier !== null) {
+        let entry = $store._resolveEntry(null, entryIdentifier);
+
+        if (entry !== null) {
+          return (entry.content || []).map(line => {
+            return line.id;
+          });
+        }
+      }
+    }
+
+    // #3. Fallback to no identifiers (default)
     return [];
   },
 
