@@ -26,6 +26,9 @@
     "email": "contact@prose.org",
     "url": "https://prose.org/"
   },
+  "files": [
+    "dist/"
+  ],
   "source": [
     "src/messaging/messaging.html"
   ],
