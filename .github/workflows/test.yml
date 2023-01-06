@@ -14,7 +14,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-          registry-url: https://registry.npmjs.org
 
       - name: Verify versions
         run: node --version && npm --version && node -p process.versions.v8
