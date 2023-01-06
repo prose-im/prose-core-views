@@ -1,6 +1,6 @@
 # prose-core-views
 
-[![Test and Build](https://github.com/prose-im/prose-core-views/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/prose-im/prose-core-views/actions/workflows/test.yml) [![Build and Release](https://github.com/prose-im/prose-core-views/actions/workflows/build.yml/badge.svg)](https://github.com/prose-im/prose-core-views/actions/workflows/build.yml)
+[![Test and Build](https://github.com/prose-im/prose-core-views/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/prose-im/prose-core-views/actions/workflows/test.yml) [![Build and Release](https://github.com/prose-im/prose-core-views/actions/workflows/build.yml/badge.svg)](https://github.com/prose-im/prose-core-views/actions/workflows/build.yml) [![NPM](https://img.shields.io/npm/v/@prose-im/prose-core-views.svg)](https://www.npmjs.com/package/@prose-im/prose-core-views)
 
 **Prose core views. Shared messaging views across all platforms.**
 
@@ -28,6 +28,12 @@ Then, hit:
 
 ```
 npm install
+```
+
+A pre-built package is also available:
+
+```
+npm add @prose-im/prose-core-views
 ```
 
 ## Build
