@@ -127,7 +127,7 @@ All inserted message objects are required to hold the following keys: `id`, `typ
   "content": {
     "name": "crisp-keep-calm.jpg",
     "type": "image/jpeg",
-    "url": "https://crisp.chat/blog/content/images/2021/03/12---3-Simple-Actions-to-Tackle-Email-Overload.jpg",
+    "url": "https://crisp.chat/static/blog/content/images/size/w600/2021/03/12---3-Simple-Actions-to-Tackle-Email-Overload.jpg",
 
     "size": {
       "width": 1920,
@@ -153,12 +153,14 @@ As soon as the view is available, the following methods can be called:
 **Option getters:**
 
 - Get interface language: `MessagingContext.getLanguage()<string>`
+- Get style platform: `MessagingContext.getStylePlatform()<string>`
 - Get style theme: `MessagingContext.getStyleTheme()<string>`
 - Get account JID: `MessagingContext.getAccountJID()<string>`
 
 **Option setters:**
 
 - Set interface language: `MessagingContext.setLanguage(code<string>)<undefined>` (where `code` is supported locale code)
+- Set style platform: `MessagingContext.setStylePlatform(platform<string>)<undefined>` (where `platform` is any of: `web`, `macos`)
 - Set style theme: `MessagingContext.setStyleTheme(theme<string>)<undefined>` (where `theme` is any of: `light`, `dark`)
 - Set account JID: `MessagingContext.setAccountJID(jid<string>)<undefined>` (where `jid` is a valid Jabber IDentifier)
 

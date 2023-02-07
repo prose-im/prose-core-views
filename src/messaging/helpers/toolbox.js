@@ -21,6 +21,7 @@ const ToolboxHelper = {
   LANGUAGE_DEFAULT: "en",
   LANGUAGE_VALUES: new Set(Object.keys(LanguageData)),
 
+  PLATFORM_VALUES: new Set(["web", "macos"]),
   APPEARANCE_VALUES: new Set(["light", "dark"]),
 
   // METHODS

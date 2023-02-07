@@ -13,6 +13,7 @@ import ToolboxHelper from "../helpers/toolbox.js";
 // CONSTANTS
 
 const DETECTED_USER_LANGUAGE = ToolboxHelper.detectLanguagePreference();
+const DEFAULT_USER_PLATFORM = "unknown";
 
 // STORES
 
@@ -26,6 +27,7 @@ function OptionStore() {
     }),
 
     style: reactive({
+      platform: DEFAULT_USER_PLATFORM,
       theme: ToolboxHelper.detectAppearancePreference()
     }),
 
@@ -42,6 +44,15 @@ function OptionStore() {
      */
     getLanguage() {
       return this.i18n.code;
+    },
+
+    /**
+     * Gets style platform
+     * @public
+     * @return {string} Style platform name
+     */
+    getStylePlatform() {
+      return this.style.platform;
     },
 
     /**
@@ -79,6 +90,24 @@ function OptionStore() {
 
       this.i18n.code = code;
       this.i18n._ = ToolboxHelper.acquireLanguageData(code);
+    },
+
+    /**
+     * Sets style platform
+     * @public
+     * @param  {string} platform
+     * @return {undefined}
+     */
+    setStylePlatform(platform) {
+      // Platform is not supported?
+      if (!platform || ToolboxHelper.PLATFORM_VALUES.has(platform) === false) {
+        throw new Error(
+          `Style platform invalid, allowed values: ` +
+            `${Array.from(ToolboxHelper.PLATFORM_VALUES.values()).join(", ")}`
+        );
+      }
+
+      this.style.platform = platform;
     },
 
     /**

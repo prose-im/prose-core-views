@@ -69,6 +69,7 @@ const SandboxHelper = {
    */
   configureContext: function (context) {
     context.setLanguage("en");
+    context.setStylePlatform("macos");
     context.setStyleTheme("light");
   }
 };

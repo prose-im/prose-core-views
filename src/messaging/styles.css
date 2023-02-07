@@ -11,10 +11,29 @@
 @import "./components/entry/entry.css";
 @import "./components/loader/loader.css";
 
+/* FONT FACES */
+
+@font-face {
+  font-weight: 500;
+  font-family: "Prose Outfit";
+  src: url("./assets/fonts/outfit/outfit_regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-weight: 600;
+  font-family: "Prose Outfit";
+  src: url("./assets/fonts/outfit/outfit_medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-weight: 700;
+  font-family: "Prose Outfit";
+  src: url("./assets/fonts/outfit/outfit_semibold.woff2") format("woff2");
+}
+
 /* SECTION: BODY */
 
 body {
-  font-family: sans-serif;
   user-select: none;
   margin: 0;
   padding: 12px 0;
@@ -31,10 +50,17 @@ a {
 
 #app {
   background-color: var(--color-white-default);
+  font-family: sans-serif;
+  font-size: 13px;
 }
 
 #app.app--visible {
   visibility: visible;
+}
+
+#app.app--platform-web {
+  font-family: "Prose Outfit";
+  font-size: 13.5px;
 }
 
 /* VARIABLES */

@@ -36,7 +36,7 @@
 .avatar-initials {
   color: var(--color-white-default);
   font-weight: 600;
-  font-size: 15px;
+  font-size: 1.15em;
   letter-spacing: 0.25px;
 }
 

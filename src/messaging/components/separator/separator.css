@@ -25,9 +25,9 @@
 
 .separator-label {
   color: var(--color-black-medium);
-  font-size: 11px;
+  font-size: 0.85em;
   font-weight: 600;
-  line-height: 18px;
+  line-height: 1.38em;
   letter-spacing: 0;
   opacity: 0.9;
   margin: 0 16px;
