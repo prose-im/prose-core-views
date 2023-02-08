@@ -136,7 +136,7 @@
               <span v-if="line.reactions" class="message-reactions">
                 <span
                   v-for="reactionData in line.reactions"
-                  @click="onReactionClick(line.id, reactionData.reaction, reactionData.authors)"
+                  @click.stop="onReactionClick(line.id, reactionData.reaction, reactionData.authors)"
                   :key="'reaction/' + reactionData.reaction"
                   :class="[
                     'message-reaction',
@@ -166,7 +166,7 @@
             ]"
           >
             <span
-              @click="onActionReactionsClick($event, line.id)"
+              @click.stop="onActionReactionsClick($event, line.id)"
               :title="$context.i18n._.actions.reactions"
               :class="[
                 'message-action',
@@ -178,7 +178,7 @@
             ></span>
 
             <span
-              @click="onActionMoreClick($event, line.id)"
+              @click.stop="onActionMoreClick($event, line.id)"
               :title="$context.i18n._.actions.more"
               :class="[
                 'message-action',
