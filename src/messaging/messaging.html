@@ -28,7 +28,7 @@
     @vue:mounted="mounted"
     @vue:unmounted="unmounted"
     :class="[
-      'app--' + $context.style.theme,
+      'app--theme-' + $context.style.theme,
       'app--platform-' + $context.style.platform,
       {
         'app--visible': isReady
