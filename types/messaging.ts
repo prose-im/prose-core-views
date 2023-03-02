@@ -138,3 +138,7 @@ export interface EventMessageReactionsReact {
 export interface EventMessageHistorySeek {
   direction: SeekDirection;
 }
+
+// EXPORTS
+
+export default Messaging;
