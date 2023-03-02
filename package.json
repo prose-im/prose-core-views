@@ -53,8 +53,9 @@
     "dev": "rm -rf ./dist/* && parcel serve --target=development --port=5000 --host=localhost --no-autoinstall --watch-for-stdin",
     "build": "rm -rf ./dist/* && parcel build --target=production",
     "lint:js": "eslint --ext \".js\" --ignore-path .gitignore .",
+    "lint:ts": "tsc",
     "lint:prettier": "prettier --check .",
-    "lint": "npm run lint:js && npm run lint:prettier",
+    "lint": "npm run lint:js && npm run lint:ts && npm run lint:prettier",
     "test": "npm run lint"
   },
   "dependencies": {
@@ -68,6 +69,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.18.x",
     "@parcel/resolver-glob": "2.8.x",
+    "typescript": "4.9.x",
     "parcel": "2.8.x",
     "eslint": "8.4.x",
     "eslint-config-prettier": "8.3.x",
