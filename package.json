@@ -28,7 +28,8 @@
   },
   "files": [
     "dist/",
-    "types/"
+    "types/",
+    "tsconfig.json"
   ],
   "source": [
     "src/messaging/messaging.html"
