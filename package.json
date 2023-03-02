@@ -27,7 +27,8 @@
     "url": "https://prose.org/"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "types/"
   ],
   "source": [
     "src/messaging/messaging.html"
