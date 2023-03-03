@@ -37,13 +37,13 @@ export enum OriginType {
 
 // INTERFACES
 
-export interface Messaging extends Window {
+export declare interface Messaging extends Window {
   MessagingContext: MessagingContext;
   MessagingStore: MessagingStore;
   MessagingEvent: MessagingEvent;
 }
 
-export interface MessagingContext {
+export declare interface MessagingContext {
   getLanguage: () => string;
   getStylePlatform: () => Platform;
   getStyleTheme: () => Theme;
@@ -54,7 +54,7 @@ export interface MessagingContext {
   setAccountJID: (jid: string) => void;
 }
 
-export interface MessagingStore {
+export declare interface MessagingStore {
   exists: (messageId: string) => boolean;
   resolve: (messageId: string) => null | MessagingStoreMessageData;
   restore: (...messages: MessagingStoreMessageData[]) => boolean;
@@ -74,7 +74,7 @@ export interface MessagingStore {
   ) => boolean;
 }
 
-export interface MessagingStoreMessageData {
+export declare interface MessagingStoreMessageData {
   id?: string;
   type?: string;
   date?: string;
@@ -93,17 +93,17 @@ export interface MessagingStoreMessageData {
   }>;
 }
 
-export interface MessagingStoreIdentifyIdentity {
+export declare interface MessagingStoreIdentifyIdentity {
   name?: string;
   avatar?: string;
 }
 
-export interface MessagingEvent {
+export declare interface MessagingEvent {
   off: (namespace: string) => boolean;
   on: (namespace: string, handler: (event: any) => void) => boolean;
 }
 
-export interface EventMessageAnyOrigin {
+export declare interface EventMessageAnyOrigin {
   type: OriginType;
 
   anchor: {
@@ -119,23 +119,23 @@ export interface EventMessageAnyOrigin {
   };
 }
 
-export interface EventMessageActionsView {
+export declare interface EventMessageActionsView {
   id: string;
   origin: EventMessageAnyOrigin;
 }
 
-export interface EventMessageReactionsView {
+export declare interface EventMessageReactionsView {
   id: string;
   origin: EventMessageAnyOrigin;
 }
 
-export interface EventMessageReactionsReact {
+export declare interface EventMessageReactionsReact {
   id: string;
   reaction: string;
   active: boolean;
 }
 
-export interface EventMessageHistorySeek {
+export declare interface EventMessageHistorySeek {
   direction: SeekDirection;
 }
 
