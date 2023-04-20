@@ -64,13 +64,21 @@ function FeedStore() {
      * @return {object} Resolved message (if any)
      */
     resolve(messageId) {
-      let messageLine = this.__resolveLine(messageId);
+      let messageEntry = this._resolveEntry(messageId),
+        messageLine = this.__resolveLine(messageId);
 
       // Rebuild the returned parent entry object? (to a new safe object)
-      if (messageLine !== null) {
-        // Important: escape from the Proxy wrapper in the returned \
-        //   partial message object.
-        return { ...messageLine };
+      if (messageEntry !== null && messageLine !== null) {
+        // Important: perform a best-effort rebuild to the original insertion \
+        //   format. Optional insertion properties will not be rebuilt and \
+        //   returned there.
+        return {
+          id: messageLine.id,
+          type: messageLine.type,
+          date: messageEntry.date.toISOString(),
+          from: messageEntry.jid,
+          content: messageLine.text
+        };
       }
 
       return null;
@@ -307,8 +315,8 @@ function FeedStore() {
 
       // Highlight target message?
       if (messageId !== null) {
-        let messageEntry = this._resolveEntry(messageId);
-        let messageLine = this.__resolveLine(messageId, messageEntry);
+        let messageEntry = this._resolveEntry(messageId),
+          messageLine = this.__resolveLine(messageId, messageEntry);
 
         if (
           messageEntry !== null &&
@@ -345,8 +353,8 @@ function FeedStore() {
       }
 
       // Mark action as active or inactive for target message
-      let messageEntry = this._resolveEntry(messageId);
-      let messageLine = this.__resolveLine(messageId, messageEntry);
+      let messageEntry = this._resolveEntry(messageId),
+        messageLine = this.__resolveLine(messageId, messageEntry);
 
       if (
         messageEntry !== null &&
