@@ -101,3 +101,7 @@ a {
   --color-yellow-default: #a4a455;
   --color-yellow-light: #2b2b21;
 }
+
+#app.app--modifier-no-scroll {
+  overflow: hidden;
+}

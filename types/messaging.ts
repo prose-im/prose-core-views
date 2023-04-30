@@ -21,6 +21,11 @@ export enum Platform {
   macOS = "macos"
 }
 
+export enum Modifier {
+  // Scroll modifier.
+  Scroll = "scroll"
+}
+
 export enum SeekDirection {
   // History will load in backwards direction.
   Backwards = "backwards",
@@ -47,10 +52,12 @@ export declare interface MessagingContext {
   getLanguage: () => string;
   getStylePlatform: () => Platform;
   getStyleTheme: () => Theme;
+  getStyleModifier: () => Modifier;
   getAccountJID: () => string;
   setLanguage: (code: string) => void;
   setStylePlatform: (platform: Platform) => void;
   setStyleTheme: (theme: Theme) => void;
+  setStyleModifier: (name: Modifier, value: any) => void;
   setAccountJID: (jid: string) => void;
 }
 

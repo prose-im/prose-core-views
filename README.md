@@ -155,6 +155,7 @@ As soon as the view is available, the following methods can be called:
 - Get interface language: `MessagingContext.getLanguage()<string>`
 - Get style platform: `MessagingContext.getStylePlatform()<string>`
 - Get style theme: `MessagingContext.getStyleTheme()<string>`
+- Get style modifier: `MessagingContext.getStyleModifier()<object>`
 - Get account JID: `MessagingContext.getAccountJID()<string>`
 
 **Option setters:**
@@ -162,6 +163,7 @@ As soon as the view is available, the following methods can be called:
 - Set interface language: `MessagingContext.setLanguage(code<string>)<undefined>` (where `code` is supported locale code)
 - Set style platform: `MessagingContext.setStylePlatform(platform<string>)<undefined>` (where `platform` is any of: `web`, `macos`)
 - Set style theme: `MessagingContext.setStyleTheme(theme<string>)<undefined>` (where `theme` is any of: `light`, `dark`)
+- Set style modifier: `MessagingContext.setStyleModifier(name<string>, value<object>)<undefined>` (where `name` is any of: `scroll`)
 - Set account JID: `MessagingContext.setAccountJID(jid<string>)<undefined>` (where `jid` is a valid Jabber IDentifier)
 
 #### 3. Subscribing to messaging events

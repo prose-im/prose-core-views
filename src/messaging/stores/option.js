@@ -28,7 +28,11 @@ function OptionStore() {
 
     style: reactive({
       platform: DEFAULT_USER_PLATFORM,
-      theme: ToolboxHelper.detectAppearancePreference()
+      theme: ToolboxHelper.detectAppearancePreference(),
+
+      modifiers: {
+        scroll: true
+      }
     }),
 
     account: reactive({
@@ -62,6 +66,15 @@ function OptionStore() {
      */
     getStyleTheme() {
       return this.style.theme;
+    },
+
+    /**
+     * Gets style modifier
+     * @public
+     * @return {string} Style modifier value (if any)
+     */
+    getStyleModifier(name) {
+      return this.style.modifiers[name];
     },
 
     /**
@@ -126,6 +139,25 @@ function OptionStore() {
       }
 
       this.style.theme = theme;
+    },
+
+    /**
+     * Sets style modifier
+     * @public
+     * @param  {string} name
+     * @param  {string} value
+     * @return {undefined}
+     */
+    setStyleModifier(name, value) {
+      // Style modifier does not exist?
+      if (!(name in this.style.modifiers)) {
+        throw new Error(
+          `Style modifier does not exist, possible values: ` +
+            `${Object.keys(this.style.modifiers).join(", ")}`
+        );
+      }
+
+      this.style.modifiers[name] = value;
     },
 
     /**
