@@ -159,7 +159,18 @@ function FeedStore() {
         // Force message identifier on differential object
         // Notice: an identifier is required to generate the associated \
         //   content line within the updated entry.
-        messageDiff.id = messageId;
+        if (!messageDiff.id) {
+          messageDiff.id = messageId;
+        }
+
+        // Migrate message identifier in register? (if it was changed)
+        let shouldMigrateId = messageDiff.id !== messageId ? true : false;
+
+        if (shouldMigrateId === true) {
+          delete this.__registers.entryIdForLineId[messageId];
+
+          this.__registers.entryIdForLineId[messageDiff.id] = parentEntry.id;
+        }
 
         // Transform message differential into model message differential
         let storeMessageDiff = MessageHelper.transformIntoModel(
@@ -172,7 +183,12 @@ function FeedStore() {
           storeMessageDiff.content.forEach(lineDiff => {
             parentEntry.content.forEach(line => {
               // Line to update found in entry model? Update it.
-              if (line.id === lineDiff.id) {
+              // Notice: if identifier changed, then compare using provided \
+              //   message identifier.
+              if (
+                line.id === lineDiff.id ||
+                (shouldMigrateId === true && line.id === messageId)
+              ) {
                 Object.assign(line, lineDiff);
               }
             });
