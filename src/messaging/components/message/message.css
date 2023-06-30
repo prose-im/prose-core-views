@@ -173,13 +173,13 @@
     "Segoe UI Symbol", "Twemoji Mozilla", "Noto Color Emoji", "EmojiOne Color",
     sans-serif;
   font-size: 1em;
-  margin-top: -6px;
+  margin-top: -0.4em;
 }
 
 .message-reaction-count {
   color: var(--color-grey-dark);
   font-size: 0.8em;
-  margin-top: -3px;
+  margin-top: -0.55em;
   margin-left: 1px;
 }
 
