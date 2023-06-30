@@ -68,9 +68,9 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.18.x",
-    "@parcel/resolver-glob": "2.8.x",
+    "@parcel/resolver-glob": "2.9.x",
     "typescript": "4.9.x",
-    "parcel": "2.8.x",
+    "parcel": "2.9.x",
     "eslint": "8.4.x",
     "eslint-config-prettier": "8.3.x",
     "prettier": "2.5.x"
