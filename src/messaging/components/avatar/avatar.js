@@ -7,6 +7,8 @@
 
 // CONSTANTS
 
+const DEFAULT_INITIALS_NORMALIZE_REGEX = /\p{Diacritic}/gu;
+
 const DEFAULT_PALETTE_COLORS = [
   "df74c9",
   "05cd8f",
@@ -51,13 +53,30 @@ function Avatar(user) {
     mounted() {
       // Generate message avatar defaults (if needed)
       if (this.avatarUrl === null) {
-        this.defaultInitials = this.__generateDefaultInitials(
-          user.jid,
-          user.name
+        this.defaultInitials = this.__normalizeDefaultInitials(
+          this.__generateDefaultInitials(user.jid, user.name)
         );
 
         this.defaultPalette = this.__generateDefaultPalette(user.jid);
       }
+    },
+
+    /**
+     * Normalizes default initials
+     * @private
+     * @param  {string} [initials]
+     * @return {string} Normalized initials
+     */
+    __normalizeDefaultInitials(initials = null) {
+      // Enforce initials to uppercase, and remove any accent and diacritic
+      if (initials !== null) {
+        return initials
+          .toUpperCase()
+          .normalize("NFD")
+          .replace(DEFAULT_INITIALS_NORMALIZE_REGEX, "");
+      }
+
+      return null;
     },
 
     /**
@@ -81,12 +100,12 @@ function Avatar(user) {
 
         // Extract first name and family name initials?
         if (nameChunks.length >= 2) {
-          return `${nameChunks[0][0]}${nameChunks[1][0]}`.toUpperCase();
+          return `${nameChunks[0][0]}${nameChunks[1][0]}`;
         }
 
         // Extract first two characters of first name?
         if (nameChunks[0].length >= 2) {
-          return nameChunks[0].substring(0, 2).toUpperCase();
+          return nameChunks[0].substring(0, 2);
         }
       }
 
@@ -94,7 +113,7 @@ function Avatar(user) {
       let jidParts = jid.split("@");
 
       if (jidParts[0] && jidParts[0].length >= 1) {
-        return jidParts[0].substring(0, 2).toUpperCase();
+        return jidParts[0].substring(0, 2);
       }
 
       // No initials extracted
