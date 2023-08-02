@@ -6,7 +6,8 @@
   "license": "MIT",
   "browserslist": "since 2020",
   "engines": {
-    "node": ">= 12"
+    "node": ">= 20",
+    "npm": ">= 9"
   },
   "repository": {
     "type": "git",
