@@ -3,7 +3,7 @@
   "description": "Prose core views",
   "version": "0.23.1",
   "homepage": "https://github.com/prose-im/prose-core-views",
-  "license": "MIT",
+  "license": "MPL-2.0",
   "browserslist": "since 2020",
   "engines": {
     "node": ">= 20",
