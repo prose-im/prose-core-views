@@ -18,8 +18,8 @@
   },
   "licenses": [
     {
-      "type": "MIT",
-      "url": "https://github.com/prose-im/prose-core-views/blob/master/LICENSE"
+      "type": "MPL-2.0",
+      "url": "https://github.com/prose-im/prose-core-views/blob/master/LICENSE.md"
     }
   ],
   "author": {
