@@ -10,7 +10,17 @@
     },
 
     "baptiste@prose.org": {
-      "name": "Baptiste"
+      "name": "Baptiste",
+      "avatar": "https://gravatar.com/avatar/5603c33823b047149d9996a1be53afd4?size=80"
+    },
+
+    "eliott@prose.org": {
+      "name": "Eliott",
+      "avatar": "https://gravatar.com/avatar/10c621316c57efa99bd3ed72bd666408?size=80"
+    },
+
+    "marc@prose.org": {
+      "name": "Marc"
     }
   },
 
@@ -123,9 +133,22 @@
     },
 
     {
+      "id": "15056903-25b5-4491-8b40-c478cfb32695",
+      "type": "text",
+      "date": "2022-06-29T12:01:00.000Z",
+      "from": "eliott@prose.org",
+      "content": "Baptiste, could you please send the brand assets again? Looks like it did not upload.",
+
+      "metas": {
+        "encrypted": true,
+        "edited": true
+      }
+    },
+
+    {
       "id": "397448ce-e7bd-4b23-b272-2c8262380d2b",
       "type": "file",
-      "date": "2022-06-29T09:06:01.000Z",
+      "date": "2022-06-29T12:04:58.000Z",
       "from": "baptiste@prose.org",
 
       "content": {
@@ -136,6 +159,19 @@
 
       "metas": {
         "encrypted": false,
+        "edited": false
+      }
+    },
+
+    {
+      "id": "5454ed27-e414-4464-b29b-74d511671324",
+      "type": "text",
+      "date": "2022-06-29T12:54:00.000Z",
+      "from": "marc@prose.org",
+      "content": "Thank you guys, it was well received!",
+
+      "metas": {
+        "encrypted": true,
         "edited": false
       }
     }
