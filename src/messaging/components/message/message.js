@@ -30,6 +30,16 @@ const PRESENTATION_MIME_TYPES = {
     "image/png",
     "image/tiff",
     "image/webp"
+  ]),
+
+  video: new Set(["video/webm", "video/ogg", "video/mp4"]),
+
+  audio: new Set([
+    "audio/webm",
+    "audio/ogg",
+    "audio/mp3",
+    "audio/mp4",
+    "audio/aac"
   ])
 };
 
@@ -316,8 +326,29 @@ function MessageLineFile(content) {
      * @public
      * @return {undefined}
      */
-    onExpanderClick() {
+    onFileExpanderClick() {
       this.isExpanded = !this.isExpanded;
+    },
+
+    /**
+     * Triggers when file is clicked
+     * @public
+     * @param  {string} lineId
+     * @param  {string} [actionType]
+     * @return {undefined}
+     */
+    onFileClick(lineId, actionType = "expand") {
+      // Emit message actions view event
+      $event._emit("message:file:view", {
+        id: lineId,
+        action: actionType,
+
+        file: {
+          type: this.presentation,
+          name: this.file.name || null,
+          url: this.file.url
+        }
+      });
     }
   };
 }

@@ -227,12 +227,13 @@
           }
         ]"
       >
-        <span class="message-file-expander" @click="onExpanderClick">
+        <span class="message-file-expander" @click="onFileExpanderClick">
           {{ file.name }}
         </span>
 
         <a
           v-if="presentation === 'image'"
+          @click.prevent="onFileClick(line.id)"
           :href="file.url"
           class="message-file-image"
           target="_blank"
@@ -249,9 +250,10 @@
           ></span>
         </a>
 
-        <ul v-else-if="presentation === 'other'" class="message-file-other">
+        <ul v-else class="message-file-other">
           <li>
             <a
+              @click.prevent="onFileClick(line.id, 'download')"
               :href="file.url"
               :download="file.name || file.url"
               rel="noopener"
