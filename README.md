@@ -10,7 +10,7 @@ Prose views are built on [`petite-vue`](https://github.com/vuejs/petite-vue), wh
 
 Copyright 2022, Prose Foundation - Released under the [Mozilla Public License 2.0](./LICENSE.md).
 
-_Tested at NodeJS version: `v20.5.0`_
+_Tested at NodeJS version: `v20.7.0`_
 
 ## Preview
 
