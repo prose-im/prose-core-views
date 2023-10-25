@@ -40,6 +40,24 @@ export enum OriginType {
   ContextMenu = "context-menu"
 }
 
+export enum FileAction {
+  // File action is expand.
+  Expand = "expand",
+  // File action is download.
+  Download = "download"
+}
+
+export enum FileType {
+  // File type is image.
+  Image = "image",
+  // File type is video.
+  Video = "video",
+  // File type is audio.
+  Audio = "audio",
+  // File type is other.
+  Other = "other"
+}
+
 // INTERFACES
 
 export declare interface Messaging extends Window {
@@ -140,6 +158,17 @@ export declare interface EventMessageReactionsReact {
   id: string;
   reaction: string;
   active: boolean;
+}
+
+export declare interface EventMessageFileView {
+  id: string;
+  action: FileAction;
+
+  file: {
+    type: FileType;
+    name: null | string;
+    url: string;
+  };
 }
 
 export declare interface EventMessageHistorySeek {
