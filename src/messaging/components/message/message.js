@@ -45,7 +45,7 @@ const PRESENTATION_MIME_TYPES = {
 
 const TEXT_LINKIFY_OPTIONS = {
   defaultProtocol: "https",
-  target: "_self",
+  target: "_blank",
   nl2br: false,
   truncate: TEXT_LINKS_TRUNCATE_SIZE
 };
