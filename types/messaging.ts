@@ -169,6 +169,11 @@ export declare interface EventMessageFileView {
     name: null | string;
     url: string;
   };
+
+  adjacents?: {
+    before: Array<EventMessageFileView>;
+    after: Array<EventMessageFileView>;
+  };
 }
 
 export declare interface EventMessageHistorySeek {

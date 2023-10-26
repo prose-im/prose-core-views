@@ -271,7 +271,7 @@ function MessageLineFile(content) {
       this.presentation = this.__acquireFilePresentation(content);
 
       // Update view action (based on presentation)
-      this.viewAction = this.presentation === "other" ? "download" : "expand";
+      this.viewAction = this.__acquireFileViewAction(this.presentation);
 
       // Compute image size for file? (if presentation is image)
       if (this.presentation === "image") {
@@ -303,6 +303,17 @@ function MessageLineFile(content) {
     },
 
     /**
+     * Acquires file view action
+     * @private
+     * @param  {string} presentation
+     * @return {string} Acquired file view action
+     */
+    __acquireFileViewAction(presentation) {
+      // Map view action from presentation
+      return presentation === "other" ? "download" : "expand";
+    },
+
+    /**
      * Computes file image size
      * @private
      * @param  {object} content
@@ -322,6 +333,72 @@ function MessageLineFile(content) {
           : FILE_IMAGE_FALLBACK_HEIGHT;
 
       return { width, height };
+    },
+
+    /**
+     * Maps file view file data
+     * @private
+     * @param  {string} presentation
+     * @param  {object} file
+     * @return {object} File view file data
+     */
+    __mapFileViewFile(presentation, file) {
+      return {
+        type: presentation,
+        url: file.url,
+        name: file.name || null
+      };
+    },
+
+    /**
+     * Lists file view adjacent files
+     * @private
+     * @param  {string} lineId
+     * @return {object} File view adjacent files
+     */
+    __listFileViewAdjacents(lineId) {
+      // Map adjacent files
+      const adjacentFiles = {
+        before: [],
+        after: []
+      };
+
+      let hasReachedLineId = false;
+
+      $store.feed.entries.forEach(entry => {
+        if (entry.type === "message") {
+          entry.content.forEach(line => {
+            // Mark line current identifier as reached
+            if (line.id === lineId) {
+              hasReachedLineId = true;
+            } else if (line.type === "file" && line.file) {
+              // Insert file to adjacent files
+              const adjacentFilePresentation =
+                this.__acquireFilePresentation(line);
+
+              const adjacentFileView = {
+                id: line.id,
+                action: this.__acquireFileViewAction(adjacentFilePresentation),
+
+                file: this.__mapFileViewFile(
+                  adjacentFilePresentation,
+                  line.file
+                )
+              };
+
+              // Append adjacent file to its target list
+              const adjacentListTarget =
+                hasReachedLineId === true
+                  ? adjacentFiles.after
+                  : adjacentFiles.before;
+
+              adjacentListTarget.push(adjacentFileView);
+            }
+          });
+        }
+      });
+
+      return adjacentFiles;
     },
 
     // --> EVENT LISTENERS <--
@@ -347,12 +424,8 @@ function MessageLineFile(content) {
       $event._emit("message:file:view", {
         id: lineId,
         action: actionType,
-
-        file: {
-          type: this.presentation,
-          name: this.file.name || null,
-          url: this.file.url
-        }
+        file: this.__mapFileViewFile(this.presentation, this.file),
+        adjacents: this.__listFileViewAdjacents(lineId)
       });
     }
   };
