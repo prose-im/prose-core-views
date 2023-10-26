@@ -253,6 +253,8 @@ function MessageLineFile(content) {
     file: content.file,
 
     presentation: null,
+
+    viewAction: null,
     imageSize: null,
 
     isExpanded: true,
@@ -267,6 +269,9 @@ function MessageLineFile(content) {
     mounted() {
       // Acquire file presentation mode
       this.presentation = this.__acquireFilePresentation(content);
+
+      // Update view action (based on presentation)
+      this.viewAction = this.presentation === "other" ? "download" : "expand";
 
       // Compute image size for file? (if presentation is image)
       if (this.presentation === "image") {

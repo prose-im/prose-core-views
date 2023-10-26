@@ -367,20 +367,29 @@
 
 .message-file-other-option::after {
   content: "";
+  background-color: var(--color-black-default);
   mask-repeat: no-repeat;
   mask-size: contain;
   mask-position: center;
-  height: 17px;
-  margin-top: -2px;
 }
 
 .message-file-other-option.message-file-other-option--get::after {
-  background-color: var(--color-black-default);
   mask-image: url("./images/file-other-option-get.svg");
   width: 14px;
+  height: 17px;
+  margin-top: -2px;
 
   /* Hack: WebKit Web Views do not support mask-image yet */
   -webkit-mask-box-image: url("./images/file-other-option-get.svg");
+}
+
+.message-file-other-option.message-file-other-option--play::after {
+  mask-image: url("./images/file-other-option-play.svg");
+  width: 13px;
+  height: 13px;
+
+  /* Hack: WebKit Web Views do not support mask-image yet */
+  -webkit-mask-box-image: url("./images/file-other-option-play.svg");
 }
 
 /* VARIABLES */
