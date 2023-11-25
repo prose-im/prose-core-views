@@ -73,20 +73,20 @@ a {
 
 #app.app--theme-dark {
   /* COLOR (DARK MODE): WHITE */
-  --color-white-default: #000000;
-  --color-white-dark: #181818;
+  --color-white-default: #090b0f;
+  --color-white-dark: #13181f;
 
   /* COLOR (DARK MODE): BLACK */
   --color-black-default: #ffffff;
   --color-black-medium: #ffffff;
 
   /* COLOR (DARK MODE): GREY */
-  --color-grey-default: #666666;
-  --color-grey-light: #161616;
-  --color-grey-light-darker: #1a1a1a;
+  --color-grey-default: #9AA4B2;
+  --color-grey-light: #13181f; 
+  --color-grey-light-darker: #090b0f;
   --color-grey-medium: #313131;
   --color-grey-medium-lighter: #1f1f1f;
-  --color-grey-medium-darker: #3c3c3c;
+  --color-grey-medium-darker: #697586;
   --color-grey-dark: #8a8a8a;
 
   /* COLOR (DARK MODE): RED */
