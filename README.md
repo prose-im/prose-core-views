@@ -1,6 +1,6 @@
 # prose-core-views
 
-[![Test and Build](https://github.com/prose-im/prose-core-views/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/prose-im/prose-core-views/actions/workflows/test.yml) [![Build and Release](https://github.com/prose-im/prose-core-views/actions/workflows/build.yml/badge.svg)](https://github.com/prose-im/prose-core-views/actions/workflows/build.yml) [![NPM](https://img.shields.io/npm/v/@prose-im/prose-core-views.svg)](https://www.npmjs.com/package/@prose-im/prose-core-views)
+[![Test and Build](https://github.com/prose-im/prose-core-views/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/prose-im/prose-core-views/actions/workflows/test.yml) [![Build and Release](https://github.com/prose-im/prose-core-views/actions/workflows/build.yml/badge.svg)](https://github.com/prose-im/prose-core-views/actions/workflows/build.yml) [![GitHub Release](https://img.shields.io/github/v/release/prose-im/prose-core-views.svg)](https://github.com/prose-im/prose-core-views/releases) [![NPM](https://img.shields.io/npm/v/@prose-im/prose-core-views.svg)](https://www.npmjs.com/package/@prose-im/prose-core-views)
 
 **Prose core views. Shared messaging views across all platforms.**
 
