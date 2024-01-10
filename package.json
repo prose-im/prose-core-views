@@ -62,18 +62,18 @@
   "dependencies": {
     "petite-vue": "0.4.x",
     "snarkdown": "2.0.0",
-    "linkifyjs": "3.0.x",
-    "linkify-html": "3.0.x",
-    "nanoid": "4.0.x",
+    "linkifyjs": "4.1.x",
+    "linkify-html": "4.1.x",
+    "nanoid": "5.0.x",
     "escape-goat": "4.0.x"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.18.x",
-    "@parcel/resolver-glob": "2.10.x",
-    "typescript": "4.9.x",
-    "parcel": "2.10.x",
-    "eslint": "8.4.x",
-    "eslint-config-prettier": "8.3.x",
-    "prettier": "2.5.x"
+    "@babel/eslint-parser": "7.23.x",
+    "@parcel/resolver-glob": "2.11.x",
+    "typescript": "5.3.x",
+    "parcel": "2.11.x",
+    "eslint": "8.56.x",
+    "eslint-config-prettier": "9.1.x",
+    "prettier": "3.1.x"
   }
 }
