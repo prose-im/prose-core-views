@@ -186,14 +186,14 @@
 .message-actions {
   padding: 2px;
   position: absolute;
-  top: -4px;
+  top: -5px;
   right: calc(var(--message-line-padding-sides-default) - 1px);
   display: none;
 }
 
 .message-action {
-  width: 24px;
-  height: 20px;
+  width: 26px;
+  height: 24px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -221,7 +221,7 @@
 .message-action.message-action--more::after {
   mask-image: url("./images/action-more.svg");
   width: 14px;
-  height: 4px;
+  height: 5px;
 
   /* Hack: WebKit Web Views do not support mask-image yet */
   -webkit-mask-box-image: url("./images/action-more.svg");
@@ -229,8 +229,8 @@
 
 .message-action.message-action--reactions::after {
   mask-image: url("./images/action-reactions.svg");
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 16px;
 
   /* Hack: WebKit Web Views do not support mask-image yet */
   -webkit-mask-box-image: url("./images/action-reactions.svg");
@@ -283,6 +283,7 @@
   display: inline-block;
 }
 
+.message-file-inner.message-file-inner--expanded .message-file-audio,
 .message-file-inner.message-file-inner--expanded .message-file-other {
   display: block;
 }
@@ -314,6 +315,7 @@
 }
 
 .message-file-image,
+.message-file-audio,
 .message-file-other {
   display: none;
 }
@@ -333,6 +335,110 @@
 
 .message-file-thumbnail:active {
   filter: brightness(105%);
+}
+
+.message-file-player {
+  border: 1px solid var(--color-grey-medium-lighter);
+  width: 100%;
+  max-width: 380px;
+  padding: 7px 9px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  border-radius: 40px;
+}
+
+.message-file-player:hover {
+  border-color: var(--color-grey-medium);
+}
+
+.message-file-player-action,
+.message-file-player::after {
+  flex: 0 0 auto;
+  border-radius: 100%;
+}
+
+.message-file-player-action {
+  background-color: var(--color-black-default);
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform linear 100ms;
+}
+
+.message-file-player-action:hover {
+  background-color: var(--color-black-medium);
+}
+
+.message-file-player-action:active {
+  transform: scale(0.9);
+}
+
+.message-file-player::after,
+.message-file-player-action::after {
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+}
+
+.message-file-player-action::after {
+  content: "";
+  background-color: var(--color-white-default);
+}
+
+.message-file-player-action.message-file-player-action--play::after {
+  mask-image: url("./images/file-common-action-play.svg");
+  width: 12px;
+  height: 12px;
+
+  /* Hack: WebKit Web Views do not support mask-image yet */
+  -webkit-mask-box-image: url("./images/file-common-action-play.svg");
+}
+
+.message-file-player-analyser,
+.message-file-player-analyser-progress {
+  border-radius: 2px;
+}
+
+.message-file-player-analyser {
+  background-color: var(--color-grey-medium-lighter);
+  height: 3px;
+  margin: 0 18px;
+  flex: 1;
+}
+
+.message-file-player-analyser-progress {
+  background-color: var(--color-black-medium);
+  height: 100%;
+  width: 0%;
+  max-width: 100%;
+  display: block;
+  transition: width linear 1s;
+}
+
+.message-file-player-timer {
+  color: var(--color-black-medium);
+  font-size: 1em;
+  letter-spacing: 0.025em;
+  line-height: 1.1em;
+  margin-right: 13px;
+  flex: 0 0 auto;
+}
+
+.message-file-player::after {
+  content: "";
+  background-color: var(--color-black-default);
+  mask-image: url("./images/file-player-icon.svg");
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+
+  /* Hack: WebKit Web Views do not support mask-image yet */
+  -webkit-mask-box-image: url("./images/file-player-icon.svg");
 }
 
 .message-file-other {
@@ -384,12 +490,12 @@
 }
 
 .message-file-other-option.message-file-other-option--play::after {
-  mask-image: url("./images/file-other-option-play.svg");
+  mask-image: url("./images/file-common-action-play.svg");
   width: 13px;
   height: 13px;
 
   /* Hack: WebKit Web Views do not support mask-image yet */
-  -webkit-mask-box-image: url("./images/file-other-option-play.svg");
+  -webkit-mask-box-image: url("./images/file-common-action-play.svg");
 }
 
 /* VARIABLES */

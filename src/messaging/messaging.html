@@ -250,6 +250,23 @@
           ></span>
         </a>
 
+        <span v-else-if="presentation === 'audio'" class="message-file-audio">
+          <span class="message-file-player">
+            <span
+              class="message-file-player-action message-file-player-action--play"
+            ></span>
+
+            <span class="message-file-player-analyser">
+              <span
+                class="message-file-player-analyser-progress"
+                style="width: 0%"
+              ></span>
+            </span>
+
+            <span class="message-file-player-timer">0:00</span>
+          </span>
+        </span>
+
         <ul v-else class="message-file-other">
           <li>
             <a
