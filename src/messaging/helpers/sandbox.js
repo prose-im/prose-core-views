@@ -37,9 +37,13 @@ const SandboxHelper = {
       // Insert all messages
       fixtures.messages.forEach((fixtureEntry, index) => {
         // Insert each message sequentially, with a delay
-        setTimeout(() => {
-          store.insert(fixtureEntry);
-        }, (index + 1) * FIXTURE_APPLY_NEXT_DELAY);
+        setTimeout(
+          () => {
+            store.insert(fixtureEntry);
+          },
+
+          (index + 1) * FIXTURE_APPLY_NEXT_DELAY
+        );
       });
     } catch (error) {
       console.error("[sandbox] failed to apply sandbox fixture", error);
