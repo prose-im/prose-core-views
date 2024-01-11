@@ -95,6 +95,15 @@
   -webkit-mask-box-image: url("./images/common-action-play.svg");
 }
 
+.file-player-action.file-player-action--pause::after {
+  mask-image: url("./images/player-action-pause.svg");
+  width: 10px;
+  height: 12px;
+
+  /* Hack: WebKit Web Views do not support mask-image yet */
+  -webkit-mask-box-image: url("./images/player-action-pause.svg");
+}
+
 .file-player-analyser,
 .file-player-analyser-progress {
   border-radius: 2px;
