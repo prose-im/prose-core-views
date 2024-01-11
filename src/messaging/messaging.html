@@ -231,13 +231,11 @@
           {{ file.name }}
         </span>
 
-        <span
-          v-scope="File(file)"
-          @vue:mounted="mounted"
-          class="message-file-content file"
-        >
+        <span class="message-file-content file">
           <a
             v-if="presentation === 'image'"
+            v-scope="FileImage(file)"
+            @vue:mounted="mounted"
             @click.prevent="onFileClick(line.id, viewAction)"
             :href="file.url"
             class="file-image"
@@ -255,18 +253,33 @@
             ></span>
           </a>
 
-          <span v-else-if="presentation === 'audio'" class="file-audio">
+          <span
+            v-else-if="presentation === 'audio'"
+            v-scope="FileAudio(file)"
+            @vue:mounted="mounted"
+            class="file-audio"
+          >
             <span class="file-player">
-              <span class="file-player-action file-player-action--play"></span>
+              <span
+                @click="onAudioActionClick(audioAction)"
+                :class="[
+                  'file-player-action',
+                  'file-player-action--' + audioAction
+                ]"
+              ></span>
 
               <span class="file-player-analyser">
                 <span
                   class="file-player-analyser-progress"
-                  style="width: 0%"
+                  :style="{
+                    width: (audioProgressPercent + '%')
+                  }"
                 ></span>
               </span>
 
-              <span class="file-player-timer">0:00</span>
+              <span v-if="audioTimer" class="file-player-timer">
+                {{ audioTimer }}
+              </span>
             </span>
           </span>
 
