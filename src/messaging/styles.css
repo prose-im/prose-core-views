@@ -6,6 +6,7 @@
  */
 
 @import "./components/avatar/avatar.css";
+@import "./components/file/file.css";
 @import "./components/separator/separator.css";
 @import "./components/message/message.css";
 @import "./components/entry/entry.css";

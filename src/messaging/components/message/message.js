@@ -18,8 +18,6 @@ import MessageHelper from "../../helpers/message.js";
 
 // CONSTANTS
 
-const FILE_IMAGE_BASELINE_WIDTH = 200;
-const FILE_IMAGE_FALLBACK_HEIGHT = 60;
 const TEXT_LINKS_TRUNCATE_SIZE = 120;
 const PRESENTATION_DEFAULT = "other";
 
@@ -255,7 +253,6 @@ function MessageLineFile(content) {
     presentation: null,
 
     viewAction: null,
-    imageSize: null,
 
     isExpanded: true,
 
@@ -272,11 +269,6 @@ function MessageLineFile(content) {
 
       // Update view action (based on presentation)
       this.viewAction = this.__acquireFileViewAction(this.presentation);
-
-      // Compute image size for file? (if presentation is image)
-      if (this.presentation === "image") {
-        this.imageSize = this.__computeFileImageSize(content);
-      }
     },
 
     /**
@@ -311,28 +303,6 @@ function MessageLineFile(content) {
     __acquireFileViewAction(presentation) {
       // Map view action from presentation
       return presentation === "other" ? "download" : "expand";
-    },
-
-    /**
-     * Computes file image size
-     * @private
-     * @param  {object} content
-     * @return {object} Computed file image size
-     */
-    __computeFileImageSize(content) {
-      // Compute image size (pick the lowest size, up to baseline maximum)
-      const fileSize = content.file.size;
-
-      const width = Math.min(
-        fileSize && fileSize.width ? fileSize.width : FILE_IMAGE_BASELINE_WIDTH,
-        FILE_IMAGE_BASELINE_WIDTH
-      );
-      const height =
-        fileSize && fileSize.width && fileSize.height
-          ? (fileSize.height / fileSize.width) * width
-          : FILE_IMAGE_FALLBACK_HEIGHT;
-
-      return { width, height };
     },
 
     /**

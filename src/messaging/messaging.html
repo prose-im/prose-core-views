@@ -231,59 +231,63 @@
           {{ file.name }}
         </span>
 
-        <a
-          v-if="presentation === 'image'"
-          @click.prevent="onFileClick(line.id, viewAction)"
-          :href="file.url"
-          class="message-file-image"
-          target="_blank"
-          rel="noopener"
+        <span
+          v-scope="File(file)"
+          @vue:mounted="mounted"
+          class="message-file-content file"
         >
-          <span
-            v-if="imageSize"
-            :style="{
-              backgroundImage: ('url(\'' + file.url + '\')'),
-              width: (imageSize.width ? (imageSize.width + 'px') : null),
-              height: (imageSize.height ? (imageSize.height + 'px') : null)
-            }"
-            class="message-file-thumbnail"
-          ></span>
-        </a>
-
-        <span v-else-if="presentation === 'audio'" class="message-file-audio">
-          <span class="message-file-player">
+          <a
+            v-if="presentation === 'image'"
+            @click.prevent="onFileClick(line.id, viewAction)"
+            :href="file.url"
+            class="file-image"
+            target="_blank"
+            rel="noopener"
+          >
             <span
-              class="message-file-player-action message-file-player-action--play"
+              v-if="imageSize"
+              :style="{
+                backgroundImage: ('url(\'' + file.url + '\')'),
+                width: (imageSize.width ? (imageSize.width + 'px') : null),
+                height: (imageSize.height ? (imageSize.height + 'px') : null)
+              }"
+              class="file-thumbnail"
             ></span>
+          </a>
 
-            <span class="message-file-player-analyser">
-              <span
-                class="message-file-player-analyser-progress"
-                style="width: 0%"
-              ></span>
+          <span v-else-if="presentation === 'audio'" class="file-audio">
+            <span class="file-player">
+              <span class="file-player-action file-player-action--play"></span>
+
+              <span class="file-player-analyser">
+                <span
+                  class="file-player-analyser-progress"
+                  style="width: 0%"
+                ></span>
+              </span>
+
+              <span class="file-player-timer">0:00</span>
             </span>
-
-            <span class="message-file-player-timer">0:00</span>
           </span>
-        </span>
 
-        <ul v-else class="message-file-other">
-          <li>
-            <a
-              @click.prevent="onFileClick(line.id, viewAction)"
-              :href="file.url"
-              :download="file.name || file.url"
-              :class="[
-                'message-file-other-option',
-                {
-                  'message-file-other-option--play': (presentation === 'video' || presentation === 'audio'),
-                  'message-file-other-option--get': !(presentation === 'video' || presentation === 'audio')
-                }
-              ]"
-              rel="noopener"
-            ></a>
-          </li>
-        </ul>
+          <ul v-else class="file-other">
+            <li>
+              <a
+                @click.prevent="onFileClick(line.id, viewAction)"
+                :href="file.url"
+                :download="file.name || file.url"
+                :class="[
+                  'file-other-option',
+                  {
+                    'file-other-option--play': (presentation === 'video' || presentation === 'audio'),
+                    'file-other-option--get': !(presentation === 'video' || presentation === 'audio')
+                  }
+                ]"
+                rel="noopener"
+              ></a>
+            </li>
+          </ul>
+        </span>
       </span>
     </template>
   </body>
