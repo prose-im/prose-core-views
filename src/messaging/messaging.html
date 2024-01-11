@@ -280,6 +280,23 @@
               <span v-if="audioTimer" class="file-player-timer">
                 {{ audioTimer }}
               </span>
+
+              <audio
+                @play="onAudioMediaPlay"
+                @canplay="onAudioMediaCanPlay"
+                @pause="onAudioMediaPause"
+                @stalled="onAudioMediaStalled"
+                @timeupdate="onAudioMediaTimeUpdate"
+                class="file-player-media"
+                preload="none"
+                ref="media"
+              >
+                <source
+                  @error="onAudioMediaSourceError"
+                  :src="file.url"
+                  :type="file.type"
+                />
+              </audio>
             </span>
           </span>
 

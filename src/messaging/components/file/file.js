@@ -73,6 +73,8 @@ function FileAudio(file) {
     audioProgressSeconds: 0,
     audioProgressPercent: 0,
 
+    hasAudioError: false,
+
     // --> METHODS <--
 
     /**
@@ -107,6 +109,22 @@ function FileAudio(file) {
       return [minutesText, secondsText].join(":");
     },
 
+    /**
+     * Updates audio progress
+     * @private
+     * @param  {number} [progressSeconds]
+     * @param  {number} [progressPercent]
+     * @return {undefined}
+     */
+    __updateAudioProgress(progressSeconds = 0, progressPercent = 0) {
+      // Update progress markers
+      this.audioProgressSeconds = progressSeconds;
+      this.audioProgressPercent = progressPercent;
+
+      // Update timer
+      this.audioTimer = this.__computeAudioTimer(this.audioProgressSeconds);
+    },
+
     // --> EVENT LISTENERS <--
 
     /**
@@ -115,10 +133,23 @@ function FileAudio(file) {
      * @return {undefined}
      */
     onAudioActionClick(action) {
+      const mediaElement = this.$refs.media;
+
       switch (action) {
         case "play": {
           this.audioAction = "pause";
-          this.audioTimer = this.__computeAudioTimer(this.audioProgressSeconds);
+
+          if (mediaElement.paused) {
+            // Load media again? (if had error)
+            if (this.hasAudioError === true) {
+              mediaElement.load();
+
+              this.hasAudioError = false;
+            }
+
+            // Play media
+            mediaElement.play();
+          }
 
           break;
         }
@@ -126,9 +157,102 @@ function FileAudio(file) {
         case "pause": {
           this.audioAction = "play";
 
+          if (!mediaElement.paused) {
+            // Pause media
+            mediaElement.pause();
+          }
+
           break;
         }
       }
+    },
+
+    /**
+     * Triggers on audio media play event
+     * @public
+     * @return {undefined}
+     */
+    onAudioMediaPlay() {
+      // Mark as playing
+      this.audioAction = "pause";
+    },
+
+    /**
+     * Triggers on audio media can play event
+     * @public
+     * @return {undefined}
+     */
+    onAudioMediaCanPlay() {
+      // Set first audio progress
+      this.__updateAudioProgress();
+    },
+
+    /**
+     * Triggers on audio media pause event
+     * @public
+     * @return {undefined}
+     */
+    onAudioMediaPause() {
+      // Mark as not playing
+      this.audioAction = "play";
+    },
+
+    /**
+     * Triggers on audio media stalled event
+     * @public
+     * @return {undefined}
+     */
+    onAudioMediaStalled() {
+      // Mark as not playing
+      this.audioAction = "play";
+    },
+
+    /**
+     * Triggers on audio media time update event
+     * @public
+     * @return {undefined}
+     */
+    onAudioMediaTimeUpdate() {
+      const mediaElement = this.$refs.media;
+
+      // Acquire audio file total duration (from media, or declared audio \
+      //   duration)
+      let mediaDuration =
+        mediaElement.duration !== Infinity
+          ? mediaElement.duration
+          : this.audioDuration + 1;
+
+      // Compute playback progress
+      let progressPercentRaw = Math.ceil(
+        (mediaElement.currentTime / mediaDuration) * 100
+      );
+      let progressPercent = progressPercentRaw < 100 ? progressPercentRaw : 0;
+
+      // Compute playback duration
+      let progressSeconds =
+        progressPercent === 0
+          ? this.audioDuration
+          : Math.floor(mediaElement.currentTime);
+
+      // Update audio progress
+      this.__updateAudioProgress(progressSeconds, progressPercent);
+    },
+
+    /**
+     * Triggers on audio media source error event
+     * @public
+     * @return {undefined}
+     */
+    onAudioMediaSourceError() {
+      const mediaElement = this.$refs.media;
+
+      // Stop playing (due to error)
+      if (!mediaElement.paused) {
+        mediaElement.pause();
+      }
+
+      // Mark as having error
+      this.hasAudioError = true;
     }
   };
 }
