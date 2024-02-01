@@ -28,6 +28,7 @@ const SandboxHelper = {
 
       // Configure account data
       context.setAccountJID(fixtures.account.jid);
+      context.setStyleTheme("dark")
 
       // Identify users
       for (let jid in fixtures.identities) {
