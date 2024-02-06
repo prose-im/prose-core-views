@@ -59,7 +59,8 @@
       "content": "Might be done tomorrow 😀",
 
       "metas": {
-        "encrypted": true,
+        "secure": true,
+        "encrypted": false,
         "edited": false
       },
 

@@ -132,7 +132,13 @@ function Message(message) {
         let lineProperties = line.properties || {};
 
         // Not encrypted? Add insecure attribute.
-        if (lineProperties.encrypted !== true) {
+        // Notice: if secure flag is set, then consider message as secure, \
+        //   even if not encrypted (eg. channel messages are considered secure \
+        //   although not encrypted).
+        if (
+          lineProperties.encrypted !== true &&
+          lineProperties.secure !== true
+        ) {
           attributesMap.insecure = true;
         }
       });

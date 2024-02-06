@@ -108,6 +108,7 @@ export declare interface MessagingStoreMessageData {
   text?: string;
 
   metas?: {
+    secure?: boolean;
     encrypted?: boolean;
     edited?: boolean;
   };
