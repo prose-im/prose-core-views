@@ -120,19 +120,20 @@
             <p class="message-content">
               <span
                 v-if="line.type === 'text'"
-                v-scope="MessageLineText(line)"
+                v-scope="MessagePartText(line)"
                 @vue:mounted="mounted"
                 class="message-text"
               ></span>
 
+              <span v-else class="message-other">(?)</span>
+
               <span
-                v-else-if="line.type === 'file'"
-                v-scope="MessageLineFile(line)"
+                v-for="file in line.files"
+                :key="'file/' + file.url"
+                v-scope="MessagePartFile(line, file)"
                 @vue:mounted="mounted"
                 class="message-file"
               ></span>
-
-              <span v-else class="message-other">(?)</span>
 
               <span v-if="line.reactions" class="message-reactions">
                 <span
@@ -210,7 +211,7 @@
 
     <!-- TEMPLATES -->
 
-    <template id="template-message-line-text">
+    <template id="template-message-part-text">
       <span v-if="html" v-html="html" class="message-text-inner"></span>
 
       <span v-if="edited" class="message-text-flag">
@@ -218,7 +219,7 @@
       </span>
     </template>
 
-    <template id="template-message-line-file">
+    <template id="template-message-part-file">
       <span
         :class="[
           'message-file-inner',

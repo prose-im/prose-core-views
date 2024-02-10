@@ -18,8 +18,8 @@ import Entry from "./components/entry/entry.js";
 import Loader from "./components/loader/loader.js";
 import {
   Message,
-  MessageLineText,
-  MessageLineFile
+  MessagePartText,
+  MessagePartFile
 } from "./components/message/message.js";
 import MessageHelper from "./helpers/message.js";
 
@@ -298,8 +298,8 @@ createApp({
   Loader,
   Entry,
   Message,
-  MessageLineText,
-  MessageLineFile,
+  MessagePartText,
+  MessagePartFile,
   $store,
   $context,
   $event

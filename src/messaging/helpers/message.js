@@ -89,6 +89,21 @@ const MessageHelper = {
         generatedLine.properties = message.metas;
       }
 
+      // Apply files? (if any)
+      if (message.files) {
+        // Ensure that all files are valid
+        message.files.forEach(file => {
+          if (!file.type || !file.name || !file.url) {
+            throw new Error(
+              "Message file is incomplete (single file should have 'type', " +
+                "'name' and 'url')"
+            );
+          }
+        });
+
+        generatedLine.files = message.files;
+      }
+
       // Apply type + text
       switch (type) {
         case "text": {
@@ -100,20 +115,6 @@ const MessageHelper = {
 
           generatedLine.type = "text";
           generatedLine.text = message.content;
-
-          break;
-        }
-
-        case "file": {
-          if (!message.content.type && !message.content.url) {
-            throw new Error(
-              "Message content is incomplete for type ('file' should have " +
-                "'type' and 'url')"
-            );
-          }
-
-          generatedLine.type = "file";
-          generatedLine.file = message.content;
 
           break;
         }

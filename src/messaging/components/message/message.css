@@ -266,13 +266,18 @@
   margin-left: 2px;
 }
 
+.message-file {
+  margin-top: 6px;
+  display: block;
+}
+
 .message-file-inner {
   line-height: 0;
   display: block;
 }
 
 .message-file-inner.message-file-inner--expanded .message-file-expander {
-  margin-bottom: 6px;
+  margin-bottom: 3px;
 }
 
 .message-file-inner.message-file-inner--expanded .message-file-expander::after {

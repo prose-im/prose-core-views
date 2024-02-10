@@ -115,25 +115,28 @@ All inserted message objects are required to hold the following keys: `id`, `typ
 }
 ```
 
-**File messages are formatted as such:**
+**File attachments (on any message type) are formatted as such:**
 
 ```json
 {
   "id": "07b4af91-c5f4-45be-98f4-77f554c042c8",
-  "type": "file",
+  "type": "text",
   "date": "2021-12-21T09:04:01.000Z",
   "from": "valerian@prose.org",
+  "content": "Check this image out!",
 
-  "content": {
-    "name": "crisp-keep-calm.jpg",
-    "type": "image/jpeg",
-    "url": "https://crisp.chat/static/blog/content/images/size/w600/2021/03/12---3-Simple-Actions-to-Tackle-Email-Overload.jpg",
+  "files": [
+    {
+      "name": "crisp-keep-calm.jpg",
+      "type": "image/jpeg",
+      "url": "https://crisp.chat/static/blog/content/images/size/w600/2021/03/12---3-Simple-Actions-to-Tackle-Email-Overload.jpg",
 
-    "size": {
-      "width": 1920,
-      "height": 1080
+      "size": {
+        "width": 1920,
+        "height": 1080
+      }
     }
-  },
+  ],
 
   "metas": {
     "encrypted": false,

@@ -202,11 +202,11 @@ function Message(message) {
   };
 }
 
-function MessageLineText(content) {
+function MessagePartText(content) {
   return {
     // --> TEMPLATE <--
 
-    $template: "#template-message-line-text",
+    $template: "#template-message-part-text",
 
     // --> DATA <--
 
@@ -246,15 +246,15 @@ function MessageLineText(content) {
   };
 }
 
-function MessageLineFile(content) {
+function MessagePartFile(content, file) {
   return {
     // --> TEMPLATE <--
 
-    $template: "#template-message-line-file",
+    $template: "#template-message-part-file",
 
     // --> DATA <--
 
-    file: content.file,
+    file: file,
 
     presentation: null,
 
@@ -271,7 +271,7 @@ function MessageLineFile(content) {
      */
     mounted() {
       // Acquire file presentation mode
-      this.presentation = this.__acquireFilePresentation(content);
+      this.presentation = this.__acquireFilePresentation(file);
 
       // Update view action (based on presentation)
       this.viewAction = this.__acquireFileViewAction(this.presentation);
@@ -280,11 +280,11 @@ function MessageLineFile(content) {
     /**
      * Acquires file presentation mode
      * @private
-     * @param  {object} content
+     * @param  {object} file
      * @return {string} Acquired file presentation mode
      */
-    __acquireFilePresentation(content) {
-      const fileType = content.file.type;
+    __acquireFilePresentation(file) {
+      const fileType = file.type;
 
       if (fileType) {
         // Scan known MIME types for a particular presentation
@@ -330,9 +330,10 @@ function MessageLineFile(content) {
      * Lists file view adjacent files
      * @private
      * @param  {string} lineId
+     * @param  {object} file
      * @return {object} File view adjacent files
      */
-    __listFileViewAdjacents(lineId) {
+    __listFileViewAdjacents(lineId, file) {
       // Map adjacent files
       const adjacentFiles = {
         before: [],
@@ -344,31 +345,49 @@ function MessageLineFile(content) {
       $store.feed.entries.forEach(entry => {
         if (entry.type === "message") {
           entry.content.forEach(line => {
-            // Mark line current identifier as reached
+            // Mark line current identifier as reached?
             if (line.id === lineId) {
               hasReachedLineId = true;
-            } else if (line.type === "file" && line.file) {
-              // Insert file to adjacent files
-              const adjacentFilePresentation =
-                this.__acquireFilePresentation(line);
+            }
 
-              const adjacentFileView = {
-                id: line.id,
-                action: this.__acquireFileViewAction(adjacentFilePresentation),
+            // Process files for line
+            if (line.files) {
+              // Find same file index in list of files
+              let sameFileIndex = line.files.findIndex(lineFile => {
+                return line.id === lineId && lineFile === file;
+              });
 
-                file: this.__mapFileViewFile(
-                  adjacentFilePresentation,
-                  line.file
-                )
-              };
+              // Append or prepend files in adjacent list
+              line.files.forEach((lineFile, fileIndex) => {
+                if (fileIndex !== sameFileIndex) {
+                  // Insert file to adjacent files
+                  const adjacentFilePresentation =
+                    this.__acquireFilePresentation(lineFile);
 
-              // Append adjacent file to its target list
-              const adjacentListTarget =
-                hasReachedLineId === true
-                  ? adjacentFiles.after
-                  : adjacentFiles.before;
+                  const adjacentFileView = {
+                    id: line.id,
 
-              adjacentListTarget.push(adjacentFileView);
+                    action: this.__acquireFileViewAction(
+                      adjacentFilePresentation
+                    ),
+
+                    file: this.__mapFileViewFile(
+                      adjacentFilePresentation,
+                      lineFile
+                    )
+                  };
+
+                  // Append adjacent file to its target list
+                  const adjacentListTarget =
+                    hasReachedLineId === true
+                      ? sameFileIndex > -1 && fileIndex < sameFileIndex
+                        ? adjacentFiles.before
+                        : adjacentFiles.after
+                      : adjacentFiles.before;
+
+                  adjacentListTarget.push(adjacentFileView);
+                }
+              });
             }
           });
         }
@@ -401,7 +420,7 @@ function MessageLineFile(content) {
         id: lineId,
         action: actionType,
         file: this.__mapFileViewFile(this.presentation, this.file),
-        adjacents: this.__listFileViewAdjacents(lineId)
+        adjacents: this.__listFileViewAdjacents(lineId, this.file)
       });
     }
   };
@@ -409,4 +428,4 @@ function MessageLineFile(content) {
 
 // EXPORTS
 
-export { Message, MessageLineText, MessageLineFile };
+export { Message, MessagePartText, MessagePartFile };

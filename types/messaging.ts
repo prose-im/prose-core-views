@@ -107,6 +107,19 @@ export declare interface MessagingStoreMessageData {
   content?: string;
   text?: string;
 
+  files?: Array<{
+    name: string;
+    type: string;
+    url: string;
+
+    size?: {
+      width: number;
+      height: number;
+    };
+
+    duration?: number;
+  }>;
+
   metas?: {
     secure?: boolean;
     encrypted?: boolean;
