@@ -22,15 +22,15 @@
   background-size: cover;
   background-position: center;
   display: block;
-  border-radius: 3px;
+  border-radius: 9px;
 }
 
 .file-thumbnail:hover {
-  filter: brightness(110%);
+  filter: brightness(105%);
 }
 
 .file-thumbnail:active {
-  filter: brightness(105%);
+  filter: brightness(102%);
 }
 
 .file-player {
