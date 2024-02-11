@@ -15,6 +15,13 @@ const SPACE_REGEX = /\s/g;
 const WEEK_DAYS = 7;
 const DAY_MILLISECONDS = 1000 * 60 * 60 * 24;
 
+const DATE_DAY_BEGIN = {
+  milliseconds: 0,
+  seconds: 0,
+  minutes: 0,
+  hours: 0
+};
+
 const DATE_DAYS_OF_THE_WEEK = [
   "sunday",
   "monday",
@@ -118,8 +125,19 @@ const DateHelper = {
    * @return {string} Formatted relative day epoch
    */
   formatRelativeDayEpochString: function (dateLeft, dateRight) {
+    // Generate equivalent dates, at the beginning of each date's day
+    // Notice: this is only useful when the days difference is eg. less than \
+    //   24h, since when there are only a few hours separating both dates, but \
+    //   the date on the right is yesterday, eg. 11pm yesterday vs 3am today. \
+    //   This avoid showing left and right dates both as 'Today' and 'Today' \
+    //   where it should have been 'Today' and 'Yesterday'.
+    let dateLeftStartOfDay = this.getDateAsBeginningOfDay(dateLeft),
+      dateRightStartOfDay = this.getDateAsBeginningOfDay(dateRight);
+
+    // Acquire the days difference between the dates
     let daysDifference = Math.floor(
-      (dateLeft.getTime() - dateRight.getTime()) / DAY_MILLISECONDS
+      (dateLeftStartOfDay.getTime() - dateRightStartOfDay.getTime()) /
+        DAY_MILLISECONDS
     );
 
     // Only process relative epochs going to the past (it doesnt make sense \
@@ -198,6 +216,27 @@ const DateHelper = {
     }
 
     return this.formatDateString(date);
+  },
+
+  /**
+   * Gets a date so that it is starts at the beginning of the day
+   * @public
+   * @param  {object} date
+   * @return {object} Date at the beginning of the day
+   */
+  getDateAsBeginningOfDay: function (date) {
+    // Copy date so that we do not alter the original date object
+    let dateAtBeginningOfDay = new Date(date);
+
+    // Update copied date so that it starts at the exact beginning of its day
+    dateAtBeginningOfDay.setHours(
+      DATE_DAY_BEGIN.hours,
+      DATE_DAY_BEGIN.minutes,
+      DATE_DAY_BEGIN.seconds,
+      DATE_DAY_BEGIN.milliseconds
+    );
+
+    return dateAtBeginningOfDay;
   }
 };
 
