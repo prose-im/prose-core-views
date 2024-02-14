@@ -14,6 +14,7 @@ import $context from "../stores/option.js";
 const SPACE_REGEX = /\s/g;
 const WEEK_DAYS = 7;
 const DAY_MILLISECONDS = 1000 * 60 * 60 * 24;
+const MINUTE_SECONDS = 60;
 
 const DATE_DAY_BEGIN = {
   milliseconds: 0,
@@ -151,6 +152,28 @@ const DateHelper = {
     }
 
     return null;
+  },
+
+  /**
+   * Formats duration to duration string
+   * @public
+   * @param  {number} duration
+   * @return {string} Formatted duration
+   */
+  formatDurationString: function (duration) {
+    // Compute seconds and minutes
+    const seconds = duration % MINUTE_SECONDS,
+      minutes = Math.floor(duration / MINUTE_SECONDS);
+
+    // Convert numbers to text
+    let minutesText = `${minutes}`,
+      secondsText = `${seconds}`;
+
+    if (secondsText.length === 1) {
+      secondsText = `0${secondsText}`;
+    }
+
+    return [minutesText, secondsText].join(":");
   },
 
   /**

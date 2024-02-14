@@ -5,20 +5,24 @@
  * License: Mozilla Public License v2.0 (MPL v2.0)
  */
 
+// IMPORTS
+
+import DateHelper from "../../helpers/date.js";
+
 // CONSTANTS
 
-const MINUTE_TO_SECONDS = 60; // 1 minute
-
-const IMAGE_BASELINE_WIDTH = 320;
-const IMAGE_FALLBACK_HEIGHT = 180;
+const PREVIEW_BASELINE_SIZE = {
+  width: 320,
+  height: 180
+};
 
 // COMPONENTS
 
-function FileImage(file) {
+function File(file) {
   return {
     // --> DATA <--
 
-    imageSize: null,
+    previewSize: null,
 
     // --> METHODS <--
 
@@ -28,30 +32,70 @@ function FileImage(file) {
      * @return {undefined}
      */
     mounted() {
-      // Compute image size for file
-      this.imageSize = this.__computeImageSize(file);
+      // Compute file preview size
+      this.previewSize = this.__computePreviewSize(file);
     },
 
     /**
-     * Computes image size
+     * Computes file preview size
      * @private
      * @param  {object} file
-     * @return {object} Computed image size
+     * @return {object} Computed file preview size
      */
-    __computeImageSize(file) {
-      const fileSize = file.size;
+    __computePreviewSize(file) {
+      const fileSize = file.preview?.size || null;
 
-      // Compute image size? (pick the lowest size, up to baseline maximum)
-      const width = Math.min(
-        fileSize && fileSize.width ? fileSize.width : IMAGE_BASELINE_WIDTH,
-        IMAGE_BASELINE_WIDTH
+      // Compute preview size? (pick the lowest size, up to baseline maximum)
+      if (fileSize !== null) {
+        const width = Math.min(
+          fileSize && fileSize.width
+            ? fileSize.width
+            : PREVIEW_BASELINE_SIZE.width,
+          PREVIEW_BASELINE_SIZE.width
+        );
+        const height =
+          fileSize && fileSize.width && fileSize.height
+            ? (fileSize.height / fileSize.width) * width
+            : PREVIEW_BASELINE_SIZE.height;
+
+        return { width, height };
+      }
+
+      // Return default size (baseline)
+      return PREVIEW_BASELINE_SIZE;
+    }
+  };
+}
+
+function FileImage(file) {
+  return {
+    // --> DATA <--
+
+    imagePreviewUrl: file.preview?.url || file.url
+  };
+}
+
+function FileVideo(file) {
+  return {
+    // --> DATA <--
+
+    videoPreviewUrl: file.preview?.url || null,
+    videoPreviewDuration: file.preview?.duration || 0,
+
+    videoDurationTimer: null,
+
+    // --> METHODS <--
+
+    /**
+     * Mounted hook
+     * @public
+     * @return {undefined}
+     */
+    mounted() {
+      // Compute video duration timer
+      this.videoDurationTimer = DateHelper.formatDurationString(
+        this.videoPreviewDuration
       );
-      const height =
-        fileSize && fileSize.width && fileSize.height
-          ? (fileSize.height / fileSize.width) * width
-          : IMAGE_FALLBACK_HEIGHT;
-
-      return { width, height };
     }
   };
 }
@@ -60,7 +104,7 @@ function FileAudio(file) {
   return {
     // --> DATA <--
 
-    audioDuration: file.duration || 0,
+    audioDuration: file.preview?.duration || 0,
 
     audioAction: "play",
     audioTimer: null,
@@ -79,29 +123,7 @@ function FileAudio(file) {
      */
     mounted() {
       // Compute audio timer from duration
-      this.audioTimer = this.__computeAudioTimer(this.audioDuration);
-    },
-
-    /**
-     * Computes audio timer
-     * @private
-     * @param  {number} duration
-     * @return {string} Computed audio timer
-     */
-    __computeAudioTimer(duration) {
-      // Compute seconds and minutes
-      const seconds = duration % MINUTE_TO_SECONDS,
-        minutes = Math.floor(duration / MINUTE_TO_SECONDS);
-
-      // Convert numbers to text
-      let minutesText = `${minutes}`,
-        secondsText = `${seconds}`;
-
-      if (secondsText.length === 1) {
-        secondsText = `0${secondsText}`;
-      }
-
-      return [minutesText, secondsText].join(":");
+      this.audioTimer = DateHelper.formatDurationString(this.audioDuration);
     },
 
     /**
@@ -117,7 +139,9 @@ function FileAudio(file) {
       this.audioProgressPercent = progressPercent;
 
       // Update timer
-      this.audioTimer = this.__computeAudioTimer(this.audioProgressSeconds);
+      this.audioTimer = DateHelper.formatDurationString(
+        this.audioProgressSeconds
+      );
     },
 
     // --> EVENT LISTENERS <--
@@ -254,4 +278,4 @@ function FileAudio(file) {
 
 // EXPORTS
 
-export { FileImage, FileAudio };
+export { File, FileImage, FileVideo, FileAudio };

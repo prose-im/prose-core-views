@@ -7,7 +7,8 @@
 
 /* SECTION: FILE */
 
-.file-image {
+.file-image,
+.file-video {
   display: inline-block;
 }
 
@@ -17,7 +18,6 @@
 }
 
 .file-thumbnail {
-  background-color: var(--color-grey-light);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -33,7 +33,22 @@
   filter: brightness(102%);
 }
 
-.file-player {
+.file-thumbnail.file-thumbnail--image {
+  background-color: var(--color-grey-light);
+}
+
+.file-thumbnail.file-thumbnail--video {
+  background-color: var(--color-black-medium);
+}
+
+.file-player-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.file-player-track {
   border: 1px solid var(--color-grey-medium-lighter);
   width: 100%;
   max-width: 380px;
@@ -44,20 +59,30 @@
   border-radius: 40px;
 }
 
-.file-player:hover {
+.file-player-track:hover {
   border-color: var(--color-grey-medium);
 }
 
 .file-player-action,
-.file-player::after {
+.file-player-track::after {
   flex: 0 0 auto;
   border-radius: 100%;
 }
 
+.file-player-track::after {
+  content: "";
+  background-color: var(--color-black-default);
+  mask-image: url("./images/player-icon.svg");
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+
+  /* Hack: WebKit Web Views do not support mask-image yet */
+  -webkit-mask-box-image: url("./images/player-icon.svg");
+}
+
 .file-player-action {
   background-color: var(--color-black-default);
-  width: 34px;
-  height: 34px;
   cursor: pointer;
   flex: 0 0 auto;
   display: flex;
@@ -66,15 +91,27 @@
   transition: transform linear 100ms;
 }
 
+.file-player-action.file-player-action--small {
+  width: 34px;
+  height: 34px;
+}
+
+.file-player-action.file-player-action--large {
+  width: 42px;
+  height: 42px;
+}
+
+.file-player-preview:hover .file-player-action,
 .file-player-action:hover {
   background-color: var(--color-black-medium);
 }
 
+.file-player-preview:active .file-player-action,
 .file-player-action:active {
   transform: scale(0.9);
 }
 
-.file-player::after,
+.file-player-track::after,
 .file-player-action::after {
   mask-repeat: no-repeat;
   mask-size: contain;
@@ -87,12 +124,12 @@
 }
 
 .file-player-action.file-player-action--play::after {
-  mask-image: url("./images/common-action-play.svg");
+  mask-image: url("./images/player-action-play.svg");
   width: 12px;
   height: 12px;
 
   /* Hack: WebKit Web Views do not support mask-image yet */
-  -webkit-mask-box-image: url("./images/common-action-play.svg");
+  -webkit-mask-box-image: url("./images/player-action-play.svg");
 }
 
 .file-player-action.file-player-action--pause::after {
@@ -134,20 +171,25 @@
   flex: 0 0 auto;
 }
 
-.file-player-media {
-  display: none;
+.file-player-duration {
+  background-color: var(--color-black-default);
+  color: var(--color-white-default);
+  font-size: 0.85em;
+  letter-spacing: 0.01em;
+  line-height: 1em;
+  padding: 4px 6px 3px;
+  display: inline-block;
+  border-radius: 5px;
 }
 
-.file-player::after {
-  content: "";
-  background-color: var(--color-black-default);
-  mask-image: url("./images/player-icon.svg");
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
+.file-player-preview .file-player-duration {
+  position: absolute;
+  right: 14px;
+  bottom: 10px;
+}
 
-  /* Hack: WebKit Web Views do not support mask-image yet */
-  -webkit-mask-box-image: url("./images/player-icon.svg");
+.file-player-media {
+  display: none;
 }
 
 .file-other {
@@ -196,13 +238,4 @@
 
   /* Hack: WebKit Web Views do not support mask-image yet */
   -webkit-mask-box-image: url("./images/other-option-get.svg");
-}
-
-.file-other-option.file-other-option--play::after {
-  mask-image: url("./images/common-action-play.svg");
-  width: 13px;
-  height: 13px;
-
-  /* Hack: WebKit Web Views do not support mask-image yet */
-  -webkit-mask-box-image: url("./images/common-action-play.svg");
 }

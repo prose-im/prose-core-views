@@ -232,11 +232,14 @@
           {{ file.name }}
         </span>
 
-        <span class="message-file-content file">
+        <span
+          class="message-file-content file"
+          v-scope="File(file)"
+          @vue:mounted="mounted"
+        >
           <a
             v-if="presentation === 'image'"
             v-scope="FileImage(file)"
-            @vue:mounted="mounted"
             @click.prevent="onFileClick(line.id, viewAction)"
             :href="file.url"
             class="file-image"
@@ -244,14 +247,46 @@
             rel="noopener"
           >
             <span
-              v-if="imageSize"
+              v-if="previewSize"
               :style="{
-                backgroundImage: ('url(\'' + file.url + '\')'),
-                width: (imageSize.width ? (imageSize.width + 'px') : null),
-                height: (imageSize.height ? (imageSize.height + 'px') : null)
+                backgroundImage: ('url(\'' + imagePreviewUrl + '\')'),
+                width: (previewSize.width ? (previewSize.width + 'px') : null),
+                height: (previewSize.height ? (previewSize.height + 'px') : null)
               }"
-              class="file-thumbnail"
+              class="file-thumbnail file-thumbnail--image"
             ></span>
+          </a>
+
+          <a
+            v-else-if="presentation === 'video'"
+            v-scope="FileVideo(file)"
+            @vue:mounted="mounted"
+            @click.prevent="onFileClick(line.id, viewAction)"
+            :href="file.url"
+            class="file-video file-player"
+            target="_blank"
+            rel="noopener"
+          >
+            <span
+              v-if="previewSize"
+              :style="{
+                backgroundImage: (videoPreviewUrl ? ('url(\'' + videoPreviewUrl + '\')') : null),
+                width: (previewSize.width ? (previewSize.width + 'px') : null),
+                height: (previewSize.height ? (previewSize.height + 'px') : null)
+              }"
+              class="file-thumbnail file-thumbnail--video file-player-preview"
+            >
+              <span
+                class="file-player-action file-player-action--large file-player-action--play"
+              ></span>
+
+              <span
+                v-if="videoPreviewDuration > 0 && videoDurationTimer"
+                class="file-player-duration"
+              >
+                {{ videoDurationTimer }}
+              </span>
+            </span>
           </a>
 
           <span
@@ -260,11 +295,12 @@
             @vue:mounted="mounted"
             class="file-audio"
           >
-            <span class="file-player">
+            <span class="file-player file-player-track">
               <span
                 @click="onAudioActionClick(audioAction)"
                 :class="[
                   'file-player-action',
+                  'file-player-action--small',
                   'file-player-action--' + audioAction
                 ]"
               ></span>
@@ -307,13 +343,7 @@
                 @click.prevent="onFileClick(line.id, viewAction)"
                 :href="file.url"
                 :download="file.name || file.url"
-                :class="[
-                  'file-other-option',
-                  {
-                    'file-other-option--play': (presentation === 'video' || presentation === 'audio'),
-                    'file-other-option--get': !(presentation === 'video' || presentation === 'audio')
-                  }
-                ]"
+                class="file-other-option file-other-option--get"
                 rel="noopener"
               ></a>
             </li>

@@ -12,7 +12,12 @@ import $context from "./stores/option.js";
 import $store from "./stores/feed.js";
 import $event from "./stores/broker.js";
 import Avatar from "./components/avatar/avatar.js";
-import { FileImage, FileAudio } from "./components/file/file.js";
+import {
+  File,
+  FileImage,
+  FileVideo,
+  FileAudio
+} from "./components/file/file.js";
 import Separator from "./components/separator/separator.js";
 import Entry from "./components/entry/entry.js";
 import Loader from "./components/loader/loader.js";
@@ -292,7 +297,9 @@ function App() {
 createApp({
   App,
   Avatar,
+  File,
   FileImage,
+  FileVideo,
   FileAudio,
   Separator,
   Loader,

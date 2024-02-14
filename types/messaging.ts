@@ -112,12 +112,15 @@ export declare interface MessagingStoreMessageData {
     type: string;
     url: string;
 
-    size?: {
-      width: number;
-      height: number;
-    };
+    preview?: {
+      url?: string;
+      duration?: number;
 
-    duration?: number;
+      size?: {
+        width: number;
+        height: number;
+      };
+    };
   }>;
 
   metas?: {
