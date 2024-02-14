@@ -43,20 +43,31 @@ function File(file) {
      * @return {object} Computed file preview size
      */
     __computePreviewSize(file) {
-      const fileSize = file.preview?.size || null;
+      const size = file.preview?.size || null;
 
       // Compute preview size? (pick the lowest size, up to baseline maximum)
-      if (fileSize !== null) {
+      if (size !== null) {
+        // Check if preview has vertical aspect
+        const hasVerticalAspect =
+          size?.width && size?.height && size.height > size.width && true;
+
+        // Acquire baseline vertical and horizontal sizes (based on aspect)
+        const baselineHorizontalSize = hasVerticalAspect
+          ? PREVIEW_BASELINE_SIZE.height
+          : PREVIEW_BASELINE_SIZE.width;
+        const baselineVerticalSize = hasVerticalAspect
+          ? PREVIEW_BASELINE_SIZE.width
+          : PREVIEW_BASELINE_SIZE.height;
+
+        // Compute final preview width and height
         const width = Math.min(
-          fileSize && fileSize.width
-            ? fileSize.width
-            : PREVIEW_BASELINE_SIZE.width,
-          PREVIEW_BASELINE_SIZE.width
+          size?.width ? size.width : baselineHorizontalSize,
+          baselineHorizontalSize
         );
         const height =
-          fileSize && fileSize.width && fileSize.height
-            ? (fileSize.height / fileSize.width) * width
-            : PREVIEW_BASELINE_SIZE.height;
+          size?.width && size?.height
+            ? (size.height / size.width) * width
+            : baselineVerticalSize;
 
         return { width, height };
       }
