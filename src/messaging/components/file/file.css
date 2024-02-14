@@ -176,8 +176,8 @@
   color: var(--color-white-default);
   font-size: 0.85em;
   letter-spacing: 0.01em;
-  line-height: 1em;
-  padding: 4px 6px 3px;
+  line-height: 1.25em;
+  padding: 4px 7px;
   display: inline-block;
   border-radius: 5px;
 }
