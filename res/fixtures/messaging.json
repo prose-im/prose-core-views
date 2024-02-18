@@ -254,6 +254,32 @@
         "encrypted": true,
         "edited": false
       }
+    },
+
+    {
+      "id": "00b4508e-ad68-4cae-a81b-b632a1d66cf4",
+      "type": "text",
+      "date": "2022-07-02T10:13:10.000Z",
+      "from": "marc@prose.org",
+      "content": "I'm sharing a backtrace I just saw on the XMPP server:\n\n```\nFeb 13 20:43:50 modulemanager   error   Error initializing module 'storage_sql' on 'proxy.ssk.pm': /usr/share/lua/5.1/pr\nosody/util/startup.lua:203: module 'DBI' not found:No LuaRocks module found for DBI\n        no field package.preload['DBI']\n        no file './prosody/DBI.lua'\n        no file './DBI.lua'\n        no file '/usr/local/share/lua/5.1/prosody/DBI.lua'\n        no file '/usr/local/share/lua/5.1/DBI.lua'\n```\n\nCan someone have a look at it?",
+
+      "metas": {
+        "encrypted": true,
+        "edited": false
+      }
+    },
+
+    {
+      "id": "6898ee00-7f21-4b31-83f4-3c50f723dcb5",
+      "type": "text",
+      "date": "2022-07-03T18:15:12.000Z",
+      "from": "marc@prose.org",
+      "content": "I am testing some Markdown there, don't mind me... 😇\n\n**The developer said:**\n\n> Thank you for reporting this bug.\n> I however do not have time to fix this...\n> Maybe, you should do it!\n\n# This is huge!\n## This is big!\n### This is medium!\n#### This is small!\n##### This is smaller!\n###### This is tiny!\n\nCan you look at this code `instance` please?",
+
+      "metas": {
+        "encrypted": true,
+        "edited": false
+      }
     }
   ]
 }
