@@ -282,6 +282,15 @@ function FeedStore() {
      * @return {boolean} Message flush status
      */
     flush() {
+      // Clear identities
+      this.feed.identities = {};
+
+      // Reset all loaders
+      for (let direction in this.feed.loaders) {
+        this.feed.loaders[direction] = false;
+      }
+
+      // Flush entries? (if any)
       if (this.feed.entries.length > 0) {
         // Clear all public stores
         this.feed.entries = [];
