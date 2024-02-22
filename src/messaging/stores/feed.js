@@ -116,6 +116,15 @@ function FeedStore() {
      */
     insert(...messages) {
       if (messages.length > 0) {
+        // Check if should force scroll to last inserted message
+        // Notice: this is used when restoring messages from a blank state, \
+        //   which ensures any previous scroll position is ignored. This \
+        //   addresses issues with the scroll position from a previous store \
+        //   state, which just got flushed, to interfere and prevent scroll, \
+        //   in the situation where a 'flush()' was not yet followed by a DOM \
+        //   commit, and this 'insert()' followed immediately.
+        let shouldForceScroll = this.feed.entries.length === 0 ? true : false;
+
         // Inject messages to the store (append mode)
         for (let i = 0; i < messages.length; i++) {
           this.__injectMessage(INJECT_MODE_APPEND, messages[i]);
@@ -125,7 +134,11 @@ function FeedStore() {
         let lastMessage = messages[messages.length - 1] || null;
 
         if (lastMessage !== null) {
-          MessageHelper.scheduleScrollToMessage(lastMessage.id, true);
+          MessageHelper.scheduleScrollToMessage(
+            lastMessage.id,
+            true,
+            shouldForceScroll
+          );
         }
 
         return true;

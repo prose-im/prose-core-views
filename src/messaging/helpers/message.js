@@ -150,11 +150,17 @@ const MessageHelper = {
    * @public
    * @param  {string}  messageId
    * @param  {boolean} [immediate]
+   * @param  {boolean} [force]
    * @return {undefined}
    */
-  scheduleScrollToMessage: function (messageId, immediate = false) {
+  scheduleScrollToMessage: function (
+    messageId,
+    immediate = false,
+    force = false
+  ) {
     // Acquire current scroll position
-    let initialScrollTop = document.documentElement.scrollTop || 0;
+    let initialScrollTop =
+      force === true ? -1 : document.documentElement.scrollTop || 0;
 
     // Clear any existing scheduled timer
     this.unscheduleScroll();
