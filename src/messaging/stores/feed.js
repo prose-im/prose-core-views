@@ -99,6 +99,9 @@ function FeedStore() {
           this.__injectMessage(INJECT_MODE_PREPEND, messages[i]);
         }
 
+        // Schedule scroll position restore
+        MessageHelper.scheduleScrollPreserveAfterPrepend(true);
+
         return true;
       }
 
@@ -122,7 +125,7 @@ function FeedStore() {
         let lastMessage = messages[messages.length - 1] || null;
 
         if (lastMessage !== null) {
-          MessageHelper.scheduleScrollTo(lastMessage.id, true);
+          MessageHelper.scheduleScrollToMessage(lastMessage.id, true);
         }
 
         return true;
@@ -299,8 +302,8 @@ function FeedStore() {
         this.__registers.feedEntriesById = {};
         this.__registers.entryIdForLineId = {};
 
-        // Unschedule any planned scroll to target message
-        MessageHelper.unscheduleScrollTo();
+        // Unschedule any planned scroll
+        MessageHelper.unscheduleScroll();
 
         return true;
       }

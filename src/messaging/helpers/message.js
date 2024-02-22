@@ -152,26 +152,45 @@ const MessageHelper = {
    * @param  {boolean} [immediate]
    * @return {undefined}
    */
-  scheduleScrollTo: function (messageId, immediate = false) {
+  scheduleScrollToMessage: function (messageId, immediate = false) {
     // Acquire current scroll position
     let initialScrollTop = document.documentElement.scrollTop || 0;
 
     // Clear any existing scheduled timer
-    this.unscheduleScrollTo();
+    this.unscheduleScroll();
 
     // Schedule debounce timer
-    this.__timers.scrollDebounce = setTimeout(
-      () => {
-        this.__timers.scrollDebounce = null;
+    this.__scheduleScroll(() => {
+      // Scroll to target message now
+      this.__fireScrollToMessage(messageId, initialScrollTop);
+    }, immediate);
+  },
 
-        // Ensure DOM has been rendered w/ latest data
-        nextTick(() => {
-          // Scroll to target message now
-          this.__fireScrollTo(messageId, initialScrollTop);
-        });
-      },
-      immediate === true ? 0 : SCROLL_DEBOUNCE_DELAY
-    );
+  /**
+   * Schedules to scroll to preserved position (after a prepend)
+   * @public
+   * @param  {boolean} [immediate]
+   * @return {undefined}
+   */
+  scheduleScrollPreserveAfterPrepend: function (immediate = false) {
+    // Important: do not re-schedule if there is already a scroll task \
+    //   scheduled, since we are preserving the very initial scroll position \
+    //   there, so we want to compute the new scroll position with the initial \
+    //   values and not any transient value.
+    if (this.__timers.scrollDebounce === null) {
+      // Acquire current scroll position
+      let initialScrollTop = document.documentElement.scrollTop || 0,
+        initialScrollHeight = document.documentElement.scrollHeight || 0;
+
+      // Schedule debounce timer
+      this.__scheduleScroll(() => {
+        // Scroll to preserved position now
+        this.__fireScrollPreserveAfterPrepend(
+          initialScrollHeight,
+          initialScrollTop
+        );
+      }, immediate);
+    }
   },
 
   /**
@@ -179,7 +198,7 @@ const MessageHelper = {
    * @public
    * @return {undefined}
    */
-  unscheduleScrollTo: function () {
+  unscheduleScroll: function () {
     if (this.__timers.scrollDebounce !== null) {
       clearTimeout(this.__timers.scrollDebounce);
 
@@ -250,13 +269,40 @@ const MessageHelper = {
   },
 
   /**
-   * Schedules to scroll to target message
+   * Schedules debounced scroll trigger
+   * @private
+   * @param  {function} fnTrigger
+   * @param  {boolean}  [immediate]
+   * @return {undefined}
+   */
+  __scheduleScroll: function (fnTrigger, immediate = false) {
+    // Assert that no other scroll debounce is scheduled
+    if (this.__timers.scrollDebounce !== null) {
+      throw new Error(
+        "Cannot schedule scroll (another one is already scheduled)"
+      );
+    }
+
+    // Schedule scroll debounce
+    this.__timers.scrollDebounce = setTimeout(
+      () => {
+        this.__timers.scrollDebounce = null;
+
+        // Ensure DOM has been rendered w/ latest data
+        nextTick(fnTrigger);
+      },
+      immediate === true ? 0 : SCROLL_DEBOUNCE_DELAY
+    );
+  },
+
+  /**
+   * Fires scroll to target message
    * @private
    * @param  {string} messageId
    * @param  {number} [scrollTopPosition]
    * @return {undefined}
    */
-  __fireScrollTo: function (messageId, scrollTopPosition = -1) {
+  __fireScrollToMessage: function (messageId, scrollTopPosition = -1) {
     // Acquire message and its entry parent
     let messageElement =
       document.getElementById(`message-${messageId}`) || null;
@@ -300,6 +346,32 @@ const MessageHelper = {
       if (mayScroll === true) {
         messageElement.scrollIntoView(SCROLL_INTO_VIEW_OPTIONS);
       }
+    }
+  },
+
+  /**
+   * Fires scroll to preserved position (after a prepend)
+   * @private
+   * @param  {number} scrollHeight
+   * @param  {number} [scrollTopPosition]
+   * @return {undefined}
+   */
+  __fireScrollPreserveAfterPrepend: function (
+    scrollHeight,
+    scrollTopPosition = 0
+  ) {
+    let newScrollHeight = document.documentElement.scrollHeight || 0;
+
+    // Compute new scroll top position, which will effectively \
+    //   preserve the visible scroll position following prepended \
+    //   messages in the view.
+    // Important: only proceed if available total scroll height \
+    //   increased, which MUST be the case if we prepended items.
+    if (newScrollHeight > scrollHeight) {
+      let newScrollTop = scrollTopPosition + (newScrollHeight - scrollHeight);
+
+      // Restore scroll position (to preserved position)
+      document.documentElement.scrollTop = newScrollTop;
     }
   },
 
