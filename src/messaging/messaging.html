@@ -52,7 +52,12 @@
       :key="dayChangeCount + '/' + $context.i18n.code + '/' + entry.id + '@' + (entry.updatedAt || 0)"
       class="entry"
     >
-      <div v-if="message" v-scope="Message(message)" class="message">
+      <div
+        v-if="message"
+        v-scope="Message(message)"
+        @vue:mounted="mounted"
+        class="message"
+      >
         <div
           v-for="(line, lineIndex) in content"
           v-scope="MessageLine(observer)"
