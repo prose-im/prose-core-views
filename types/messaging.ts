@@ -26,6 +26,13 @@ export enum Modifier {
   Scroll = "scroll"
 }
 
+export enum ViewVisibility {
+  // History item has visible visibility.
+  Visible = "visible",
+  // History item has hidden visibility.
+  Hidden = "hidden"
+}
+
 export enum SeekDirection {
   // History will load in backwards direction.
   Backwards = "backwards",
@@ -191,6 +198,11 @@ export declare interface EventMessageFileView {
     before: Array<EventMessageFileView>;
     after: Array<EventMessageFileView>;
   };
+}
+
+export declare interface EventMessageHistoryView {
+  id: string;
+  visibility: ViewVisibility;
 }
 
 export declare interface EventMessageHistorySeek {

@@ -16,6 +16,7 @@ function BrokerStore() {
       "message:reactions:view",
       "message:reactions:react",
       "message:file:view",
+      "message:history:view",
       "message:history:seek"
     ]),
 

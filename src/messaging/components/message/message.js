@@ -202,6 +202,24 @@ function Message(message) {
   };
 }
 
+function MessageLine(observer) {
+  return {
+    // --> METHODS <--
+
+    /**
+     * Mounted hook
+     * @public
+     * @return {undefined}
+     */
+    mounted() {
+      // Bind to observer? (if any line element)
+      if (this.$refs.line) {
+        observer.observe(this.$refs.line);
+      }
+    }
+  };
+}
+
 function MessagePartText(content) {
   return {
     // --> TEMPLATE <--
@@ -428,4 +446,4 @@ function MessagePartFile(content, file) {
 
 // EXPORTS
 
-export { Message, MessagePartText, MessagePartFile };
+export { Message, MessageLine, MessagePartText, MessagePartFile };

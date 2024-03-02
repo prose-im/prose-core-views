@@ -55,6 +55,8 @@
       <div v-if="message" v-scope="Message(message)" class="message">
         <div
           v-for="(line, lineIndex) in content"
+          v-scope="MessageLine(observer)"
+          @vue:mounted="mounted"
           :key="line.id"
           :data-line-id="line.id"
           :id="'message-' + line.id"
@@ -64,6 +66,7 @@
               'message-line--highlighted': (line.properties && line.properties.highlighted)
             }
           ]"
+          ref="line"
         >
           <span
             v-if="user"
@@ -95,7 +98,7 @@
             </span>
           </span>
 
-          <div @vue:mounted="mounted" class="message-inner">
+          <div class="message-inner">
             <div v-if="user && lineIndex === 0" class="message-origin">
               <span class="message-origin-name"
                 >{{ user.name || user.jid }}</span

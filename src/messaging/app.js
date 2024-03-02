@@ -23,6 +23,7 @@ import Entry from "./components/entry/entry.js";
 import Loader from "./components/loader/loader.js";
 import {
   Message,
+  MessageLine,
   MessagePartText,
   MessagePartFile
 } from "./components/message/message.js";
@@ -34,6 +35,8 @@ const NEXT_DAY_CHANGE_BUFFER_TIME = 5 * 1000; // 5 seconds
 
 const SCROLL_ACTIVE_AREA_OFFSET = 140; // 140 pixels
 
+const OBSERVER_INTERSECT_THRESHOLD = 0.75; // 75% visible
+
 // COMPONENTS
 
 function App() {
@@ -41,6 +44,8 @@ function App() {
     // --> DATA <--
 
     isReady: false,
+
+    observer: null,
     dayChangeCount: 0,
 
     __dayChangeTimer: null,
@@ -59,6 +64,9 @@ function App() {
      * @return {undefined}
      */
     mounted() {
+      // Register all global instances
+      this.__registerGlobalInstances();
+
       // Schedule all global timers
       this.__scheduleGlobalTimers();
 
@@ -75,11 +83,37 @@ function App() {
      * @return {undefined}
      */
     unmounted() {
-      // Unschedule all timers
+      // Unregister all global instances
+      this.__unregisterGlobalInstances();
+
+      // Unschedule all global timers
       this.__unscheduleGlobalTimers();
 
       // Unbind all global events
       this.__unbindGlobalEvents();
+
+      // Mark as non-ready
+      this.isReady = false;
+    },
+
+    /**
+     * Registers all global instances
+     * @private
+     * @return {undefined}
+     */
+    __registerGlobalInstances() {
+      // Register observer instance
+      this.__registerObserverInstance();
+    },
+
+    /**
+     * Unregisters all global instances
+     * @private
+     * @return {undefined}
+     */
+    __unregisterGlobalInstances() {
+      // Unregister observer instance
+      this.__unregisterObserverInstance();
     },
 
     /**
@@ -126,6 +160,38 @@ function App() {
 
       // Unbind context menu event
       this.__unbindContextMenuEvent();
+    },
+
+    /**
+     * Registers observer instance
+     * @private
+     * @return {undefined}
+     */
+    __registerObserverInstance() {
+      if (this.observer === null) {
+        this.observer = new IntersectionObserver(
+          this.__handleElementObservedEvent,
+
+          {
+            threshold: OBSERVER_INTERSECT_THRESHOLD
+          }
+        );
+      }
+    },
+
+    /**
+     * Unregisters observer instance
+     * @private
+     * @return {undefined}
+     */
+    __unregisterObserverInstance() {
+      if (this.observer !== null) {
+        // Disconnect observer
+        this.observer.disconnect();
+
+        // Void observer
+        this.observer = null;
+      }
     },
 
     /**
@@ -218,6 +284,32 @@ function App() {
     },
 
     /**
+     * Handles element observed event
+     * @private
+     * @param  {object} [entries]
+     * @return {undefined}
+     */
+    __handleElementObservedEvent(entries = []) {
+      entries.forEach(entry => {
+        // List identifiers from target element
+        let identifiers = entry.target
+          ? MessageHelper.listIdentifiersFromElement(entry.target)
+          : [];
+
+        // Acquire visibility
+        const visibility = entry.isIntersecting === true ? "visible" : "hidden";
+
+        // Emit message history view event
+        identifiers.forEach(identifier => {
+          $event._emit("message:history:view", {
+            id: identifier,
+            visibility
+          });
+        });
+      });
+    },
+
+    /**
      * Handles scroll event
      * @private
      * @return {undefined}
@@ -305,6 +397,7 @@ createApp({
   Loader,
   Entry,
   Message,
+  MessageLine,
   MessagePartText,
   MessagePartFile,
   $store,

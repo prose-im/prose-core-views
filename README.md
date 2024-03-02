@@ -184,6 +184,7 @@ The following namespaces are available for use:
 - `message:reactions:view`: show the list of reactions that can be sent for message
 - `message:reactions:react`: react to a message (eg. user clicks on an existing reaction to send it or retract it)
 - `message:file:view`: view a file from a message (eg. user clicks on a file to expand or download the file)
+- `message:history:view`: notify when a message from history enters or leaves view area, with the `visible` and `hidden` states (eg. scrolling up or down in the timeline)
 - `message:history:seek`: request to load `backwards` or `forwards` history (eg. scrolling back in time to load past messages)
 
 ## License
