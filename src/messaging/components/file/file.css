@@ -9,6 +9,7 @@
 
 .file-image,
 .file-video {
+  cursor: zoom-in;
   display: inline-block;
 }
 
