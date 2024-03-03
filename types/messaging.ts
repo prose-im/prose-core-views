@@ -99,6 +99,7 @@ export declare interface MessagingStore {
   flush: () => boolean;
   highlight: (messageId: null | string) => boolean;
   interact: (messageId: string, action: string, isActive: boolean) => boolean;
+  scroll: (messageId: string) => boolean;
   loader: (type: string, isVisible: null | boolean) => boolean;
   identify: (
     jid: string,

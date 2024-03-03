@@ -426,6 +426,23 @@ function FeedStore() {
     },
 
     /**
+     * Scrolls to a message
+     * @public
+     * @param  {string}  messageId
+     * @return {boolean} Message scroll status
+     */
+    scroll(messageId) {
+      // Scroll to existing message? (immediate and forced)
+      if (this._resolveEntry(messageId) !== null) {
+        MessageHelper.scheduleScrollToMessage(messageId, true, true);
+
+        return true;
+      }
+
+      return false;
+    },
+
+    /**
      * Toggles the visibility of a loader
      * @public
      * @param  {string}  type

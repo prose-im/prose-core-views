@@ -73,7 +73,7 @@ The messaging view can be included from path: `./dist/messaging.html`
 The messaging view exposes a programmatic API that lets applications manipulate its internal store:
 
 - Check if a message exists: `MessagingStore.exists(messageId<string>)<boolean>`
-- Resolve a message from the store: `MessagingStore.resolve(messageId<string>)<object>`
+- Resolve a message from the store: `MessagingStore.resolve(messageId<string>)<null | object>`
 - Restore one or multiple past messages in the store (ie. prepend): `MessagingStore.restore(...messages<object>)<boolean>`
 - Insert one or multiple messages in the store (ie. append): `MessagingStore.insert(...messages<object>)<boolean>`
 - Update a message in the store: `MessagingStore.update(messageId<string>, messageDiff<object>)<boolean>`
@@ -81,8 +81,9 @@ The messaging view exposes a programmatic API that lets applications manipulate 
 - Flush all content from the store: `MessagingStore.flush()<boolean>`
 - Highlight a message in the store: `MessagingStore.highlight(messageId<string>)<boolean>`
 - Interact with a message action: `MessagingStore.interact(messageId<string>, action<string>, isActive<boolean>)<boolean>`
+- Scroll to a message: `MessagingStore.scroll(messageId<string>)<boolean>`
 - Toggle `backwards` or `forwards` loader in the store: `MessagingStore.loader(type<string>, isVisible<boolean>)<boolean>`
-- Identify a JID with its `name` and `avatar`: `MessagingStore.identify(jid<string>, identity<object>)<boolean>`
+- Identify a JID with its `name` and `avatar`: `MessagingStore.identify(jid<string>, identity<null | object>)<boolean>`
 
 All inserted message objects are required to hold the following keys: `id`, `type`, `date`, `content` and `from`. When updating an existing message, only modified keys need to be passed.
 
