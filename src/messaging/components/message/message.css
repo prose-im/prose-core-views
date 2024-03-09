@@ -20,7 +20,7 @@
 }
 
 .message-line:first-child .message-inner {
-  margin-bottom: -3px;
+  margin-bottom: -0.25em;
 }
 
 .message-line.message-line--highlighted {
@@ -41,7 +41,7 @@
   line-height: var(--message-line-origin-height);
   display: flex;
   align-items: center;
-  margin-bottom: 4px;
+  margin-bottom: 0.15em;
 }
 
 .message-origin-name,
@@ -99,7 +99,7 @@
 .message-content {
   color: var(--color-black-medium);
   font-size: 1em;
-  line-height: 1.3em;
+  line-height: 1.5em;
   letter-spacing: 0;
   margin: 0;
   padding: 0;
@@ -255,7 +255,7 @@
   color: var(--color-blue-dark);
   background-color: var(--color-blue-light);
   text-decoration: none;
-  padding: 2px 4px 1px;
+  padding: 0.1em 0.3em 0.1em 0.15em;
   border-radius: 3px;
 }
 

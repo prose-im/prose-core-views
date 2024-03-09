@@ -261,7 +261,7 @@
       "type": "text",
       "date": "2022-07-02T10:13:10.000Z",
       "from": "marc@prose.org",
-      "content": "I'm sharing a backtrace I just saw on the XMPP server:\n\n```\n&> Feb 13 20:43:50 modulemanager   error   Error initializing module 'storage_sql' on 'proxy.ssk.pm': /usr/share/lua/5.1/pr\nosody/util/startup.lua:203: module 'DBI' not found:No LuaRocks module found for DBI\n        no field package.preload['DBI']\n        no file './prosody/DBI.lua'\n        no file './DBI.lua'\n        no file '/usr/local/share/lua/5.1/prosody/DBI.lua'\n        no file '/usr/local/share/lua/5.1/DBI.lua'\n```\n\nCan someone have a look at it? @[Valerian Saliou](xmpp:valerian@prose.org)",
+      "content": "I'm sharing a backtrace I just saw on the XMPP server:\n\n```\n&> Feb 13 20:43:50 modulemanager   error   Error initializing module 'storage_sql' on 'proxy.ssk.pm': /usr/share/lua/5.1/pr\nosody/util/startup.lua:203: module 'DBI' not found:No LuaRocks module found for DBI\n        no field package.preload['DBI']\n        no file './prosody/DBI.lua'\n        no file './DBI.lua'\n        no file '/usr/local/share/lua/5.1/prosody/DBI.lua'\n        no file '/usr/local/share/lua/5.1/DBI.lua'\n```\n\nCan someone have a look at it? [@Valerian Saliou](xmpp:valerian@prose.org)",
 
       "metas": {
         "encrypted": true,
