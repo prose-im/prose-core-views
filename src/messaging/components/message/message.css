@@ -251,6 +251,19 @@
   text-decoration: underline;
 }
 
+.message-text-inner a[href^="xmpp:"] {
+  color: var(--color-blue-dark);
+  background-color: var(--color-blue-light);
+  text-decoration: none;
+  padding: 2px 4px 1px;
+  border-radius: 3px;
+}
+
+.message-text-inner a[href^="xmpp:"]:hover {
+  color: var(--color-white-default);
+  background-color: var(--color-blue-dark);
+}
+
 .message-text-inner ul,
 .message-text-inner ol {
   margin: 0.5em 0;
