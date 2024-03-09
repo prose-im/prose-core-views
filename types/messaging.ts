@@ -201,6 +201,15 @@ export declare interface EventMessageFileView {
   };
 }
 
+export declare interface EventMessageLinkOpen {
+  id: string;
+
+  link: {
+    url: string;
+    protocol: null | string;
+  };
+}
+
 export declare interface EventMessageHistoryView {
   id: string;
   visibility: ViewVisibility;

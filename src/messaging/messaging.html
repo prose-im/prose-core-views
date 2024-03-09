@@ -138,7 +138,7 @@
               <span
                 v-for="file in line.files"
                 :key="'file/' + file.url"
-                v-scope="MessagePartFile(line, file)"
+                v-scope="MessagePartFile(file)"
                 @vue:mounted="mounted"
                 class="message-file"
               ></span>
@@ -220,7 +220,12 @@
     <!-- TEMPLATES -->
 
     <template id="template-message-part-text">
-      <span v-if="html" v-html="html" class="message-text-inner"></span>
+      <span
+        v-if="html"
+        v-html="html"
+        class="message-text-inner"
+        ref="textInner"
+      ></span>
 
       <span v-if="edited" class="message-text-flag">
         ({{ $context.i18n._.attributes.edited }})

@@ -7,6 +7,7 @@
 
 // IMPORTS
 
+import { nextTick } from "petite-vue";
 import { htmlEscape as _e } from "escape-goat";
 import linkifyHtml from "linkify-html";
 import snarkdown from "snarkdown";
@@ -241,6 +242,10 @@ function MessagePartText(content) {
     mounted() {
       // Generate text message HTML
       this.html = this.__generateHTML(content);
+
+      // Bind link click events
+      // Notice: ensure DOM has been rendered w/ HTML content
+      nextTick(this.__bindLinkClickEvents);
     },
 
     /**
@@ -260,11 +265,72 @@ function MessagePartText(content) {
       htmlContent = linkifyHtml(htmlContent, TEXT_LINKIFY_OPTIONS);
 
       return htmlContent;
+    },
+
+    /**
+     * Binds link click events
+     * @private
+     * @return {undefined}
+     */
+    __bindLinkClickEvents() {
+      // Bind click event on all links? (if any text element)
+      // Notice: since we are generating custom HTML code outside of Vue, then \
+      //   we cannot use the standard '@click' event and have to resort to \
+      //   using the non-Vue 'addEventListener()'.
+      if (this.$refs.textInner) {
+        const linkElements =
+          this.$refs.textInner.getElementsByTagName("a") || [];
+
+        if (linkElements.length > 0) {
+          for (const linkElement of linkElements) {
+            linkElement.addEventListener("click", this.__onLinkClick);
+          }
+        }
+      }
+    },
+
+    // --> EVENT LISTENERS <--
+
+    /**
+     * Triggers when a link is clicked
+     * @private
+     * @param  {object} event
+     * @return {undefined}
+     */
+    __onLinkClick(event) {
+      // Do not open link (let the implementing app choose what to do)
+      event.preventDefault();
+
+      // Handle link? (if any)
+      const linkUrl = event.target?.href || null;
+
+      if (linkUrl !== null) {
+        // Extract protocol from link (if any)
+        const protocolSeparatorIndex = linkUrl.indexOf(":");
+
+        let linkProtocol = null;
+
+        if (protocolSeparatorIndex > 0) {
+          linkProtocol = linkUrl
+            .substring(0, protocolSeparatorIndex)
+            .toLowerCase();
+        }
+
+        // Emit message link open event
+        $event._emit("message:link:open", {
+          id: content.id,
+
+          link: {
+            url: linkUrl,
+            protocol: linkProtocol
+          }
+        });
+      }
     }
   };
 }
 
-function MessagePartFile(content, file) {
+function MessagePartFile(file) {
   return {
     // --> TEMPLATE <--
 
