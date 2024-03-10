@@ -44,7 +44,6 @@ const PRESENTATION_MIME_TYPES = {
 
 const TEXT_LINKIFY_OPTIONS = {
   defaultProtocol: "https",
-  target: "_blank",
   nl2br: false,
   truncate: TEXT_LINKS_TRUNCATE_SIZE
 };
@@ -300,6 +299,7 @@ function MessagePartText(content) {
     __onLinkClick(event) {
       // Do not open link (let the implementing app choose what to do)
       event.preventDefault();
+      event.stopPropagation();
 
       // Handle link? (if any)
       const linkUrl = event.target?.href || null;

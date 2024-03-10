@@ -253,11 +253,9 @@
           <a
             v-if="presentation === 'image'"
             v-scope="FileImage(file)"
-            @click.prevent="onFileClick(line.id, viewAction)"
+            @click.prevent.stop="onFileClick(line.id, viewAction)"
             :href="file.url"
             class="file-image"
-            target="_blank"
-            rel="noopener"
           >
             <span
               v-if="previewSize"
@@ -274,11 +272,9 @@
             v-else-if="presentation === 'video'"
             v-scope="FileVideo(file)"
             @vue:mounted="mounted"
-            @click.prevent="onFileClick(line.id, viewAction)"
+            @click.prevent.stop="onFileClick(line.id, viewAction)"
             :href="file.url"
             class="file-video file-player"
-            target="_blank"
-            rel="noopener"
           >
             <span
               v-if="previewSize"
@@ -353,11 +349,10 @@
           <ul v-else class="file-other">
             <li>
               <a
-                @click.prevent="onFileClick(line.id, viewAction)"
+                @click.prevent.stop="onFileClick(line.id, viewAction)"
                 :href="file.url"
                 :download="file.name || file.url"
                 class="file-other-option file-other-option--get"
-                rel="noopener"
               ></a>
             </li>
           </ul>
