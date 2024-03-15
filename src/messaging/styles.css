@@ -104,5 +104,5 @@ a {
 }
 
 #app.app--modifier-no-scroll {
-  overflow: hidden;
+  overflow-y: hidden;
 }
