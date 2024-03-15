@@ -32,7 +32,7 @@ a {
 #app {
   background-color: var(--color-white-default);
   font-family: sans-serif;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 #app.app--visible {
