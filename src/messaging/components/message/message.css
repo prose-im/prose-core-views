@@ -107,7 +107,7 @@
 
 .message-content br {
   content: "";
-  margin: 2px;
+  margin: 0.5em;
   display: block;
 }
 
