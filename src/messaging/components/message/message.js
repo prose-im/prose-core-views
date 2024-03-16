@@ -19,6 +19,8 @@ import MessageHelper from "../../helpers/message.js";
 
 // CONSTANTS
 
+const EMOJI_SINGLE_REGEX = /^\p{Emoji}{1}$/u;
+
 const TEXT_LINKS_TRUNCATE_SIZE = 120;
 const PRESENTATION_DEFAULT = "other";
 
@@ -229,6 +231,7 @@ function MessagePartText(content) {
     // --> DATA <--
 
     html: null,
+    enlarged: false,
     edited: (content.properties || {}).edited || false,
 
     // --> METHODS <--
@@ -241,6 +244,9 @@ function MessagePartText(content) {
     mounted() {
       // Generate text message HTML
       this.html = this.__generateHTML(content);
+
+      // Acquire enlarged status
+      this.enlarged = this.__acquireEnlarged(content);
 
       // Bind link click events
       // Notice: ensure DOM has been rendered w/ HTML content
@@ -264,6 +270,21 @@ function MessagePartText(content) {
       htmlContent = linkifyHtml(htmlContent, TEXT_LINKIFY_OPTIONS);
 
       return htmlContent;
+    },
+
+    /**
+     * Acquires enlarged size status for text
+     * @private
+     * @param  {object}  content
+     * @return {boolean} Whether text should be enlarged or not
+     */
+    __acquireEnlarged(content) {
+      // A single emoji in a message should result in an enlarged text
+      if (EMOJI_SINGLE_REGEX.test(content.text) === true) {
+        return true;
+      }
+
+      return false;
     },
 
     /**

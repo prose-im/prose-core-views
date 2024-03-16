@@ -246,6 +246,11 @@
   hyphens: auto;
 }
 
+.message-text-inner.message-text-inner--enlarged {
+  font-size: 2em;
+  line-height: 1.25em;
+}
+
 .message-text-inner a {
   color: var(--color-blue-default);
   text-decoration: underline;

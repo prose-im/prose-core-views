@@ -52,6 +52,19 @@
     },
 
     {
+      "id": "177d913e-cdcb-46d6-bfbe-b8a3ed9a3f9f",
+      "type": "text",
+      "date": "2022-06-22T19:15:04.000Z",
+      "from": "valerian@prose.org",
+      "content": "😇",
+
+      "metas": {
+        "encrypted": true,
+        "edited": false
+      }
+    },
+
+    {
       "id": "fe685272-2a23-4701-9e4e-a9605697b8c7",
       "type": "text",
       "date": "2022-06-24T19:15:05.000Z",

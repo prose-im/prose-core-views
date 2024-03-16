@@ -223,8 +223,13 @@
       <span
         v-if="html"
         v-html="html"
-        class="message-text-inner"
         ref="textInner"
+        :class="[
+          'message-text-inner',
+          {
+            'message-text-inner--enlarged': enlarged
+          }
+        ]"
       ></span>
 
       <span v-if="edited" class="message-text-flag">
