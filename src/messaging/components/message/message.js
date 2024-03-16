@@ -11,6 +11,7 @@ import { nextTick } from "petite-vue";
 import { htmlEscape as _e } from "escape-goat";
 import linkifyHtml from "linkify-html";
 import snarkdown from "snarkdown";
+import emojiRegex from "emoji-regex";
 import DateHelper from "../../helpers/date.js";
 import $store from "../../stores/feed.js";
 import $context from "../../stores/option.js";
@@ -19,7 +20,8 @@ import MessageHelper from "../../helpers/message.js";
 
 // CONSTANTS
 
-const EMOJI_SINGLE_REGEX = /^\p{Emoji}{1}$/u;
+const EMOJI_REGEX = emojiRegex();
+const EMOJI_TEST_BELOW_LENGTH = 16;
 
 const TEXT_LINKS_TRUNCATE_SIZE = 120;
 const PRESENTATION_DEFAULT = "other";
@@ -280,8 +282,23 @@ function MessagePartText(content) {
      */
     __acquireEnlarged(content) {
       // A single emoji in a message should result in an enlarged text
-      if (EMOJI_SINGLE_REGEX.test(content.text) === true) {
-        return true;
+      // Notice: only trigger regex on short strings, for performance reasons, \
+      //   since it does not make sense to look for a single emoji in a long \
+      //   string, only in short ones. We need to account for multi-characters \
+      //   emojis on the UTF-16 range, as some emojis have a length of eg. 8 \
+      //   in the case of grapheme clusters. The longest emoji known to this \
+      //   day is 'kiss: man, man, light skin tone' which has a length of 15, \
+      //   as of January 2023.
+      // Reference: \
+      //   https://machs.space/posts/whats-the-max-valid-length-of-an-emoji/
+      if (content.text.length < EMOJI_TEST_BELOW_LENGTH) {
+        const emojiMatches = content.text.match(EMOJI_REGEX);
+
+        // First found emoji matches total text length? (this ensures that the \
+        //   string is only a single emoji and nothing else)
+        if (emojiMatches && emojiMatches[0]?.length === content.text.length) {
+          return true;
+        }
       }
 
       return false;
