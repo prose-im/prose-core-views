@@ -105,9 +105,8 @@
   padding: 0;
 }
 
-.message-content br {
-  content: "";
-  margin: 0.5em 0;
+.message-content .linebreak {
+  height: 1em;
   display: block;
 }
 

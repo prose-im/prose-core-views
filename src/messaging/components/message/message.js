@@ -20,6 +20,8 @@ import MessageHelper from "../../helpers/message.js";
 
 // CONSTANTS
 
+const HTML_LINE_BREAK_REGEX = /<br(?:[ ]{0,1}\/)?>/g;
+
 const EMOJI_REGEX = emojiRegex();
 const EMOJI_TEST_BELOW_LENGTH = 16;
 
@@ -270,6 +272,18 @@ function MessagePartText(content) {
 
       // Transform links into HTML
       htmlContent = linkifyHtml(htmlContent, TEXT_LINKIFY_OPTIONS);
+
+      // Hack: replace <br> elements into our own linebreaks, essentially \
+      //   fixing an issue with Safari treating the first <br> as the first \
+      //   new line, when in fact it might be the second since we use \
+      //   'white-space: pre-wrap' on its parent and therefore the first \
+      //   effective new line should be '\n'. Unfortunately, as of March 2024 \
+      //   there is no way around that using the standard <br>. Other Web \
+      //   browsers are not affected by this issue.
+      htmlContent = htmlContent.replace(
+        HTML_LINE_BREAK_REGEX,
+        '<span class="linebreak"></span>'
+      );
 
       return htmlContent;
     },
