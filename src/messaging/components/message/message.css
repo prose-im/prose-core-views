@@ -171,8 +171,14 @@
   font-family: "Apple Color Emoji", "Android Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Twemoji Mozilla", "Noto Color Emoji", "EmojiOne Color",
     sans-serif;
-  font-size: 1em;
-  margin-top: -0.4em;
+  font-size: 1.15em;
+  margin-top: -0.35em;
+}
+
+#app.app--renderer-safari .message-reaction-image {
+  /* Hack: Safari renders emojis a little bit too large, we need to adjust */
+  font-size: 0.9em;
+  margin-top: -0.6em;
 }
 
 .message-reaction-count {
