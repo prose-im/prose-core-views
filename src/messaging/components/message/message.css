@@ -182,13 +182,15 @@
   margin-left: 1px;
 }
 
-#app.app--renderer-safari .message-reaction-image {
+#app.app--renderer-safari .message-reaction-image,
+#app.app--renderer-ios-webview .message-reaction-image {
   /* Hack: Safari renders emojis a little bit too large, we need to adjust */
   font-size: 0.9em;
   margin-top: -0.5em;
 }
 
-#app.app--renderer-safari .message-reaction-count {
+#app.app--renderer-safari .message-reaction-count,
+#app.app--renderer-ios-webview .message-reaction-count {
   /* Hack: Safari renders emojis a little bit too large, we need to adjust */
   margin-top: -0.4em;
 }
