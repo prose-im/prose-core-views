@@ -5,6 +5,10 @@
  * License: Mozilla Public License v2.0 (MPL v2.0)
  */
 
+// TYPES
+
+export type Renderer = string;
+
 // ENUMERATIONS
 
 export enum Theme {
@@ -76,11 +80,13 @@ export declare interface Messaging extends Window {
 export declare interface MessagingContext {
   getLanguage: () => string;
   getStylePlatform: () => Platform;
+  getStyleRenderer: () => Renderer;
   getStyleTheme: () => Theme;
   getStyleModifier: () => Modifier;
   getAccountJID: () => string;
   setLanguage: (code: string) => void;
   setStylePlatform: (platform: Platform) => void;
+  setStyleRenderer: (renderer: Renderer) => void;
   setStyleTheme: (theme: Theme) => void;
   setStyleModifier: (name: Modifier, value: any) => void;
   setAccountJID: (jid: string) => void;

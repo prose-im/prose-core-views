@@ -28,6 +28,7 @@ function OptionStore() {
 
     style: reactive({
       platform: DEFAULT_USER_PLATFORM,
+      renderer: ToolboxHelper.detectWebRenderer(),
       theme: ToolboxHelper.detectAppearancePreference(),
 
       modifiers: {
@@ -57,6 +58,15 @@ function OptionStore() {
      */
     getStylePlatform() {
       return this.style.platform;
+    },
+
+    /**
+     * Gets style renderer
+     * @public
+     * @return {string} Style renderer name
+     */
+    getStyleRenderer() {
+      return this.style.renderer;
     },
 
     /**
@@ -121,6 +131,21 @@ function OptionStore() {
       }
 
       this.style.platform = platform;
+    },
+
+    /**
+     * Sets style renderer
+     * @public
+     * @param  {string} renderer
+     * @return {undefined}
+     */
+    setStyleRenderer(renderer) {
+      // Renderer is not set?
+      if (!renderer) {
+        throw new Error("Style renderer not set");
+      }
+
+      this.style.renderer = renderer;
     },
 
     /**

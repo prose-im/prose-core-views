@@ -7,6 +7,8 @@
 
 // IMPORTS
 
+const detectBrowser = require("detect-browser");
+
 const LanguageData = {
   en: require("../locales/en.json"),
   de: require("../locales/de.json"),
@@ -73,6 +75,23 @@ const ToolboxHelper = {
 
     // Return preferred locale, or fallback
     return preferredLocale || this.LANGUAGE_DEFAULT;
+  },
+
+  /**
+   * Detects Web renderer (browser name)
+   * @public
+   * @return {string} Detected Web renderer
+   */
+  detectWebRenderer: function () {
+    const result = detectBrowser.detect();
+
+    // Browser renderer? (return name)
+    if (result?.type === "browser") {
+      return result.name || "unknown";
+    }
+
+    // Other renderer (non-browser)
+    return "other";
   },
 
   /**
