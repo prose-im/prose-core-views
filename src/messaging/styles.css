@@ -12,6 +12,14 @@
 @import "./components/entry/entry.css";
 @import "./components/loader/loader.css";
 
+/* SECTION: HTML */
+
+html {
+  /* Notice: request anti-aliased fonts on whole document */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* SECTION: BODY */
 
 body {
