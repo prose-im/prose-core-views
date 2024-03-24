@@ -240,6 +240,7 @@
 
     <template id="template-message-part-file">
       <span
+        v-if="presentation"
         :class="[
           'message-file-inner',
           {
