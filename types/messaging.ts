@@ -141,6 +141,7 @@ export declare interface MessagingStoreMessageData {
     secure?: boolean;
     encrypted?: boolean;
     edited?: boolean;
+    transient?: boolean;
   };
 
   reactions?: Array<{
