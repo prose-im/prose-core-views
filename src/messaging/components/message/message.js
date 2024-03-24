@@ -208,8 +208,13 @@ function Message(message) {
   };
 }
 
-function MessageLine(observer) {
+function MessageLine(content, observer) {
   return {
+    // --> DATA <--
+
+    edited: content.properties?.edited || false,
+    transient: content.properties?.transient || false,
+
     // --> METHODS <--
 
     /**
@@ -236,7 +241,6 @@ function MessagePartText(content) {
 
     html: null,
     enlarged: false,
-    edited: (content.properties || {}).edited || false,
 
     // --> METHODS <--
 

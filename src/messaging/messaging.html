@@ -61,7 +61,7 @@
       >
         <div
           v-for="(line, lineIndex) in content"
-          v-scope="MessageLine(observer)"
+          v-scope="MessageLine(line, observer)"
           @vue:mounted="mounted"
           :key="line.id"
           :data-line-id="line.id"
@@ -177,6 +177,7 @@
             ]"
           >
             <span
+              v-if="!transient"
               @click.stop="onActionReactionsClick($event, line.id)"
               :title="$context.i18n._.actions.reactions"
               :class="[
@@ -228,10 +229,15 @@
         :class="[
           'message-text-inner',
           {
+            'message-text-inner--transient': transient,
             'message-text-inner--enlarged': enlarged
           }
         ]"
       ></span>
+
+      <span v-if="transient" class="message-text-flag">
+        ({{ $context.i18n._.attributes.transient }})
+      </span>
 
       <span v-if="edited" class="message-text-flag">
         ({{ $context.i18n._.attributes.edited }})

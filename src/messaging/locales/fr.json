@@ -18,7 +18,8 @@
 
   "attributes": {
     "insecure": "Non chiffré",
-    "edited": "Édité"
+    "edited": "Édité",
+    "transient": "Visible par vous seul"
   },
 
   "actions": {

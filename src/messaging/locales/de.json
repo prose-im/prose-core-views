@@ -18,7 +18,8 @@
 
   "attributes": {
     "insecure": "Nicht verschlüsselt",
-    "edited": "Bearbeitet"
+    "edited": "Bearbeitet",
+    "transient": "Nur für Sie sichtbar"
   },
 
   "actions": {

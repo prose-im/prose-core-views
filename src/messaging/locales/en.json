@@ -18,7 +18,8 @@
 
   "attributes": {
     "insecure": "Not encrypted",
-    "edited": "Edited"
+    "edited": "Edited",
+    "transient": "Only visible by you"
   },
 
   "actions": {

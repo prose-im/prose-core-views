@@ -33,8 +33,7 @@
       "content": "Quick message just to confirm that I asked the designers for a new illustration.",
 
       "metas": {
-        "encrypted": true,
-        "edited": false
+        "encrypted": true
       }
     },
 
@@ -46,8 +45,7 @@
       "content": "We need one more for the blog.",
 
       "metas": {
-        "encrypted": true,
-        "edited": false
+        "encrypted": true
       }
     },
 
@@ -59,8 +57,7 @@
       "content": "😇",
 
       "metas": {
-        "encrypted": true,
-        "edited": false
+        "encrypted": true
       }
     },
 
@@ -73,8 +70,7 @@
 
       "metas": {
         "secure": true,
-        "encrypted": false,
-        "edited": false
+        "encrypted": false
       },
 
       "reactions": [
@@ -135,8 +131,7 @@
       ],
 
       "metas": {
-        "encrypted": true,
-        "edited": false
+        "encrypted": true
       }
     },
 
@@ -148,8 +143,7 @@
       "content": "Haha yes! I'll keep calm for sure.\n\nIn the meantime, and before I forget, you asked me for some brand assets. Here they are, but you can also find them at: [Crisp website](https://crisp.chat/), https://crisp.chat/en/ or crisp.chat and even email them at: contact@crisp.chat",
 
       "metas": {
-        "encrypted": false,
-        "edited": false
+        "encrypted": false
       }
     },
 
@@ -182,8 +176,7 @@
       ],
 
       "metas": {
-        "encrypted": false,
-        "edited": false
+        "encrypted": false
       }
     },
 
@@ -195,8 +188,7 @@
       "content": "Thank you guys, it was well received!",
 
       "metas": {
-        "encrypted": true,
-        "edited": false
+        "encrypted": true
       }
     },
 
@@ -208,8 +200,7 @@
       "content": "I would like to share a video about an open-source medical ventilator I invented! 👨‍💻",
 
       "metas": {
-        "encrypted": true,
-        "edited": false
+        "encrypted": true
       }
     },
 
@@ -239,8 +230,7 @@
       ],
 
       "metas": {
-        "encrypted": true,
-        "edited": false
+        "encrypted": true
       }
     },
 
@@ -264,8 +254,7 @@
       ],
 
       "metas": {
-        "encrypted": true,
-        "edited": false
+        "encrypted": true
       }
     },
 
@@ -277,8 +266,20 @@
       "content": "I'm sharing a backtrace I just saw on the XMPP server:\n\n```\n&> Feb 13 20:43:50 modulemanager   error   Error initializing module 'storage_sql' on 'proxy.ssk.pm': /usr/share/lua/5.1/pr\nosody/util/startup.lua:203: module 'DBI' not found:No LuaRocks module found for DBI\n        no field package.preload['DBI']\n        no file './prosody/DBI.lua'\n        no file './DBI.lua'\n        no file '/usr/local/share/lua/5.1/prosody/DBI.lua'\n        no file '/usr/local/share/lua/5.1/DBI.lua'\n```\n\nCan someone have a look at it? [@Valerian Saliou](xmpp:valerian@prose.org)",
 
       "metas": {
+        "encrypted": true
+      }
+    },
+
+    {
+      "id": "cd05f040-ce95-4aaf-996e-7fb429c26107",
+      "type": "text",
+      "date": "2022-07-02T10:13:15.000Z",
+      "from": "marc@prose.org",
+      "content": "Psst... just for you in private, can you please DM me?",
+
+      "metas": {
         "encrypted": true,
-        "edited": false
+        "transient": true
       }
     },
 
@@ -290,8 +291,7 @@
       "content": "I am testing some ~~Markdown there~~, don't _mind me_... 😇\n\n---\n\n**The developer said:**\n\n1. Thank you for reporting this bug.\n2. I however do not have time to fix this...\n3. Maybe, you should do it!\n\n# This is huge!\n## This is big!\n### This is medium!\n#### This is small!\n##### This is smaller!\n###### This is tiny!\n\nCan you look at this code `instance` please?",
 
       "metas": {
-        "encrypted": true,
-        "edited": false
+        "encrypted": true
       }
     }
   ]
