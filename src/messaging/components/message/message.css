@@ -232,8 +232,8 @@
 
 .message-action.message-action--more::after {
   mask-image: url("./images/action-more.svg");
-  width: 3px;
-  height: 12px;
+  width: 3.5px;
+  height: 14px;
 
   /* Hack: WebKit Web Views do not support mask-image yet */
   -webkit-mask-box-image: url("./images/action-more.svg");
@@ -241,8 +241,8 @@
 
 .message-action.message-action--reactions::after {
   mask-image: url("./images/action-reactions.svg");
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
 
   /* Hack: WebKit Web Views do not support mask-image yet */
   -webkit-mask-box-image: url("./images/action-reactions.svg");
