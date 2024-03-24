@@ -344,8 +344,15 @@
                 preload="none"
                 ref="media"
               >
+                <!-- Hack: include an empty source attribute to prevent \
+                     browser warnings when template is first parsed but \
+                     dynamic attributes were not yet injected, even if we made \
+                     sure not to insert this in the DOM if we do not know yet \
+                     the file URL, the browser still complains, hence this \
+                     'about:blank' default source URL. -->
                 <source
                   @error="onAudioMediaSourceError"
+                  src="about:blank"
                   :src="file.url"
                   :type="file.type"
                 />
