@@ -393,7 +393,6 @@ function MessagePartFile(file) {
     file: file,
 
     presentation: null,
-
     viewAction: null,
 
     isExpanded: true,
