@@ -67,7 +67,6 @@
 .file-player-action,
 .file-player-track::after {
   flex: 0 0 auto;
-  border-radius: 100%;
 }
 
 .file-player-track::after {
@@ -75,7 +74,7 @@
   background-color: var(--color-black-default);
   mask-image: url("./images/player-icon.svg");
   width: 20px;
-  height: 20px;
+  height: 15px;
   margin-right: 8px;
 
   /* Hack: WebKit Web Views do not support mask-image yet */
@@ -89,6 +88,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 100%;
   transition: transform linear 100ms;
 }
 
