@@ -91,9 +91,6 @@
   background-color: var(--color-red-default);
   mask-image: url("./images/origin-attribute-insecure.svg");
   width: 13px;
-
-  /* Hack: WebKit Web Views do not support mask-image yet */
-  -webkit-mask-box-image: url("./images/origin-attribute-insecure.svg");
 }
 
 .message-content {
@@ -234,18 +231,12 @@
   mask-image: url("./images/action-more.svg");
   width: 3.5px;
   height: 14px;
-
-  /* Hack: WebKit Web Views do not support mask-image yet */
-  -webkit-mask-box-image: url("./images/action-more.svg");
 }
 
 .message-action.message-action--reactions::after {
   mask-image: url("./images/action-reactions.svg");
   width: 16px;
   height: 16px;
-
-  /* Hack: WebKit Web Views do not support mask-image yet */
-  -webkit-mask-box-image: url("./images/action-reactions.svg");
 }
 
 .message-text {

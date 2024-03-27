@@ -76,9 +76,6 @@
   width: 20px;
   height: 15px;
   margin-right: 8px;
-
-  /* Hack: WebKit Web Views do not support mask-image yet */
-  -webkit-mask-box-image: url("./images/player-icon.svg");
 }
 
 .file-player-action {
@@ -128,18 +125,12 @@
   mask-image: url("./images/player-action-play.svg");
   width: 12px;
   height: 12px;
-
-  /* Hack: WebKit Web Views do not support mask-image yet */
-  -webkit-mask-box-image: url("./images/player-action-play.svg");
 }
 
 .file-player-action.file-player-action--pause::after {
   mask-image: url("./images/player-action-pause.svg");
   width: 10px;
   height: 12px;
-
-  /* Hack: WebKit Web Views do not support mask-image yet */
-  -webkit-mask-box-image: url("./images/player-action-pause.svg");
 }
 
 .file-player-analyser,
@@ -236,7 +227,4 @@
   width: 14px;
   height: 17px;
   margin-top: -2px;
-
-  /* Hack: WebKit Web Views do not support mask-image yet */
-  -webkit-mask-box-image: url("./images/other-option-get.svg");
 }
