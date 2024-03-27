@@ -1,7 +1,7 @@
 {
   "name": "@prose-im/prose-core-views",
   "description": "Prose core views",
-  "version": "0.37.8",
+  "version": "0.37.9",
   "homepage": "https://github.com/prose-im/prose-core-views",
   "license": "MPL-2.0",
   "browserslist": "since 2020",
