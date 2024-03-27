@@ -229,8 +229,8 @@
 
 .message-action.message-action--more::after {
   mask-image: url("./images/action-more.svg");
-  width: 3.5px;
-  height: 14px;
+  width: 3px;
+  height: 12px;
 }
 
 .message-action.message-action--reactions::after {
