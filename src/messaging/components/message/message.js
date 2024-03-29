@@ -10,7 +10,21 @@
 import { nextTick } from "petite-vue";
 import { htmlEscape as _e } from "escape-goat";
 import linkifyHtml from "linkify-html";
-import snarkdown from "snarkdown";
+import { createTokenizerParser } from "starkdown";
+import {
+  escape as mdEscape,
+  hr as mdHr,
+  anchor as mdAnchor,
+  bis as mdBis,
+  inlineCode as mdInlineCode,
+  codeblock as mdCodeBlock,
+  hashHeading as mdHashHeading,
+  underlineHeading as mdUnderlineHeading,
+  newLine as mdNewLine,
+  quote as mdQuote,
+  ol as mdOl,
+  ul as mdUl
+} from "starkdown/parsers";
 import emojiRegex from "emoji-regex";
 import DateHelper from "../../helpers/date.js";
 import $store from "../../stores/feed.js";
@@ -19,8 +33,6 @@ import $event from "../../stores/broker.js";
 import MessageHelper from "../../helpers/message.js";
 
 // CONSTANTS
-
-const HTML_LINE_BREAK_REGEX = /<br(?:[ ]{0,1}\/)?>/g;
 
 const EMOJI_REGEX = emojiRegex();
 const EMOJI_TEST_BELOW_LENGTH = 16;
@@ -53,6 +65,25 @@ const TEXT_LINKIFY_OPTIONS = {
   nl2br: false,
   truncate: TEXT_LINKS_TRUNCATE_SIZE
 };
+
+const MARKDOWN_PARSER_PLUGINS = [
+  mdEscape,
+  mdHr,
+  mdAnchor,
+  mdBis,
+  mdCodeBlock,
+  mdHashHeading,
+  mdInlineCode,
+  mdNewLine,
+  mdOl,
+  mdQuote,
+  mdUl,
+  mdUnderlineHeading
+];
+
+// INSTANCES
+
+const markdownParser = createTokenizerParser(MARKDOWN_PARSER_PLUGINS);
 
 // COMPONENTS
 
@@ -272,22 +303,12 @@ function MessagePartText(content) {
       let htmlContent = _e(content.text);
 
       // Parse Markdown into HTML
-      htmlContent = snarkdown(htmlContent);
+      htmlContent = markdownParser.parse(htmlContent, {
+        plugins: MARKDOWN_PARSER_PLUGINS
+      });
 
       // Transform links into HTML
       htmlContent = linkifyHtml(htmlContent, TEXT_LINKIFY_OPTIONS);
-
-      // Hack: replace <br> elements into our own linebreaks, essentially \
-      //   fixing an issue with Safari treating the first <br> as the first \
-      //   new line, when in fact it might be the second since we use \
-      //   'white-space: pre-wrap' on its parent and therefore the first \
-      //   effective new line should be '\n'. Unfortunately, as of March 2024 \
-      //   there is no way around that using the standard <br>. Other Web \
-      //   browsers are not affected by this issue.
-      htmlContent = htmlContent.replace(
-        HTML_LINE_BREAK_REGEX,
-        '<span class="linebreak"></span>'
-      );
 
       return htmlContent;
     },

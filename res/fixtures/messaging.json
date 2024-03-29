@@ -30,7 +30,7 @@
       "type": "text",
       "date": "2022-06-22T19:15:03.000Z",
       "from": "valerian@prose.org",
-      "content": "Quick message just to confirm that I asked the designers for a new illustration.",
+      "content": "Quick message just to confirm that I asked the designers for a new illustration for keep_calm.",
 
       "metas": {
         "encrypted": true
@@ -91,7 +91,7 @@
       "type": "text",
       "date": "2022-06-26T09:03:07.832Z",
       "from": "baptiste@prose.org",
-      "content": "They forgot to ship the ~~box~~ package. But _that_ is **no problem**, I will go pick it up this afternoon! In the meantime, can you check for me:\n* The tracking number\n* Its current location",
+      "content": "They forgot to ship the ~~box~~ package. But _that_ is **no problem**, I will go pick it up this afternoon! In the meantime, can you check for me:\n\n* The tracking number\n* Its current location",
 
       "metas": {
         "encrypted": false,
@@ -288,7 +288,7 @@
       "type": "text",
       "date": "2022-07-03T18:15:12.000Z",
       "from": "marc@prose.org",
-      "content": "I am testing some ~~Markdown there~~, don't _mind me_... 😇\n\n---\n\n**The developer said:**\n\n1. Thank you for reporting this bug.\n2. I however do not have time to fix this...\n3. Maybe, you should do it!\n\n# This is huge!\n## This is big!\n### This is medium!\n#### This is small!\n##### This is smaller!\n###### This is tiny!\n\nCan you look at this code `instance` please?",
+      "content": "I am testing some ~~Markdown there~~, don't _mind me_... 😇\n\n---\n\n**The developer said:**\n\n1. Thank you for reporting this bug.\n2. I however do not have time to fix this...\n3. Maybe, you should do it!\n\n# This is huge!\n## This is big!\n### This is medium!\n#### This is small!\n##### This is smaller!\n###### This is tiny!\n\nCan you look at this code `instance` please?\nI need a reply quick.\n\nEnjoy your weekend!",
 
       "metas": {
         "encrypted": true
