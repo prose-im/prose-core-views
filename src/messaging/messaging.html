@@ -148,6 +148,8 @@
                 <span
                   v-for="reactionData in line.reactions"
                   @click.stop="onReactionClick(line.id, reactionData.reaction, reactionData.authors)"
+                  @mouseenter="onReactionMouseEnterOrLeave($event, line.id, reactionData.reaction, true)"
+                  @mouseleave="onReactionMouseEnterOrLeave($event, line.id, reactionData.reaction, false)"
                   :key="'reaction/' + reactionData.reaction"
                   :class="[
                     'message-reaction',

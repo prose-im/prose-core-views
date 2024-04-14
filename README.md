@@ -187,6 +187,7 @@ The following namespaces are available for use:
 
 - `message:actions:view`: show the list of actions for a message (eg. user right-clicks on a message)
 - `message:reactions:view`: show the list of reactions that can be sent for message
+- `message:reactions:authors`: show the list of reaction authors for reaction on message
 - `message:reactions:react`: react to a message (eg. user clicks on an existing reaction to send it or retract it)
 - `message:file:view`: view a file from a message (eg. user clicks on a file to expand or download the file)
 - `message:link:open`: open a link contained in a message (eg. user clicks on a link)

@@ -14,6 +14,7 @@ function BrokerStore() {
     NAMESPACE_VALUES: new Set([
       "message:actions:view",
       "message:reactions:view",
+      "message:reactions:authors",
       "message:reactions:react",
       "message:file:view",
       "message:link:open",

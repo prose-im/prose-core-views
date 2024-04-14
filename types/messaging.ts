@@ -186,6 +186,13 @@ export declare interface EventMessageReactionsView {
   origin: EventMessageAnyOrigin;
 }
 
+export declare interface EventMessageReactionsAuthors {
+  id: string;
+  origin: EventMessageAnyOrigin;
+  reaction: string;
+  visible: boolean;
+}
+
 export declare interface EventMessageReactionsReact {
   id: string;
   reaction: string;

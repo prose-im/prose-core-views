@@ -189,21 +189,40 @@ function Message(message) {
      * Triggers when the reaction button is clicked
      * @public
      * @param  {string} lineId
-     * @param  {string} reactionImage
+     * @param  {string} reactionEmoji
      * @param  {object} [reactionAuthors]
      * @return {undefined}
      */
-    onReactionClick(lineId, reactionImage, reactionAuthors = []) {
+    onReactionClick(lineId, reactionEmoji, reactionAuthors = []) {
       // Emit message reactions react event
       // Notice: if reaction was already set for local author, then active \
       //   should be toggled back to OFF.
       $event._emit("message:reactions:react", {
         id: lineId,
-        reaction: reactionImage,
+        reaction: reactionEmoji,
 
         active: $context.account.jid
           ? !reactionAuthors.includes($context.account.jid)
           : true
+      });
+    },
+
+    /**
+     * Triggers when the mouse enters or leaves the reaction button
+     * @public
+     * @param  {object}  event
+     * @param  {string}  lineId
+     * @param  {string}  reactionEmoji
+     * @param  {boolean} [visible]
+     * @return {undefined}
+     */
+    onReactionMouseEnterOrLeave(event, lineId, reactionEmoji, visible = true) {
+      // Emit message reactions authors event
+      $event._emit("message:reactions:authors", {
+        id: lineId,
+        origin: MessageHelper.generateEventOrigin("button", event),
+        reaction: reactionEmoji,
+        visible
       });
     },
 
