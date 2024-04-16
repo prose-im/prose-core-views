@@ -87,6 +87,8 @@
 
             <span
               v-else-if="avatarUrl"
+              @mouseenter="onIdentityMouseEnterOrLeave($event, line.id, true)"
+              @mouseleave="onIdentityMouseEnterOrLeave($event, line.id, false)"
               :style="{
                 backgroundImage: ('url(\'' + avatarUrl + '\')')
               }"
@@ -95,6 +97,8 @@
 
             <span
               v-else
+              @mouseenter="onIdentityMouseEnterOrLeave($event, line.id, true)"
+              @mouseleave="onIdentityMouseEnterOrLeave($event, line.id, false)"
               :style="{ backgroundColor: defaultPalette }"
               class="avatar-image avatar-image--placeholder"
             >
@@ -106,9 +110,14 @@
 
           <div class="message-inner">
             <div v-if="user && lineIndex === 0" class="message-origin">
-              <span class="message-origin-name"
-                >{{ user.name || user.jid }}</span
+              <span
+                @mouseenter="onIdentityMouseEnterOrLeave($event, line.id, true)"
+                @mouseleave="onIdentityMouseEnterOrLeave($event, line.id, false)"
+                class="message-origin-name"
               >
+                {{ user.name || user.jid }}
+              </span>
+
               <span v-if="date" class="message-origin-date">{{ date }}</span>
 
               <span

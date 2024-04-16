@@ -45,6 +45,8 @@ export enum SeekDirection {
 }
 
 export enum OriginType {
+  // Origin is element.
+  Element = "element",
   // Origin is button.
   Button = "button",
   // Origin is context menu.
@@ -174,6 +176,12 @@ export declare interface EventMessageAnyOrigin {
     width: number;
     height: number;
   };
+}
+
+export declare interface EventMessageAuthorIdentity {
+  id: string;
+  origin: EventMessageAnyOrigin;
+  visible: boolean;
 }
 
 export declare interface EventMessageActionsView {

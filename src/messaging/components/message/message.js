@@ -186,6 +186,23 @@ function Message(message) {
     // --> EVENT LISTENERS <--
 
     /**
+     * Triggers when the mouse enters or leaves the user identity
+     * @public
+     * @param  {object}  event
+     * @param  {string}  lineId
+     * @param  {boolean} [visible]
+     * @return {undefined}
+     */
+    onIdentityMouseEnterOrLeave(event, lineId, visible = true) {
+      // Emit message author identity event
+      $event._emit("message:author:identity", {
+        id: lineId,
+        origin: MessageHelper.generateEventOrigin("element", event),
+        visible
+      });
+    },
+
+    /**
      * Triggers when the reaction button is clicked
      * @public
      * @param  {string} lineId

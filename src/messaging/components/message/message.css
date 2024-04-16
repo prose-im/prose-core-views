@@ -56,7 +56,13 @@
   font-size: 1em;
   font-weight: 700;
   letter-spacing: 0;
+  cursor: pointer;
   flex: 0 0 auto;
+}
+
+.message-origin-name:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
 }
 
 .message-origin-date {

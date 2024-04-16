@@ -12,6 +12,7 @@ function BrokerStore() {
     // --> VALUES <--
 
     NAMESPACE_VALUES: new Set([
+      "message:author:identity",
       "message:actions:view",
       "message:reactions:view",
       "message:reactions:authors",

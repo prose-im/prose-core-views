@@ -18,6 +18,7 @@
   background-position: center;
   width: var(--avatar-image-size);
   height: var(--avatar-image-size);
+  cursor: pointer;
   border-radius: 7px;
   object-fit: cover;
   display: block;
