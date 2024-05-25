@@ -35,6 +35,7 @@ import MessageHelper from "../../helpers/message.js";
 // CONSTANTS
 
 const EMOJI_REGEX = emojiRegex();
+const EMOJI_TEST_MAXIMUM_EMOJIS = 3;
 const EMOJI_TEST_BELOW_LENGTH = 16;
 
 const TEXT_LINKS_TRUNCATE_SIZE = 120;
@@ -366,13 +367,24 @@ function MessagePartText(content) {
       //   as of January 2023.
       // Reference: \
       //   https://machs.space/posts/whats-the-max-valid-length-of-an-emoji/
-      if (content.text.length < EMOJI_TEST_BELOW_LENGTH) {
+      if (
+        content.text.length <
+        EMOJI_TEST_MAXIMUM_EMOJIS * EMOJI_TEST_BELOW_LENGTH
+      ) {
         const emojiMatches = content.text.match(EMOJI_REGEX);
 
-        // First found emoji matches total text length? (this ensures that the \
-        //   string is only a single emoji and nothing else)
-        if (emojiMatches && emojiMatches[0]?.length === content.text.length) {
-          return true;
+        // All found emojis match total text length? (this ensures that the \
+        //   string only contains emojis and nothing else)
+        if (
+          emojiMatches !== null &&
+          emojiMatches.length > 0 &&
+          emojiMatches.length <= EMOJI_TEST_MAXIMUM_EMOJIS
+        ) {
+          const textWithoutSpaces = content.text.replaceAll(" ", "");
+
+          if (emojiMatches.join("").length === textWithoutSpaces.length) {
+            return true;
+          }
         }
       }
 
