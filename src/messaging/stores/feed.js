@@ -649,8 +649,11 @@ function FeedStore() {
 
       // #2. Should a line be inserted to an existing nested message entry?
       // Notice: only if the boundary message is from the same user as the \
-      //   current one, and has been sent within a similar timeframe (that \
-      //   is, recently).
+      //   current one, has been sent within a similar timeframe (that \
+      //   is, recently), and does not contain files (we want to space out \
+      //   files, and also prevent any refresh of file DOMs such as media \
+      //   players - should subsequent messages be appended to the same entry \
+      //   with files).
       let nestedMessage =
         boundarySeparatorShouldReuse === true
           ? this.feed.entries[boundaryIndex + 1]
@@ -660,6 +663,7 @@ function FeedStore() {
         nestedMessage &&
         nestedMessage.type === MessageHelper.ENTRY_TYPE_MESSAGE &&
         nestedMessage.jid === storeMessage.jid &&
+        (storeMessage.content[0]?.files?.length || 0) === 0 &&
         DateHelper.areWithinElapsedTime(
           nestedMessage.date,
           storeMessage.date,
