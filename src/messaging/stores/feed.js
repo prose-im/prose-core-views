@@ -134,6 +134,7 @@ function FeedStore() {
         let lastMessage = messages[messages.length - 1] || null;
 
         if (lastMessage !== null) {
+          // Schedule scroll to edited last message (immediate)
           MessageHelper.scheduleScrollToMessage(
             lastMessage.id,
             true,
@@ -218,6 +219,18 @@ function FeedStore() {
 
         // Bump updated date (used to signal view to re-render)
         parentEntry.updatedAt = Date.now();
+
+        // Schedule scroll to last message? (if updated message is last one)
+        let lastEntryLines =
+          this.feed.entries[this.feed.entries.length - 1]?.content || null;
+
+        if (lastEntryLines !== null) {
+          let lastEntryLine = lastEntryLines[lastEntryLines.length - 1] || null;
+
+          if (lastEntryLine !== null && lastEntryLine.id === messageId) {
+            MessageHelper.scheduleScrollToMessage(messageId, true);
+          }
+        }
 
         return true;
       }
@@ -429,12 +442,13 @@ function FeedStore() {
      * Scrolls to a message
      * @public
      * @param  {string}  messageId
+     * @param  {boolean} [isForced]
      * @return {boolean} Message scroll status
      */
-    scroll(messageId) {
-      // Scroll to existing message? (immediate and forced)
+    scroll(messageId, isForced = true) {
+      // Scroll to existing message? (immediate and maybe forced)
       if (this._resolveEntry(messageId) !== null) {
-        MessageHelper.scheduleScrollToMessage(messageId, true, true);
+        MessageHelper.scheduleScrollToMessage(messageId, true, isForced);
 
         return true;
       }
