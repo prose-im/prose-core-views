@@ -105,13 +105,13 @@ export declare interface MessagingStore {
   ) => boolean;
   retract: (messageId: string) => boolean;
   flush: () => boolean;
-  highlight: (messageId: null | string) => boolean;
-  interact: (messageId: string, action: string, isActive: boolean) => boolean;
-  scroll: (messageId: string) => boolean;
-  loader: (type: string, isVisible: null | boolean) => boolean;
+  highlight: (messageId?: null | string) => boolean;
+  interact: (messageId: string, action: string, isActive?: boolean) => boolean;
+  scroll: (messageId: string, isForced?: boolean) => boolean;
+  loader: (type: string, isVisible?: null | boolean) => boolean;
   identify: (
     jid: string,
-    identity: null | MessagingStoreIdentifyIdentity
+    identity?: null | MessagingStoreIdentifyIdentity
   ) => boolean;
 }
 
