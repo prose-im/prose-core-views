@@ -81,7 +81,7 @@ The messaging view exposes a programmatic API that lets applications manipulate 
 - Flush all content from the store: `MessagingStore.flush()<boolean>`
 - Highlight a message in the store: `MessagingStore.highlight(messageId<string>)<boolean>`
 - Interact with a message action: `MessagingStore.interact(messageId<string>, action<string>, isActive<boolean>)<boolean>`
-- Scroll to a message: `MessagingStore.scroll(messageId<string>)<boolean>`
+- Scroll to a message: `MessagingStore.scroll(messageId<string>, isForced<boolean>)<boolean>`
 - Toggle `backwards` or `forwards` loader in the store: `MessagingStore.loader(type<string>, isVisible<boolean>)<boolean>`
 - Identify a JID with its `name` and `avatar`: `MessagingStore.identify(jid<string>, identity<null | object>)<boolean>`
 
