@@ -87,8 +87,9 @@
 
             <span
               v-else-if="avatarUrl"
-              @mouseenter="onIdentityMouseEnterOrLeave($event, line.id, true)"
-              @mouseleave="onIdentityMouseEnterOrLeave($event, line.id, false)"
+              @vue:unmounted="onIdentityUnmounted(line.id)"
+              @mouseenter="onIdentityMouseEnterOrLeave(line.id, true, $event)"
+              @mouseleave="onIdentityMouseEnterOrLeave(line.id, false)"
               :style="{
                 backgroundImage: ('url(\'' + avatarUrl + '\')')
               }"
@@ -97,8 +98,9 @@
 
             <span
               v-else
-              @mouseenter="onIdentityMouseEnterOrLeave($event, line.id, true)"
-              @mouseleave="onIdentityMouseEnterOrLeave($event, line.id, false)"
+              @vue:unmounted="onIdentityUnmounted(line.id)"
+              @mouseenter="onIdentityMouseEnterOrLeave(line.id, true, $event)"
+              @mouseleave="onIdentityMouseEnterOrLeave(line.id, false)"
               :style="{ backgroundColor: defaultPalette }"
               class="avatar-image avatar-image--placeholder"
             >
@@ -111,8 +113,9 @@
           <div class="message-inner">
             <div v-if="user && lineIndex === 0" class="message-origin">
               <span
-                @mouseenter="onIdentityMouseEnterOrLeave($event, line.id, true)"
-                @mouseleave="onIdentityMouseEnterOrLeave($event, line.id, false)"
+                @vue:unmounted="onIdentityUnmounted(line.id)"
+                @mouseenter="onIdentityMouseEnterOrLeave(line.id, true, $event)"
+                @mouseleave="onIdentityMouseEnterOrLeave(line.id, false)"
                 class="message-origin-name"
               >
                 {{ user.name || user.jid }}
@@ -156,9 +159,10 @@
               <span v-if="line.reactions" class="message-reactions">
                 <span
                   v-for="reactionData in line.reactions"
+                  @vue:unmounted="onReactionUnmounted(line.id, reactionData.reaction)"
                   @click.stop="onReactionClick(line.id, reactionData.reaction, reactionData.authors)"
-                  @mouseenter="onReactionMouseEnterOrLeave($event, line.id, reactionData.reaction, true)"
-                  @mouseleave="onReactionMouseEnterOrLeave($event, line.id, reactionData.reaction, false)"
+                  @mouseenter="onReactionMouseEnterOrLeave(line.id, reactionData.reaction, true, $event)"
+                  @mouseleave="onReactionMouseEnterOrLeave(line.id, reactionData.reaction, false)"
                   :key="'reaction/' + reactionData.reaction"
                   :class="[
                     'message-reaction',

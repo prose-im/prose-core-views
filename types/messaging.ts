@@ -180,7 +180,7 @@ export declare interface EventMessageAnyOrigin {
 
 export declare interface EventMessageAuthorIdentity {
   id: string;
-  origin: EventMessageAnyOrigin;
+  origin?: EventMessageAnyOrigin;
   visible: boolean;
 }
 
@@ -196,7 +196,7 @@ export declare interface EventMessageReactionsView {
 
 export declare interface EventMessageReactionsAuthors {
   id: string;
-  origin: EventMessageAnyOrigin;
+  origin?: EventMessageAnyOrigin;
   reaction: string;
   visible: boolean;
 }

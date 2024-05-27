@@ -97,6 +97,9 @@ function Message(message) {
     date: null,
     attributes: null,
 
+    __visibleIdentities: {},
+    __visibleReactions: {},
+
     // --> METHODS <--
 
     /**
@@ -184,23 +187,89 @@ function Message(message) {
       return Object.keys(attributesMap);
     },
 
+    /**
+     * Checks whether item visibility can be changed or not
+     * @private
+     * @param  {string}  lineId
+     * @param  {object}  visibilityRegister
+     * @param  {boolean} [visible]
+     * @return {boolean} Whether to change visibility
+     */
+    __doChangeVisibility(lineId, visibilityRegister, visible = true) {
+      if (
+        (visible === true && visibilityRegister[lineId] !== true) ||
+        (visible === false && visibilityRegister[lineId] === true)
+      ) {
+        // Update visible reactions
+        if (visible === true) {
+          visibilityRegister[lineId] = true;
+        } else {
+          delete visibilityRegister[lineId];
+        }
+
+        // Visibility change shall be proceeded
+        return true;
+      }
+
+      // Visibility change must not be proceeded
+      return false;
+    },
+
     // --> EVENT LISTENERS <--
+
+    /**
+     * Triggers when the user identity element is unmounted
+     * @public
+     * @param  {string} lineId
+     * @return {undefined}
+     */
+    onIdentityUnmounted(lineId) {
+      // Trigger a mouse leave event
+      this.onIdentityMouseEnterOrLeave(lineId, false);
+    },
 
     /**
      * Triggers when the mouse enters or leaves the user identity
      * @public
-     * @param  {object}  event
      * @param  {string}  lineId
      * @param  {boolean} [visible]
+     * @param  {object}  [event]
      * @return {undefined}
      */
-    onIdentityMouseEnterOrLeave(event, lineId, visible = true) {
-      // Emit message author identity event
-      $event._emit("message:author:identity", {
-        id: lineId,
-        origin: MessageHelper.generateEventOrigin("element", event),
-        visible
-      });
+    onIdentityMouseEnterOrLeave(lineId, visible = true, event = null) {
+      // Assert that event is set when visible
+      if (visible === true && event === null) {
+        throw new Error("Identity visibility requested but no event provided");
+      }
+
+      // Dispatch actual event?
+      if (
+        this.__doChangeVisibility(lineId, this.__visibleIdentities, visible) ===
+        true
+      ) {
+        // Emit message author identity event
+        $event._emit("message:author:identity", {
+          id: lineId,
+          visible: visible,
+
+          origin:
+            event !== null
+              ? MessageHelper.generateEventOrigin("element", event)
+              : undefined
+        });
+      }
+    },
+
+    /**
+     * Triggers when the reaction element is unmounted
+     * @public
+     * @param  {string} lineId
+     * @param  {string} reactionEmoji
+     * @return {undefined}
+     */
+    onReactionUnmounted(lineId, reactionEmoji) {
+      // Trigger a mouse leave event
+      this.onReactionMouseEnterOrLeave(lineId, reactionEmoji, false);
     },
 
     /**
@@ -228,20 +297,42 @@ function Message(message) {
     /**
      * Triggers when the mouse enters or leaves the reaction button
      * @public
-     * @param  {object}  event
      * @param  {string}  lineId
      * @param  {string}  reactionEmoji
      * @param  {boolean} [visible]
+     * @param  {object}  [event]
      * @return {undefined}
      */
-    onReactionMouseEnterOrLeave(event, lineId, reactionEmoji, visible = true) {
-      // Emit message reactions authors event
-      $event._emit("message:reactions:authors", {
-        id: lineId,
-        origin: MessageHelper.generateEventOrigin("button", event),
-        reaction: reactionEmoji,
-        visible
-      });
+    onReactionMouseEnterOrLeave(
+      lineId,
+      reactionEmoji,
+      visible = true,
+      event = null
+    ) {
+      // Assert that event is set when visible
+      if (visible === true && event === null) {
+        throw new Error(
+          "Reaction authors visibility requested but no event provided"
+        );
+      }
+
+      // Dispatch actual event?
+      if (
+        this.__doChangeVisibility(lineId, this.__visibleReactions, visible) ===
+        true
+      ) {
+        // Emit message reactions authors event
+        $event._emit("message:reactions:authors", {
+          id: lineId,
+          reaction: reactionEmoji,
+          visible: visible,
+
+          origin:
+            event !== null
+              ? MessageHelper.generateEventOrigin("button", event)
+              : undefined
+        });
+      }
     },
 
     /**
