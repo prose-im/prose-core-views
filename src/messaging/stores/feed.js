@@ -100,7 +100,7 @@ function FeedStore() {
         }
 
         // Schedule scroll position restore
-        MessageHelper.scheduleScrollPreserveAfterPrepend(true);
+        MessageHelper.scheduleScrollPreserveAfterPrepend();
 
         return true;
       }
@@ -134,10 +134,10 @@ function FeedStore() {
         let lastMessage = messages[messages.length - 1] || null;
 
         if (lastMessage !== null) {
-          // Schedule scroll to edited last message (immediate)
+          // Schedule scroll to edited last message
           MessageHelper.scheduleScrollToMessage(
             lastMessage.id,
-            true,
+            false,
             shouldForceScroll
           );
         }
@@ -228,7 +228,7 @@ function FeedStore() {
           let lastEntryLine = lastEntryLines[lastEntryLines.length - 1] || null;
 
           if (lastEntryLine !== null && lastEntryLine.id === messageId) {
-            MessageHelper.scheduleScrollToMessage(messageId, true);
+            MessageHelper.scheduleScrollToMessage(messageId);
           }
         }
 

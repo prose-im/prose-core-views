@@ -13,7 +13,6 @@ import { reactive, nextTick } from "petite-vue";
 
 const SCROLL_BYPASS_SAFETY_RATIO = 0.4; // 40% of height
 const SCROLL_BYPASS_SAFETY_OFFSET_MINIMUM = 80; // 80 pixels
-const SCROLL_DEBOUNCE_DELAY = 50; // 50 milliseconds
 
 const SCROLL_INTO_VIEW_OPTIONS = {
   block: "start",
@@ -289,16 +288,17 @@ const MessageHelper = {
       );
     }
 
-    // Schedule scroll debounce
-    this.__timers.scrollDebounce = setTimeout(
-      () => {
+    // Schedule scroll debounce (or fire immediately)
+    if (immediate === true) {
+      fnTrigger();
+    } else {
+      this.__timers.scrollDebounce = setTimeout(() => {
         this.__timers.scrollDebounce = null;
 
         // Ensure DOM has been rendered w/ latest data
         nextTick(fnTrigger);
-      },
-      immediate === true ? 0 : SCROLL_DEBOUNCE_DELAY
-    );
+      }, 0);
+    }
   },
 
   /**
