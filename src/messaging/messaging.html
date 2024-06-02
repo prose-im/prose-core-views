@@ -47,7 +47,7 @@
     ></div>
 
     <div
-      v-for="entry in $store.feed.entries"
+      v-for="(entry, entryIndex) in $store.feed.entries"
       v-scope="Entry(entry)"
       v-once
       :key="dayChangeCount + '/' + $context.i18n.code + '/' + entry.id + '@' + (entry.updatedAt || 0)"
@@ -69,7 +69,7 @@
           :class="[
             'message-line',
             {
-              'message-line--last-read': (line.properties && line.properties.lastRead),
+              'message-line--last-read': (line.properties && line.properties.lastRead && (((entryIndex + 1) < $store.feed.entries.length) || ((lineIndex + 1) < content.length))),
               'message-line--highlighted': (line.properties && line.properties.highlighted)
             }
           ]"
