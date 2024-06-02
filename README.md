@@ -100,7 +100,8 @@ All inserted message objects are required to hold the following keys: `id`, `typ
   "metas": {
     "encrypted": true,
     "edited": false,
-    "transient": false
+    "transient": false,
+    "lastRead": true
   },
 
   "reactions": [
@@ -143,7 +144,8 @@ All inserted message objects are required to hold the following keys: `id`, `typ
   "metas": {
     "encrypted": false,
     "edited": false,
-    "transient": false
+    "transient": false,
+    "lastRead": true
   },
 
   "reactions": []

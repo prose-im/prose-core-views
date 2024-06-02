@@ -23,6 +23,18 @@
   margin-bottom: -0.25em;
 }
 
+.message-line.message-line--last-read:after {
+  content: "";
+  background-color: var(--color-blue-default);
+  outline: 2px solid var(--color-blue-light);
+  height: 1px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.5px;
+  z-index: 1;
+}
+
 .message-line.message-line--highlighted {
   background-color: var(--color-yellow-light);
 }

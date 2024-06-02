@@ -69,6 +69,7 @@
           :class="[
             'message-line',
             {
+              'message-line--last-read': (line.properties && line.properties.lastRead),
               'message-line--highlighted': (line.properties && line.properties.highlighted)
             }
           ]"
