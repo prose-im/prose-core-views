@@ -53,6 +53,7 @@
   line-height: var(--message-line-origin-height);
   display: flex;
   align-items: center;
+  margin-top: -0.05em;
   margin-bottom: 0.2em;
 }
 
