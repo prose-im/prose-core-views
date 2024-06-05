@@ -53,7 +53,7 @@
   line-height: var(--message-line-origin-height);
   display: flex;
   align-items: center;
-  margin-bottom: 0.15em;
+  margin-bottom: 0.2em;
 }
 
 .message-origin-name,
@@ -445,7 +445,7 @@
   --message-line-padding-sides-medium: 18px;
   --message-line-padding-sides-small: 14px;
   --message-line-padding-sides-tiny: 10px;
-  --message-line-origin-height: 14px;
+  --message-line-origin-height: 1.2em;
 }
 
 /* MEDIA-QUERIES */
