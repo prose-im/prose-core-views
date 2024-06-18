@@ -211,6 +211,7 @@
   position: absolute;
   top: -5px;
   right: calc(var(--message-line-padding-sides-default) - 1px);
+  z-index: 1;
   display: none;
 }
 
