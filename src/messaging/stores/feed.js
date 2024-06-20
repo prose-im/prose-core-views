@@ -358,9 +358,6 @@ function FeedStore() {
             ) {
               delete entryLine.properties.highlighted;
 
-              // Bump updated date (used to signal view to re-render)
-              entry.updatedAt = Date.now();
-
               break entries;
             }
           }
@@ -369,19 +366,14 @@ function FeedStore() {
 
       // Highlight target message?
       if (messageId !== null) {
-        let messageEntry = this._resolveEntry(messageId),
-          messageLine = this.__resolveLine(messageId, messageEntry);
+        let messageLine = this.__resolveLine(messageId);
 
         if (
-          messageEntry !== null &&
           messageLine !== null &&
           HIGHLIGHT_TYPES.includes(messageLine.type) === true
         ) {
           messageLine.properties = messageLine.properties || {};
           messageLine.properties.highlighted = true;
-
-          // Bump updated date (used to signal view to re-render)
-          messageEntry.updatedAt = Date.now();
 
           return true;
         }
@@ -428,9 +420,6 @@ function FeedStore() {
             delete messageLine.locks;
           }
         }
-
-        // Bump updated date (used to signal view to re-render)
-        messageEntry.updatedAt = Date.now();
 
         return true;
       }
