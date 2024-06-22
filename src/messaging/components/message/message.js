@@ -67,6 +67,8 @@ const TEXT_LINKIFY_OPTIONS = {
   truncate: TEXT_LINKS_TRUNCATE_SIZE
 };
 
+const TEXT_ESCAPED_QUOTE_PREFIX = "&gt; ";
+
 const MARKDOWN_PARSER_PLUGINS = [
   mdEscape,
   mdHr,
@@ -429,6 +431,20 @@ function MessagePartText(content) {
     __generateHTML(content) {
       // Important: escape text, as it will be injected as-is to the DOM.
       let htmlContent = _e(content.text);
+
+      // Remap quote characters to '>', since we do not want those to be \
+      //   escaped so that the Markdown parser can pick them up.
+      htmlContent = htmlContent
+        .split("\n")
+        .map(htmlLine => {
+          // Unescape quote character in line?
+          if (htmlLine.startsWith(TEXT_ESCAPED_QUOTE_PREFIX) === true) {
+            return "> " + htmlLine.slice(TEXT_ESCAPED_QUOTE_PREFIX.length);
+          }
+
+          return htmlLine;
+        })
+        .join("\n");
 
       // Parse Markdown into HTML
       htmlContent = markdownParser.parse(htmlContent, {

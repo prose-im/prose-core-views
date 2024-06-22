@@ -368,6 +368,14 @@
   display: block;
 }
 
+.message-text-inner blockquote {
+  border-left: 2.5px solid var(--color-grey-medium-lighter);
+  margin-top: 0.4em;
+  padding-left: 9px;
+  padding-top: 0.15em;
+  display: block;
+}
+
 .message-text-inner > * {
   margin-bottom: 1em;
   margin-left: 0;
