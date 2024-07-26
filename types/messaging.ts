@@ -122,6 +122,12 @@ export declare interface MessagingStoreMessageData {
   from?: string;
   content?: string;
   text?: string;
+  html?: string;
+
+  formatted?: {
+    encoding?: string;
+    content?: string;
+  };
 
   files?: Array<{
     name: string;

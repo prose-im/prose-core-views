@@ -10,21 +10,6 @@
 import { nextTick } from "petite-vue";
 import { htmlEscape as _e } from "escape-goat";
 import linkifyHtml from "linkify-html";
-import { createTokenizerParser } from "starkdown";
-import {
-  escape as mdEscape,
-  hr as mdHr,
-  anchor as mdAnchor,
-  bis as mdBis,
-  inlineCode as mdInlineCode,
-  codeblock as mdCodeBlock,
-  hashHeading as mdHashHeading,
-  underlineHeading as mdUnderlineHeading,
-  newLine as mdNewLine,
-  quote as mdQuote,
-  ol as mdOl,
-  ul as mdUl
-} from "starkdown/parsers";
 import emojiRegex from "emoji-regex";
 import DateHelper from "../../helpers/date.js";
 import $store from "../../stores/feed.js";
@@ -39,6 +24,7 @@ const EMOJI_TEST_MAXIMUM_EMOJIS = 3;
 const EMOJI_TEST_BELOW_LENGTH = 16;
 
 const TEXT_LINKS_TRUNCATE_SIZE = 120;
+
 const PRESENTATION_DEFAULT = "other";
 
 const PRESENTATION_MIME_TYPES = {
@@ -66,27 +52,6 @@ const TEXT_LINKIFY_OPTIONS = {
   nl2br: false,
   truncate: TEXT_LINKS_TRUNCATE_SIZE
 };
-
-const TEXT_ESCAPED_QUOTE_PREFIX = "&gt; ";
-
-const MARKDOWN_PARSER_PLUGINS = [
-  mdEscape,
-  mdHr,
-  mdAnchor,
-  mdBis,
-  mdCodeBlock,
-  mdHashHeading,
-  mdInlineCode,
-  mdNewLine,
-  mdOl,
-  mdQuote,
-  mdUl,
-  mdUnderlineHeading
-];
-
-// INSTANCES
-
-const markdownParser = createTokenizerParser(MARKDOWN_PARSER_PLUGINS);
 
 // COMPONENTS
 
@@ -429,27 +394,16 @@ function MessagePartText(content) {
      * @return {object} Generated HTML
      */
     __generateHTML(content) {
-      // Important: escape text, as it will be injected as-is to the DOM.
-      let htmlContent = _e(content.text);
+      let htmlContent;
 
-      // Remap quote characters to '>', since we do not want those to be \
-      //   escaped so that the Markdown parser can pick them up.
-      htmlContent = htmlContent
-        .split("\n")
-        .map(htmlLine => {
-          // Unescape quote character in line?
-          if (htmlLine.startsWith(TEXT_ESCAPED_QUOTE_PREFIX) === true) {
-            return "> " + htmlLine.slice(TEXT_ESCAPED_QUOTE_PREFIX.length);
-          }
-
-          return htmlLine;
-        })
-        .join("\n");
-
-      // Parse Markdown into HTML
-      htmlContent = markdownParser.parse(htmlContent, {
-        plugins: MARKDOWN_PARSER_PLUGINS
-      });
+      // Message content also provided as HTML? Inject as-is!
+      if (content.html) {
+        htmlContent = content.html;
+      } else {
+        // Fallback to unformatted text
+        // Important: escape text, as it will be injected as-is to the DOM.
+        htmlContent = _e(content.text);
+      }
 
       // Transform links into HTML
       htmlContent = linkifyHtml(htmlContent, TEXT_LINKIFY_OPTIONS);

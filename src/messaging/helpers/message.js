@@ -115,6 +115,16 @@ const MessageHelper = {
           generatedLine.type = "text";
           generatedLine.text = message.content;
 
+          if (message.formatted) {
+            if (message.formatted.encoding === "html") {
+              generatedLine.html = message.formatted.content;
+            } else {
+              throw new Error(
+                "Message formatted encoding is unsupported (should be 'html')"
+              );
+            }
+          }
+
           break;
         }
 

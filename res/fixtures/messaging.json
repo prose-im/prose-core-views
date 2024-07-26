@@ -32,6 +32,11 @@
       "from": "valerian@prose.org",
       "content": "Quick message just to confirm that I asked the designers for a new illustration for keep_calm.",
 
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>Quick message just to confirm that I asked the designers for a new illustration for keep_calm.</p>"
+      },
+
       "metas": {
         "encrypted": true
       }
@@ -43,6 +48,11 @@
       "date": "2022-06-22T19:15:04.000Z",
       "from": "valerian@prose.org",
       "content": "We need one more for the blog.",
+
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>We need one more for the blog.</p>"
+      },
 
       "metas": {
         "encrypted": true
@@ -56,6 +66,11 @@
       "from": "valerian@prose.org",
       "content": "😇",
 
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>😇</p>"
+      },
+
       "metas": {
         "encrypted": true
       }
@@ -67,6 +82,11 @@
       "date": "2022-06-24T19:15:05.000Z",
       "from": "valerian@prose.org",
       "content": "Might be done tomorrow 😀",
+
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>Might be done tomorrow 😀</p>"
+      },
 
       "metas": {
         "secure": true,
@@ -93,6 +113,11 @@
       "from": "baptiste@prose.org",
       "content": "They forgot to ship the ~~box~~ package. But _that_ is **no problem**, I will go pick it up this afternoon! In the meantime, can you check for me:\n\n* The tracking number\n* Its current location",
 
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>They forgot to ship the <del>box</del> package. But <em>that</em> is <strong>no problem</strong>, I will go pick it up this afternoon! In the meantime, can you check for me:\n<ul><li>The tracking number</li><li>Its current location</li></ul></p>"
+      },
+
       "metas": {
         "encrypted": false,
         "edited": true
@@ -112,6 +137,11 @@
       "date": "2022-06-26T09:04:01.000Z",
       "from": "valerian@prose.org",
       "content": "Here you go...",
+
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>Here you go...</p>"
+      },
 
       "files": [
         {
@@ -142,6 +172,11 @@
       "from": "baptiste@prose.org",
       "content": "Haha yes! I'll keep calm for sure.\n\nIn the meantime, and before I forget, you asked me for some brand assets. Here they are, but you can also find them at: [Crisp website](https://crisp.chat/), https://crisp.chat/en/ or crisp.chat and even email them at: contact@crisp.chat",
 
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>Haha yes! I'll keep calm for sure.\n\nIn the meantime, and before I forget, you asked me for some brand assets. Here they are, but you can also find them at: <a href=\"https://crisp.chat/\">Crisp website</a>, https://crisp.chat/en/ or crisp.chat and even email them at: contact@crisp.chat</p>"
+      },
+
       "metas": {
         "encrypted": false
       }
@@ -153,6 +188,11 @@
       "date": "2022-06-29T12:01:00.000Z",
       "from": "eliott@prose.org",
       "content": "Baptiste, could you please send the brand assets again? Looks like it did not upload.",
+
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>Baptiste, could you please send the brand assets again? Looks like it did not upload.</p>"
+      },
 
       "metas": {
         "encrypted": true,
@@ -166,6 +206,11 @@
       "date": "2022-06-29T12:04:58.000Z",
       "from": "baptiste@prose.org",
       "content": "> Baptiste, could you please send the brand assets again?\n\nSure!",
+
+      "formatted": {
+        "encoding": "html",
+        "content": "<p><blockquote>Baptiste, could you please send the brand assets again?</blockquote>Sure!</p>"
+      },
 
       "files": [
         {
@@ -187,6 +232,11 @@
       "from": "marc@prose.org",
       "content": "Thank you guys, it was well received!",
 
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>Thank you guys, it was well received!</p>"
+      },
+
       "metas": {
         "encrypted": true
       }
@@ -199,6 +249,11 @@
       "from": "valerian@prose.org",
       "content": "I would like to share a video about an open-source medical ventilator I invented! 👨‍💻",
 
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>I would like to share a video about an open-source medical ventilator I invented! 👨‍💻</p>"
+      },
+
       "metas": {
         "encrypted": true
       }
@@ -210,6 +265,11 @@
       "date": "2022-06-30T11:43:05.000Z",
       "from": "valerian@prose.org",
       "content": "Let me know what you think of the video!",
+
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>Let me know what you think of the video!</p>"
+      },
 
       "files": [
         {
@@ -241,6 +301,11 @@
       "from": "eliott@prose.org",
       "content": "Audio recording",
 
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>Audio recording</p>"
+      },
+
       "files": [
         {
           "name": "Audio Recording bcb2ea.webm",
@@ -265,6 +330,11 @@
       "from": "marc@prose.org",
       "content": "I'm sharing a backtrace I just saw on the XMPP server:\n\n```\n&> Feb 13 20:43:50 modulemanager   error   Error initializing module 'storage_sql' on 'proxy.ssk.pm': /usr/share/lua/5.1/pr\nosody/util/startup.lua:203: module 'DBI' not found:No LuaRocks module found for DBI\n        no field package.preload['DBI']\n        no file './prosody/DBI.lua'\n        no file './DBI.lua'\n        no file '/usr/local/share/lua/5.1/prosody/DBI.lua'\n        no file '/usr/local/share/lua/5.1/DBI.lua'\n```\n\nCan someone have a look at it? [@Valerian Saliou](xmpp:valerian@prose.org)",
 
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>I'm sharing a backtrace I just saw on the XMPP server:\n<pre><code>&> Feb 13 20:43:50 modulemanager   error   Error initializing module 'storage_sql' on 'proxy.ssk.pm': /usr/share/lua/5.1/pr\nosody/util/startup.lua:203: module 'DBI' not found:No LuaRocks module found for DBI\n        no field package.preload['DBI']\n        no file './prosody/DBI.lua'\n        no file './DBI.lua'\n        no file '/usr/local/share/lua/5.1/prosody/DBI.lua'\n        no file '/usr/local/share/lua/5.1/DBI.lua'</code></pre>Can someone have a look at it? <a href=\"xmpp:valerian@prose.org\">@Valerian Saliou</a></p>"
+      },
+
       "metas": {
         "encrypted": true,
         "lastRead": true
@@ -276,7 +346,12 @@
       "type": "text",
       "date": "2022-07-02T10:13:15.000Z",
       "from": "marc@prose.org",
-      "content": "Psst... just for you in private, can you please DM me?",
+      "content": "**Psst... just for you in private, can you please DM me?**",
+
+      "formatted": {
+        "encoding": "html",
+        "content": "<p><strong>Psst... just for you in private, can you please DM me?</strong></p>"
+      },
 
       "metas": {
         "encrypted": true,
@@ -290,6 +365,11 @@
       "date": "2022-07-03T18:15:12.000Z",
       "from": "marc@prose.org",
       "content": "I am testing some ~~Markdown there~~, don't _mind me_... 😇\n\n---\n\n**The developer said:**\n\n1. Thank you for reporting this bug.\n2. I however do not have time to fix this...\n3. Maybe, you should do it!\n\n# This is huge!\n## This is big!\n### This is medium!\n#### This is small!\n##### This is smaller!\n###### This is tiny!\n\nCan you look at this code `instance` please?\nI need a reply quick.\n\nEnjoy your weekend!",
+
+      "formatted": {
+        "encoding": "html",
+        "content": "<p>I am testing some <del>Markdown there</del>, don't <em>mind me</em>... 😇\n<hr />\n<strong>The developer said:</strong>\n<ol><li>Thank you for reporting this bug.</li><li>I however do not have time to fix this...</li><li>Maybe, you should do it!</li></ol>\n<h1>This is huge!</h1>\n<h2>This is big!</h2>\n<h3>This is medium!</h3>\n<h4>This is small!</h4>\n<h5>This is smaller!</h5>\n<h6>This is tiny!</h6>\nCan you look at this code <code>instance</code> please?\nI need a reply quick.\nEnjoy your weekend!</p>"
+      },
 
       "metas": {
         "encrypted": true
