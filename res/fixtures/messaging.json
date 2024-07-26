@@ -115,7 +115,7 @@
 
       "formatted": {
         "encoding": "html",
-        "content": "<p>They forgot to ship the <del>box</del> package. But <em>that</em> is <strong>no problem</strong>, I will go pick it up this afternoon! In the meantime, can you check for me:\n<ul><li>The tracking number</li><li>Its current location</li></ul></p>"
+        "content": "<p>They forgot to ship the <del>box</del> package. But <em>that</em> is <strong>no problem</strong>, I will go pick it up this afternoon! In the meantime, can you check for me:</p>\n<ul>\n<li>The tracking number</li>\n<li>Its current location</li>\n</ul>"
       },
 
       "metas": {
@@ -174,7 +174,7 @@
 
       "formatted": {
         "encoding": "html",
-        "content": "<p>Haha yes! I'll keep calm for sure.\n\nIn the meantime, and before I forget, you asked me for some brand assets. Here they are, but you can also find them at: <a href=\"https://crisp.chat/\">Crisp website</a>, https://crisp.chat/en/ or crisp.chat and even email them at: contact@crisp.chat</p>"
+        "content": "<p>Haha yes! I'll keep calm for sure.</p>\n<p>In the meantime, and before I forget, you asked me for some brand assets. Here they are, but you can also find them at: <a href=\"https://crisp.chat/\">Crisp website</a>, https://crisp.chat/en/ or crisp.chat and even email them at: contact@crisp.chat</p>"
       },
 
       "metas": {
@@ -209,7 +209,7 @@
 
       "formatted": {
         "encoding": "html",
-        "content": "<blockquote>Baptiste, could you please send the brand assets again?</blockquote><p>Sure!</p>"
+        "content": "<blockquote>\n<p>Baptiste, could you please send the brand assets again?</p>\n</blockquote>\n<p>Sure!</p>"
       },
 
       "files": [
@@ -332,7 +332,7 @@
 
       "formatted": {
         "encoding": "html",
-        "content": "<p>I'm sharing a backtrace I just saw on the XMPP server:\n<pre><code>&> Feb 13 20:43:50 modulemanager   error   Error initializing module 'storage_sql' on 'proxy.ssk.pm': /usr/share/lua/5.1/pr\nosody/util/startup.lua:203: module 'DBI' not found:No LuaRocks module found for DBI\n        no field package.preload['DBI']\n        no file './prosody/DBI.lua'\n        no file './DBI.lua'\n        no file '/usr/local/share/lua/5.1/prosody/DBI.lua'\n        no file '/usr/local/share/lua/5.1/DBI.lua'</code></pre>Can someone have a look at it? <a href=\"xmpp:valerian@prose.org\">@Valerian Saliou</a></p>"
+        "content": "<p>I'm sharing a backtrace I just saw on the XMPP server:</p>\n<pre><code>&amp;&gt; Feb 13 20:43:50 modulemanager   error   Error initializing module 'storage_sql' on 'proxy.ssk.pm': /usr/share/lua/5.1/pr\nosody/util/startup.lua:203: module 'DBI' not found:No LuaRocks module found for DBI\n        no field package.preload['DBI']\n        no file './prosody/DBI.lua'\n        no file './DBI.lua'\n        no file '/usr/local/share/lua/5.1/prosody/DBI.lua'\n        no file '/usr/local/share/lua/5.1/DBI.lua'\n</code></pre>\n<p>Can someone have a look at it? <a href=\"xmpp:valerian@prose.org\">@Valerian Saliou</a></p>"
       },
 
       "metas": {
@@ -346,11 +346,11 @@
       "type": "text",
       "date": "2022-07-02T10:13:15.000Z",
       "from": "marc@prose.org",
-      "content": "**Psst... just for you in private, can you please DM me?**",
+      "content": "Psst... just for you in private, can you please DM me?",
 
       "formatted": {
         "encoding": "html",
-        "content": "<p><strong>Psst... just for you in private, can you please DM me?</strong></p>"
+        "content": "<p>Psst... just for you in private, can you please DM me?</p>"
       },
 
       "metas": {
@@ -368,7 +368,7 @@
 
       "formatted": {
         "encoding": "html",
-        "content": "<p>I am testing some <del>Markdown there</del>, don't <em>mind me</em>... 😇<hr /><strong>The developer said:</strong>\n\n<ol><li>Thank you for reporting this bug.</li><li>I however do not have time to fix this...</li><li>Maybe, you should do it!</li></ol><h1>This is huge!</h1><h2>This is big!</h2><h3>This is medium!</h3><h4>This is small!</h4><h5>This is smaller!</h5><h6>This is tiny!</h6>Can you look at this code <code>instance</code> please?\nI need a reply quick.\nEnjoy your weekend!</p>"
+        "content": "<p>I am testing some <del>Markdown there</del>, don't <em>mind me</em>... 😇</p>\n<hr />\n<p><strong>The developer said:</strong></p>\n<ol>\n<li>Thank you for reporting this bug.</li>\n<li>I however do not have time to fix this...</li>\n<li>Maybe, you should do it!</li>\n</ol>\n<h1>This is huge!</h1>\n<h2>This is big!</h2>\n<h3>This is medium!</h3>\n<h4>This is small!</h4>\n<h5>This is smaller!</h5>\n<h6>This is tiny!</h6>\n<p>Can you look at this code <code>instance</code> please?\nI need a reply quick.</p>\n<p>Enjoy your weekend!</p>"
       },
 
       "metas": {
