@@ -209,7 +209,7 @@
 
       "formatted": {
         "encoding": "html",
-        "content": "<p><blockquote>Baptiste, could you please send the brand assets again?</blockquote>Sure!</p>"
+        "content": "<blockquote>Baptiste, could you please send the brand assets again?</blockquote><p>Sure!</p>"
       },
 
       "files": [
@@ -368,7 +368,7 @@
 
       "formatted": {
         "encoding": "html",
-        "content": "<p>I am testing some <del>Markdown there</del>, don't <em>mind me</em>... 😇\n<hr />\n<strong>The developer said:</strong>\n<ol><li>Thank you for reporting this bug.</li><li>I however do not have time to fix this...</li><li>Maybe, you should do it!</li></ol>\n<h1>This is huge!</h1>\n<h2>This is big!</h2>\n<h3>This is medium!</h3>\n<h4>This is small!</h4>\n<h5>This is smaller!</h5>\n<h6>This is tiny!</h6>\nCan you look at this code <code>instance</code> please?\nI need a reply quick.\nEnjoy your weekend!</p>"
+        "content": "<p>I am testing some <del>Markdown there</del>, don't <em>mind me</em>... 😇<hr /><strong>The developer said:</strong>\n\n<ol><li>Thank you for reporting this bug.</li><li>I however do not have time to fix this...</li><li>Maybe, you should do it!</li></ol><h1>This is huge!</h1><h2>This is big!</h2><h3>This is medium!</h3><h4>This is small!</h4><h5>This is smaller!</h5><h6>This is tiny!</h6>Can you look at this code <code>instance</code> please?\nI need a reply quick.\nEnjoy your weekend!</p>"
       },
 
       "metas": {
