@@ -47,11 +47,11 @@
       "type": "text",
       "date": "2022-06-22T19:15:04.000Z",
       "from": "valerian@prose.org",
-      "content": "We need one more for the blog.",
+      "content": "We need one more for the blog. Please include this code:\n\n```json\n{ \"image\": \"#path-to-image\" }\n```",
 
       "formatted": {
         "encoding": "html",
-        "content": "<p>We need one more for the blog.</p>"
+        "content": "<p>We need one more for the blog. Please include this code:</p><pre><code class=\"language-json\">{ \"image\": \"#path-to-image\" }</code></pre>"
       },
 
       "metas": {

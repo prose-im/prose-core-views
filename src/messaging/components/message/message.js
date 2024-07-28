@@ -9,6 +9,7 @@
 
 import { nextTick } from "petite-vue";
 import { htmlEscape as _e } from "escape-goat";
+import { highlightElement } from "@speed-highlight/core";
 import linkifyHtml from "linkify-html";
 import emojiRegex from "emoji-regex";
 import DateHelper from "../../helpers/date.js";
@@ -24,6 +25,8 @@ const EMOJI_TEST_MAXIMUM_EMOJIS = 3;
 const EMOJI_TEST_BELOW_LENGTH = 16;
 
 const TEXT_LINKS_TRUNCATE_SIZE = 120;
+
+const CODE_HIGHLIGHT_CLASS_PREFIX = "language-";
 
 const PRESENTATION_DEFAULT = "other";
 
@@ -382,9 +385,9 @@ function MessagePartText(content) {
       // Acquire enlarged status
       this.enlarged = this.__acquireEnlarged(content);
 
-      // Bind link click events
+      // Apply document modifiers
       // Notice: ensure DOM has been rendered w/ HTML content
-      nextTick(this.__bindLinkClickEvents);
+      nextTick(this.__applyDocumentModifiers);
     },
 
     /**
@@ -453,22 +456,68 @@ function MessagePartText(content) {
     },
 
     /**
+     * Applies document modifiers
+     * @private
+     * @return {undefined}
+     */
+    __applyDocumentModifiers() {
+      // Bind link click events
+      this.__bindLinkClickEvents();
+
+      // Bind code highlighting (if any)
+      this.__bindCodeHighlighting();
+    },
+
+    /**
      * Binds link click events
      * @private
      * @return {undefined}
      */
     __bindLinkClickEvents() {
-      // Bind click event on all links? (if any text element)
+      // Bind click event on all links? (if any link element)
       // Notice: since we are generating custom HTML code outside of Vue, then \
       //   we cannot use the standard '@click' event and have to resort to \
       //   using the non-Vue 'addEventListener()'.
-      if (this.$refs.textInner) {
-        const linkElements =
-          this.$refs.textInner.getElementsByTagName("a") || [];
+      const linkElements =
+        this.$refs.textInner?.getElementsByTagName("a") || [];
 
-        if (linkElements.length > 0) {
-          for (const linkElement of linkElements) {
-            linkElement.addEventListener("click", this.__onLinkClick);
+      if (linkElements.length > 0) {
+        for (const linkElement of linkElements) {
+          linkElement.addEventListener("click", this.__onLinkClick);
+        }
+      }
+    },
+
+    /**
+     * Binds code highlighting
+     * @private
+     * @return {undefined}
+     */
+    async __bindCodeHighlighting() {
+      // Bind code highlighting on all code block elements? (if any code \
+      //   element)
+      const codeElements =
+        this.$refs.textInner?.querySelectorAll(
+          `pre code[class^="${CODE_HIGHLIGHT_CLASS_PREFIX}"]`
+        ) || [];
+
+      if (codeElements.length > 0) {
+        for (const codeElement of codeElements) {
+          // Extract code language (opportunistic)
+          let codeLanguage = null;
+
+          for (const className of codeElement.classList) {
+            if (className.startsWith(CODE_HIGHLIGHT_CLASS_PREFIX) === true) {
+              codeLanguage =
+                className.substring(CODE_HIGHLIGHT_CLASS_PREFIX.length) || null;
+
+              break;
+            }
+          }
+
+          // Any code language found? Apply highlighting
+          if (codeLanguage !== null) {
+            await highlightElement(codeElement, codeLanguage);
           }
         }
       }
