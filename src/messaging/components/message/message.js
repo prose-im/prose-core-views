@@ -9,9 +9,13 @@
 
 import { nextTick } from "petite-vue";
 import { htmlEscape as _e } from "escape-goat";
-import { highlightElement } from "@speed-highlight/core";
+import {
+  highlightElement,
+  loadLanguage as highlightLoadLanguage
+} from "@speed-highlight/core";
 import linkifyHtml from "linkify-html";
 import emojiRegex from "emoji-regex";
+import highlightLanguages from "../../libraries/highlighting/languages.js";
 import DateHelper from "../../helpers/date.js";
 import $store from "../../stores/feed.js";
 import $context from "../../stores/option.js";
@@ -503,21 +507,30 @@ function MessagePartText(content) {
 
       if (codeElements.length > 0) {
         for (const codeElement of codeElements) {
-          // Extract code language (opportunistic)
-          let codeLanguage = null;
+          // Extract code language name (opportunistic)
+          let codeLanguageName = null;
 
           for (const className of codeElement.classList) {
             if (className.startsWith(CODE_HIGHLIGHT_CLASS_PREFIX) === true) {
-              codeLanguage =
+              codeLanguageName =
                 className.substring(CODE_HIGHLIGHT_CLASS_PREFIX.length) || null;
 
               break;
             }
           }
 
-          // Any code language found? Apply highlighting
+          // Acquire code language (if known)
+          const codeLanguage = highlightLanguages[codeLanguageName] || null;
+
+          // Any code language found?
           if (codeLanguage !== null) {
-            await highlightElement(codeElement, codeLanguage);
+            // Ensure language is loaded
+            // Notice: this simply inserts the language instance into the map \
+            //   of loaded languages.
+            highlightLoadLanguage(codeLanguageName, codeLanguage);
+
+            // Apply highlighting
+            await highlightElement(codeElement, codeLanguageName);
           }
         }
       }
