@@ -51,6 +51,7 @@
       v-scope="Entry(entry)"
       v-once
       :key="dayChangeCount + '/' + $context.i18n.code + '/' + entry.id + '@' + (entry.updatedAt || 0)"
+      ref="entry"
       class="entry"
     >
       <div
@@ -223,9 +224,16 @@
       <div
         v-else-if="separator"
         v-scope="Separator(separator)"
+        @vue:mounted="mounted"
         class="separator"
       >
-        <span class="separator-label">{{ label }}</span>
+        <span class="separator-sticky js-separator-sticky">
+          <span class="separator-label">{{ label }}</span>
+        </span>
+
+        <span class="separator-footprint">
+          <span class="separator-label">{{ label }}</span>
+        </span>
       </div>
     </div>
 
