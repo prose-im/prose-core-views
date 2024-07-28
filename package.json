@@ -55,9 +55,6 @@
       "scopeHoist": false
     }
   },
-  "@parcel/resolver-default": {
-    "packageExports": true
-  },
   "scripts": {
     "dev": "rm -rf ./dist/* && parcel serve --target=development --port=5000 --host=localhost --no-autoinstall --no-cache --watch-for-stdin",
     "build": "rm -rf ./dist/* && parcel build --target=production --no-cache",
