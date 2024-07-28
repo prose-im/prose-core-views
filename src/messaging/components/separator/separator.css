@@ -24,12 +24,15 @@
 }
 
 .separator-label {
+  background-color: var(--color-white-default);
+  border: 1px solid var(--color-grey-medium-lighter);
   color: var(--color-black-medium);
-  font-size: 0.85em;
+  font-size: 0.875em;
   font-weight: 600;
-  line-height: 1.38em;
+  line-height: 1.45em;
   letter-spacing: 0;
-  opacity: 0.9;
-  margin: 0 16px;
+  padding: 4px 16px;
   flex: 0 0 auto;
+  border-radius: 30px;
+  box-shadow: 0 1px 3px 0 var(--color-shadow-primary);
 }

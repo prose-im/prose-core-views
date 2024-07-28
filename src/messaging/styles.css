@@ -85,6 +85,9 @@ a {
   --color-yellow-default: #ffff78;
   --color-yellow-light: #ffffc2;
 
+  /* COLOR (LIGHT MODE): SHADOW */
+  --color-shadow-primary: rgba(0, 0, 0, 0.04);
+
   /* COLOR (LIGHT MODE): CODE */
   --color-code-background: #1f2224;
   --color-code-text: #ffffff;
