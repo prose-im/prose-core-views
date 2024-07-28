@@ -1,0 +1,54 @@
+/*
+ * prose-core-views
+ *
+ * Copyright: 2024, Valerian Saliou <valerian@valeriansaliou.name>
+ * License: Mozilla Public License v2.0 (MPL v2.0)
+ */
+
+.shj-inline[class*="shj-lang-"] {
+  color: var(--color-code-highlight-main);
+}
+
+.shj-syn-err,
+.shj-syn-kwd {
+  color: var(--color-code-highlight-keyword);
+}
+
+.shj-syn-num {
+  color: var(--color-code-highlight-number);
+}
+
+.shj-syn-class {
+  color: var(--color-code-highlight-class);
+}
+
+.shj-syn-cmnt {
+  color: var(--color-code-highlight-comment);
+}
+
+.shj-syn-insert,
+.shj-syn-str {
+  color: var(--color-code-highlight-string);
+}
+
+.shj-syn-bool,
+.shj-syn-type {
+  color: var(--color-code-highlight-type);
+}
+
+.shj-syn-oper {
+  color: var(--color-code-highlight-operator);
+}
+
+.shj-syn-section {
+  color: var(--color-code-highlight-section);
+}
+
+.shj-syn-func {
+  color: var(--color-code-highlight-function);
+}
+
+.shj-syn-deleted,
+.shj-syn-var {
+  color: var(--color-code-highlight-variable);
+}

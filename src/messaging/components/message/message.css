@@ -305,6 +305,17 @@
   padding-left: 1.8em;
 }
 
+.message-text-inner pre,
+.message-text-inner blockquote {
+  margin-top: 0.35em;
+  display: block;
+
+  &,
+  &:last-child {
+    margin-bottom: 0.35em;
+  }
+}
+
 .message-text-inner h1,
 .message-text-inner h2,
 .message-text-inner h3,
@@ -322,11 +333,6 @@
   margin-top: 1.1em;
 }
 
-.message-text-inner pre {
-  margin-top: 0.4em;
-  display: block;
-}
-
 .message-text-inner code {
   background-color: var(--color-grey-light);
   border: 1px solid var(--color-grey-medium-lighter);
@@ -338,18 +344,19 @@
 }
 
 .message-text-inner pre code {
-  line-height: 1.45em;
-  padding: 7px 12px;
+  color: var(--color-code-text);
+  background-color: var(--color-code-background);
+  border: 0 none;
+  line-height: 1.55em;
+  padding: 8px 14px;
   overflow: auto;
   display: block;
 }
 
 .message-text-inner blockquote {
   border-left: 2.5px solid var(--color-grey-medium-lighter);
-  margin-top: 0.4em;
   padding-left: 9px;
-  padding-top: 0.15em;
-  display: block;
+  padding-top: 0.05em;
 }
 
 .message-text-inner > * {
