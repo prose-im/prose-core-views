@@ -673,55 +673,57 @@ function MessagePartFile(file) {
 
       let hasReachedLineId = false;
 
-      $store.feed.entries.forEach(entry => {
-        if (entry.type === "message") {
-          entry.content.forEach(line => {
-            // Mark line current identifier as reached?
-            if (line.id === lineId) {
-              hasReachedLineId = true;
-            }
+      $store.feed.groups.forEach(group => {
+        group.forEach(entry => {
+          if (entry.type === "message") {
+            entry.content.forEach(line => {
+              // Mark line current identifier as reached?
+              if (line.id === lineId) {
+                hasReachedLineId = true;
+              }
 
-            // Process files for line
-            if (line.files) {
-              // Find same file index in list of files
-              let sameFileIndex = line.files.findIndex(lineFile => {
-                return line.id === lineId && lineFile === file;
-              });
+              // Process files for line
+              if (line.files) {
+                // Find same file index in list of files
+                let sameFileIndex = line.files.findIndex(lineFile => {
+                  return line.id === lineId && lineFile === file;
+                });
 
-              // Append or prepend files in adjacent list
-              line.files.forEach((lineFile, fileIndex) => {
-                if (fileIndex !== sameFileIndex) {
-                  // Insert file to adjacent files
-                  const adjacentFilePresentation =
-                    this.__acquireFilePresentation(lineFile);
+                // Append or prepend files in adjacent list
+                line.files.forEach((lineFile, fileIndex) => {
+                  if (fileIndex !== sameFileIndex) {
+                    // Insert file to adjacent files
+                    const adjacentFilePresentation =
+                      this.__acquireFilePresentation(lineFile);
 
-                  const adjacentFileView = {
-                    id: line.id,
+                    const adjacentFileView = {
+                      id: line.id,
 
-                    action: this.__acquireFileViewAction(
-                      adjacentFilePresentation
-                    ),
+                      action: this.__acquireFileViewAction(
+                        adjacentFilePresentation
+                      ),
 
-                    file: this.__mapFileViewFile(
-                      adjacentFilePresentation,
-                      lineFile
-                    )
-                  };
+                      file: this.__mapFileViewFile(
+                        adjacentFilePresentation,
+                        lineFile
+                      )
+                    };
 
-                  // Append adjacent file to its target list
-                  const adjacentListTarget =
-                    hasReachedLineId === true
-                      ? sameFileIndex > -1 && fileIndex < sameFileIndex
-                        ? adjacentFiles.before
-                        : adjacentFiles.after
-                      : adjacentFiles.before;
+                    // Append adjacent file to its target list
+                    const adjacentListTarget =
+                      hasReachedLineId === true
+                        ? sameFileIndex > -1 && fileIndex < sameFileIndex
+                          ? adjacentFiles.before
+                          : adjacentFiles.after
+                        : adjacentFiles.before;
 
-                  adjacentListTarget.push(adjacentFileView);
-                }
-              });
-            }
-          });
-        }
+                    adjacentListTarget.push(adjacentFileView);
+                  }
+                });
+              }
+            });
+          }
+        });
       });
 
       return adjacentFiles;

@@ -49,7 +49,7 @@
     <div
       v-for="(group, groupIndex) in $store.feed.groups"
       v-scope="Group()"
-      :key="'group/' + groupIndex"
+      :key="'group/' + (group[0]?.id || groupIndex)"
       class="group"
     >
       <div

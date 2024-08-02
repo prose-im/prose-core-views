@@ -35,7 +35,6 @@ function FeedStore() {
       },
 
       identities: {},
-      entries: [],
       groups: []
     }),
 
@@ -124,7 +123,7 @@ function FeedStore() {
         //   state, which just got flushed, to interfere and prevent scroll, \
         //   in the situation where a 'flush()' was not yet followed by a DOM \
         //   commit, and this 'insert()' followed immediately.
-        let shouldForceScroll = this.feed.entries.length === 0 ? true : false;
+        let shouldForceScroll = this.feed.groups.length === 0 ? true : false;
 
         // Inject messages to the store (append mode)
         for (let i = 0; i < messages.length; i++) {
@@ -222,15 +221,12 @@ function FeedStore() {
         parentEntry.updatedAt = Date.now();
 
         // Schedule scroll to last message? (if updated message is last one)
-        let lastEntryLines =
-          this.feed.entries[this.feed.entries.length - 1]?.content || null;
+        let lastGroup = this.feed.groups[this.feed.groups.length - 1] || null,
+          lastEntryLines = lastGroup?.[lastGroup.length - 1]?.content || null,
+          lastEntryLine = lastEntryLines?.[lastEntryLines.length - 1] || null;
 
-        if (lastEntryLines !== null) {
-          let lastEntryLine = lastEntryLines[lastEntryLines.length - 1] || null;
-
-          if (lastEntryLine !== null && lastEntryLine.id === messageId) {
-            MessageHelper.scheduleScrollToMessage(messageId);
-          }
+        if (lastEntryLine !== null && lastEntryLine.id === messageId) {
+          MessageHelper.scheduleScrollToMessage(messageId);
         }
 
         return true;
@@ -271,17 +267,41 @@ function FeedStore() {
         if (parentEntry.content.length === 0) {
           delete this.__registers.feedEntriesById[parentEntry.id];
 
-          let entryIndex = this.feed.entries.findIndex(entry => {
-            return entry.id === parentEntry.id;
-          });
+          // Acquire the parent group and index of the entry
+          let parentGroup = null,
+            parentGroupIndex = -1,
+            entryIndex = -1;
 
-          if (entryIndex !== -1) {
+          // Notice: go from latest to oldest, since the retracted message, if \
+          //   any, is most likely to be located in the last group.
+          groups: for (let i = this.feed.groups.length - 1; i >= 0; i--) {
+            let group = this.feed.groups[i];
+
+            for (let j = 0; j < group.length; j++) {
+              // Entry found in group?
+              if (group[j].id === parentEntry.id) {
+                // Assign found parent group and entry index
+                parentGroup = group;
+                parentGroupIndex = i;
+                entryIndex = j;
+
+                // Stop there (found the entry)
+                break groups;
+              }
+            }
+          }
+
+          if (
+            parentGroup !== null &&
+            parentGroupIndex !== -1 &&
+            entryIndex !== -1
+          ) {
             // Acquire boundary messages
-            let boundaryMessage = this.feed.entries[entryIndex - 1],
-              nextMessage = this.feed.entries[entryIndex + 1];
+            let boundaryMessage = parentGroup[entryIndex - 1],
+              nextMessage = parentGroup[entryIndex + 1];
 
             // Remove message from store
-            this.feed.entries.splice(entryIndex, 1);
+            parentGroup.splice(entryIndex, 1);
 
             // Remove date separator for the group if the retracted message \
             //   was preceded by a date separator, and followed by a date \
@@ -294,7 +314,12 @@ function FeedStore() {
             ) {
               delete this.__registers.feedEntriesById[boundaryMessage.id];
 
-              this.feed.entries.splice(entryIndex - 1, 1);
+              parentGroup.splice(entryIndex - 1, 1);
+            }
+
+            // Remove whole parent group? (now empty)
+            if (parentGroup.length === 0) {
+              this.feed.groups.splice(parentGroupIndex, 1);
             }
           }
         } else {
@@ -320,10 +345,10 @@ function FeedStore() {
         this.feed.loaders[direction] = false;
       }
 
-      // Flush entries? (if any)
-      if (this.feed.entries.length > 0) {
+      // Flush all entries in all groups? (if any)
+      if (this.feed.groups.length > 0) {
         // Clear all public stores
-        this.feed.entries = [];
+        this.feed.groups = [];
 
         // Clear all private registers
         this.__registers.feedEntriesById = {};
@@ -346,20 +371,27 @@ function FeedStore() {
      */
     highlight(messageId = null) {
       // Un-highlight any previously highlighted message
-      entries: for (let i = 0; i < this.feed.entries.length; i++) {
-        let entry = this.feed.entries[i];
+      // Notice: go from latest to oldest, since the highlighted message, if \
+      //   any, is most likely to be located in the last group.
+      groups: for (let i = this.feed.groups.length - 1; i >= 0; i--) {
+        let group = this.feed.groups[i];
 
-        if (entry.type === MessageHelper.ENTRY_TYPE_MESSAGE) {
-          for (let j = 0; j < entry.content.length; j++) {
-            let entryLine = entry.content[j];
+        for (let j = 0; j < group.length; j++) {
+          let entry = group[j];
 
-            if (
-              entryLine.properties &&
-              entryLine.properties.highlighted === true
-            ) {
-              delete entryLine.properties.highlighted;
+          if (entry.type === MessageHelper.ENTRY_TYPE_MESSAGE) {
+            for (let k = 0; k < entry.content.length; k++) {
+              let entryLine = entry.content[k];
 
-              break entries;
+              if (
+                entryLine.properties &&
+                entryLine.properties.highlighted === true
+              ) {
+                delete entryLine.properties.highlighted;
+
+                // Stop there (found the highlighted message)
+                break groups;
+              }
             }
           }
         }
@@ -523,10 +555,12 @@ function FeedStore() {
       if (hasChanged === true) {
         let nowDate = Date.now();
 
-        this.feed.entries.forEach(entry => {
-          if (entry.jid === jid) {
-            entry.updatedAt = nowDate;
-          }
+        this.feed.groups.forEach(group => {
+          group.forEach(entry => {
+            if (entry.jid === jid) {
+              entry.updatedAt = nowDate;
+            }
+          });
         });
       }
 
@@ -616,19 +650,25 @@ function FeedStore() {
       storeMessage.insertedAt = Date.now();
       storeMessage.updatedAt = 0;
 
-      // Acquire boundary message (relative to current message)
-      let boundaryIndex =
-        mode === INJECT_MODE_PREPEND ? 0 : this.feed.entries.length - 1;
-      let boundaryMessage = this.feed.entries[boundaryIndex];
+      // Acquire boundary group (relative to current message)
+      let boundaryGroupIndex =
+        mode === INJECT_MODE_PREPEND ? 0 : this.feed.groups.length - 1;
+      let boundaryGroup = this.feed.groups[boundaryGroupIndex] || [];
+
+      // Acquire boundary message (relative to current message, in group)
+      let boundaryMessageIndex =
+        mode === INJECT_MODE_PREPEND ? 0 : boundaryGroup.length - 1;
+      let boundaryMessage = boundaryGroup[boundaryMessageIndex] || null;
 
       // Check if boundary is from the same day + if should reuse any \
       //   already-inserted separator (if any)
-      let boundaryIsSameDay = boundaryMessage
-        ? DateHelper.areSameDay(boundaryMessage.date, storeMessage.date)
-        : false;
+      let boundaryIsSameDay =
+        boundaryMessage !== null
+          ? DateHelper.areSameDay(boundaryMessage.date, storeMessage.date)
+          : false;
       let boundarySeparatorShouldReuse =
         boundaryIsSameDay === true &&
-        boundaryMessage.type === MessageHelper.ENTRY_TYPE_SEPARATOR;
+        boundaryMessage?.type === MessageHelper.ENTRY_TYPE_SEPARATOR;
 
       // #1. Should a separator message be inserted?
       if (
@@ -660,7 +700,7 @@ function FeedStore() {
       //   with files).
       let nestedMessage =
         boundarySeparatorShouldReuse === true
-          ? this.feed.entries[boundaryIndex + 1]
+          ? boundaryGroup[boundaryMessageIndex + 1]
           : boundaryMessage;
 
       if (
@@ -704,8 +744,60 @@ function FeedStore() {
       // Store line reference to its parent
       this.__registers.entryIdForLineId[message.id] = storeMessage.id;
 
-      // Merge all stack contents with the feed of entries?
-      if (injectStack.length > 0) {
+      // Merge all stack contents with the feed of entries? (if anything)
+      if (injectStack.length) {
+        this.__commitEntriesIntoGroup(mode, injectStack, {
+          reuseSeparator: boundarySeparatorShouldReuse,
+          groupIndex: boundaryGroupIndex,
+          entryIndex: boundaryMessageIndex
+        });
+      }
+    },
+
+    /**
+     * Commits provided stack of entries to the store
+     * @private
+     * @param  {number}  mode
+     * @param  {object}  [stack]
+     * @param  {object}  [boundaries]
+     * @param  {boolean} [boundaries.reuseSeparator]
+     * @param  {number}  [boundaries.groupIndex]
+     * @param  {number}  [boundaries.entryIndex]
+     * @return {undefined}
+     */
+    __commitEntriesIntoGroup(
+      mode,
+      stack = [],
+      boundaries = { reuseSeparator: false, groupIndex: -1, entryIndex: -1 }
+    ) {
+      if (stack.length > 0) {
+        // Acquire group in which to inject stack
+        let group = this.feed.groups[boundaries.groupIndex] || null;
+
+        if (boundaries.reuseSeparator === true) {
+          // Should reuse separator; assert that inject group at boundary is set
+          if (group === null) {
+            throw new Error(
+              "Cannot commit entries re-using separator into missing group"
+            );
+          }
+        } else {
+          // Inject new group? (prepend or append)
+          if (
+            group === null ||
+            stack[0].type === MessageHelper.ENTRY_TYPE_SEPARATOR
+          ) {
+            group = [];
+
+            if (mode === INJECT_MODE_PREPEND) {
+              this.feed.groups.unshift(group);
+            } else {
+              this.feed.groups.push(group);
+            }
+          }
+        }
+
+        // Inject stack to group (prepend or append)
         if (mode === INJECT_MODE_PREPEND) {
           // Acquire prepend start index
           // Notice: this lets us re-use an existing separator for \
@@ -713,40 +805,18 @@ function FeedStore() {
           //   order, the mechanics are not quite the same as append mode, \
           //   where time is guaranteed to progress monotonically.
           let prependStartIndex =
-            boundarySeparatorShouldReuse === true ? boundaryIndex + 1 : 0;
+            boundaries.reuseSeparator === true ? boundaries.entryIndex + 1 : 0;
 
-          for (let i = 0; i < injectStack.length; i++) {
+          for (let i = 0; i < stack.length; i++) {
             // Prepend entry from the stack
-            this.feed.entries.splice(prependStartIndex + i, 0, injectStack[i]);
+            group.splice(prependStartIndex + i, 0, stack[i]);
           }
         } else {
-          for (let i = 0; i < injectStack.length; i++) {
-            // Append entry from the stack
-            this.feed.entries.push(injectStack[i]);
+          for (let i = 0; i < stack.length; i++) {
+            // Append entry from the stack (in the current group)
+            group.push(stack[i]);
           }
         }
-
-        // Re-compute all groups (from entries)
-        const groups = [];
-
-        let currentGroup = null;
-
-        this.feed.entries.forEach(entry => {
-          // Create new group?
-          if (
-            currentGroup === null ||
-            entry.type === MessageHelper.ENTRY_TYPE_SEPARATOR
-          ) {
-            currentGroup = [];
-
-            groups.push(currentGroup);
-          }
-
-          // Append current entry
-          currentGroup.push(entry);
-        });
-
-        this.feed.groups = groups;
       }
     }
   };
