@@ -14,3 +14,9 @@
 .entry:last-child {
   margin-bottom: 0;
 }
+
+.entry.entry--sticky {
+  position: sticky;
+  top: 8px;
+  z-index: 10;
+}

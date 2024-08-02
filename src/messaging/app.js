@@ -19,6 +19,7 @@ import {
   FileAudio
 } from "./components/file/file.js";
 import Separator from "./components/separator/separator.js";
+import Group from "./components/group/group.js";
 import Entry from "./components/entry/entry.js";
 import Loader from "./components/loader/loader.js";
 import {
@@ -395,6 +396,7 @@ createApp({
   FileAudio,
   Separator,
   Loader,
+  Group,
   Entry,
   Message,
   MessageLine,

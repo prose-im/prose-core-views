@@ -11,6 +11,7 @@
 @import "./components/file/file.css";
 @import "./components/separator/separator.css";
 @import "./components/message/message.css";
+@import "./components/group/group.css";
 @import "./components/entry/entry.css";
 @import "./components/loader/loader.css";
 
@@ -56,6 +57,10 @@ a {
 /* VARIABLES */
 
 #app {
+  /* SIZE: SEPARATOR */
+  --size-separator-height: 1.525rem;
+  --size-separator-padding-bottom: 1px;
+
   /* COLOR (LIGHT MODE): WHITE */
   --color-white-default: #ffffff;
   --color-white-dark: #eeeeee;

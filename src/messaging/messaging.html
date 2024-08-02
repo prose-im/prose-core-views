@@ -47,193 +47,196 @@
     ></div>
 
     <div
-      v-for="(entry, entryIndex) in $store.feed.entries"
-      v-scope="Entry(entry)"
-      v-once
-      :key="dayChangeCount + '/' + $context.i18n.code + '/' + entry.id + '@' + (entry.updatedAt || 0)"
-      ref="entry"
-      class="entry"
+      v-for="(group, groupIndex) in $store.feed.groups"
+      v-scope="Group()"
+      class="group"
     >
       <div
-        v-if="message"
-        v-scope="Message(message)"
-        @vue:mounted="mounted"
-        class="message"
+        v-for="(entry, entryIndex) in group"
+        v-scope="Entry(entry)"
+        v-once
+        :key="dayChangeCount + '/' + $context.i18n.code + '/' + entry.id + '@' + (entry.updatedAt || 0)"
+        :class="[
+          'entry',
+          {
+            'entry--sticky': isSticky
+          }
+        ]"
       >
         <div
-          v-for="(line, lineIndex) in content"
-          v-scope="MessageLine(line, observer)"
+          v-if="message"
+          v-scope="Message(message)"
           @vue:mounted="mounted"
-          :key="line.id"
-          :data-line-id="line.id"
-          :id="'message-' + line.id"
-          :class="[
-            'message-line',
-            {
-              'message-line--last-read': (line.properties && line.properties.lastRead && (((entryIndex + 1) < $store.feed.entries.length) || ((lineIndex + 1) < content.length))),
-              'message-line--highlighted': (line.properties && line.properties.highlighted)
-            }
-          ]"
-          ref="line"
+          class="message"
         >
-          <span
-            v-if="user"
-            v-scope="Avatar(user)"
+          <div
+            v-for="(line, lineIndex) in content"
+            v-scope="MessageLine(line, observer)"
             @vue:mounted="mounted"
-            class="message-avatar avatar"
+            :key="line.id"
+            :data-line-id="line.id"
+            :id="'message-' + line.id"
+            :class="[
+              'message-line',
+              {
+                'message-line--last-read': (line.properties && line.properties.lastRead && ((groupIndex + 1) < $store.feed.groups.length || (entryIndex + 1) < group.length) || (lineIndex + 1) < content.length),
+                'message-line--highlighted': (line.properties && line.properties.highlighted)
+              }
+            ]"
+            ref="line"
           >
             <span
-              v-if="lineIndex > 0"
-              class="avatar-image avatar-image--ghost"
-            ></span>
-
-            <span
-              v-else-if="avatarUrl"
-              @vue:unmounted="onIdentityUnmounted(line.id)"
-              @mouseenter="onIdentityMouseEnterOrLeave(line.id, true, $event)"
-              @mouseleave="onIdentityMouseEnterOrLeave(line.id, false)"
-              :style="{
-                backgroundImage: ('url(\'' + avatarUrl + '\')')
-              }"
-              class="avatar-image"
-            ></span>
-
-            <span
-              v-else
-              @vue:unmounted="onIdentityUnmounted(line.id)"
-              @mouseenter="onIdentityMouseEnterOrLeave(line.id, true, $event)"
-              @mouseleave="onIdentityMouseEnterOrLeave(line.id, false)"
-              :style="{ backgroundColor: defaultPalette }"
-              class="avatar-image avatar-image--placeholder"
+              v-if="user"
+              v-scope="Avatar(user)"
+              @vue:mounted="mounted"
+              class="message-avatar avatar"
             >
-              <span v-if="defaultInitials" class="avatar-initials">
-                {{ defaultInitials }}
-              </span>
-            </span>
-          </span>
-
-          <div class="message-inner">
-            <div v-if="user && lineIndex === 0" class="message-origin">
               <span
+                v-if="lineIndex > 0"
+                class="avatar-image avatar-image--ghost"
+              ></span>
+
+              <span
+                v-else-if="avatarUrl"
                 @vue:unmounted="onIdentityUnmounted(line.id)"
                 @mouseenter="onIdentityMouseEnterOrLeave(line.id, true, $event)"
                 @mouseleave="onIdentityMouseEnterOrLeave(line.id, false)"
-                class="message-origin-name"
-              >
-                {{ user.name || user.jid }}
-              </span>
-
-              <span v-if="date" class="message-origin-date">{{ date }}</span>
-
-              <span
-                v-if="attributes && attributes.length > 0"
-                class="message-origin-attributes"
-              >
-                <span
-                  v-for="attribute in attributes"
-                  :title="$context.i18n._.attributes[attribute] || ''"
-                  :class="[
-                    'message-origin-attribute',
-                    'message-origin-attribute--' + attribute
-                  ]"
-                ></span>
-              </span>
-            </div>
-
-            <div class="message-content">
-              <span
-                v-if="line.type === 'text'"
-                v-scope="MessagePartText(line)"
-                @vue:mounted="mounted"
-                class="message-text"
+                :style="{
+                  backgroundImage: ('url(\'' + avatarUrl + '\')')
+                }"
+                class="avatar-image"
               ></span>
 
-              <span v-else class="message-other">(?)</span>
-
               <span
-                v-for="file in line.files"
-                :key="'file/' + file.url"
-                v-scope="MessagePartFile(file)"
-                @vue:mounted="mounted"
-                class="message-file"
-              ></span>
-
-              <span v-if="line.reactions" class="message-reactions">
-                <span
-                  v-for="reactionData in line.reactions"
-                  @vue:unmounted="onReactionUnmounted(line.id, reactionData.reaction)"
-                  @click.stop="onReactionClick(line.id, reactionData.reaction, reactionData.authors)"
-                  @mouseenter="onReactionMouseEnterOrLeave(line.id, reactionData.reaction, true, $event)"
-                  @mouseleave="onReactionMouseEnterOrLeave(line.id, reactionData.reaction, false)"
-                  :key="'reaction/' + reactionData.reaction"
-                  :class="[
-                    'message-reaction',
-                    {
-                      'message-reaction--active': ($context.account.jid && reactionData.authors.includes($context.account.jid))
-                    }
-                  ]"
-                >
-                  <span class="message-reaction-image">
-                    {{ reactionData.reaction }}
-                  </span>
-
-                  <span class="message-reaction-count">
-                    {{ (reactionData.authors.length || 0) }}
-                  </span>
+                v-else
+                @vue:unmounted="onIdentityUnmounted(line.id)"
+                @mouseenter="onIdentityMouseEnterOrLeave(line.id, true, $event)"
+                @mouseleave="onIdentityMouseEnterOrLeave(line.id, false)"
+                :style="{ backgroundColor: defaultPalette }"
+                class="avatar-image avatar-image--placeholder"
+              >
+                <span v-if="defaultInitials" class="avatar-initials">
+                  {{ defaultInitials }}
                 </span>
               </span>
+            </span>
+
+            <div class="message-inner">
+              <div v-if="user && lineIndex === 0" class="message-origin">
+                <span
+                  @vue:unmounted="onIdentityUnmounted(line.id)"
+                  @mouseenter="onIdentityMouseEnterOrLeave(line.id, true, $event)"
+                  @mouseleave="onIdentityMouseEnterOrLeave(line.id, false)"
+                  class="message-origin-name"
+                >
+                  {{ user.name || user.jid }}
+                </span>
+
+                <span v-if="date" class="message-origin-date">{{ date }}</span>
+
+                <span
+                  v-if="attributes && attributes.length > 0"
+                  class="message-origin-attributes"
+                >
+                  <span
+                    v-for="attribute in attributes"
+                    :title="$context.i18n._.attributes[attribute] || ''"
+                    :class="[
+                      'message-origin-attribute',
+                      'message-origin-attribute--' + attribute
+                    ]"
+                  ></span>
+                </span>
+              </div>
+
+              <div class="message-content">
+                <span
+                  v-if="line.type === 'text'"
+                  v-scope="MessagePartText(line)"
+                  @vue:mounted="mounted"
+                  class="message-text"
+                ></span>
+
+                <span v-else class="message-other">(?)</span>
+
+                <span
+                  v-for="file in line.files"
+                  :key="'file/' + file.url"
+                  v-scope="MessagePartFile(file)"
+                  @vue:mounted="mounted"
+                  class="message-file"
+                ></span>
+
+                <span v-if="line.reactions" class="message-reactions">
+                  <span
+                    v-for="reactionData in line.reactions"
+                    @vue:unmounted="onReactionUnmounted(line.id, reactionData.reaction)"
+                    @click.stop="onReactionClick(line.id, reactionData.reaction, reactionData.authors)"
+                    @mouseenter="onReactionMouseEnterOrLeave(line.id, reactionData.reaction, true, $event)"
+                    @mouseleave="onReactionMouseEnterOrLeave(line.id, reactionData.reaction, false)"
+                    :key="'reaction/' + reactionData.reaction"
+                    :class="[
+                      'message-reaction',
+                      {
+                        'message-reaction--active': ($context.account.jid && reactionData.authors.includes($context.account.jid))
+                      }
+                    ]"
+                  >
+                    <span class="message-reaction-image">
+                      {{ reactionData.reaction }}
+                    </span>
+
+                    <span class="message-reaction-count">
+                      {{ (reactionData.authors.length || 0) }}
+                    </span>
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            <div
+              :class="[
+                'message-actions',
+                {
+                  'message-actions--locked': line.locks
+                }
+              ]"
+            >
+              <span
+                v-if="!transient"
+                @click.stop="onActionReactionsClick($event, line.id)"
+                :title="$context.i18n._.actions.reactions"
+                :class="[
+                  'message-action',
+                  'message-action--reactions',
+                  {
+                    'message-action--active': (line.locks && line.locks.reactions === true)
+                  }
+                ]"
+              ></span>
+
+              <span
+                @click.stop="onActionMoreClick($event, line.id)"
+                :title="$context.i18n._.actions.more"
+                :class="[
+                  'message-action',
+                  'message-action--more',
+                  {
+                    'message-action--active': (line.locks && line.locks.actions === true)
+                  }
+                ]"
+              ></span>
             </div>
           </div>
-
-          <div
-            :class="[
-              'message-actions',
-              {
-                'message-actions--locked': line.locks
-              }
-            ]"
-          >
-            <span
-              v-if="!transient"
-              @click.stop="onActionReactionsClick($event, line.id)"
-              :title="$context.i18n._.actions.reactions"
-              :class="[
-                'message-action',
-                'message-action--reactions',
-                {
-                  'message-action--active': (line.locks && line.locks.reactions === true)
-                }
-              ]"
-            ></span>
-
-            <span
-              @click.stop="onActionMoreClick($event, line.id)"
-              :title="$context.i18n._.actions.more"
-              :class="[
-                'message-action',
-                'message-action--more',
-                {
-                  'message-action--active': (line.locks && line.locks.actions === true)
-                }
-              ]"
-            ></span>
-          </div>
         </div>
-      </div>
 
-      <div
-        v-else-if="separator"
-        v-scope="Separator(separator)"
-        @vue:mounted="mounted"
-        class="separator"
-      >
-        <span class="separator-sticky js-separator-sticky">
+        <div
+          v-else-if="separator"
+          v-scope="Separator(separator)"
+          class="separator"
+        >
           <span class="separator-label">{{ label }}</span>
-        </span>
-
-        <span class="separator-footprint">
-          <span class="separator-label">{{ label }}</span>
-        </span>
+        </div>
       </div>
     </div>
 

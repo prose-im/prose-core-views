@@ -1,0 +1,27 @@
+/*
+ * prose-core-views
+ *
+ * Copyright: 2024, Valerian Saliou <valerian@valeriansaliou.name>
+ * License: Mozilla Public License v2.0 (MPL v2.0)
+ */
+
+/* SECTION: GROUP */
+
+.group {
+  margin-top: 10px;
+  position: relative;
+}
+
+.group::before {
+  content: "";
+  background-color: var(--color-white-dark);
+  height: 1px;
+  position: absolute;
+  top: calc(
+    ((var(--size-separator-height) + var(--size-separator-padding-bottom)) / 2) +
+      0.5px
+  );
+  left: 0;
+  right: 0;
+  z-index: 0;
+}

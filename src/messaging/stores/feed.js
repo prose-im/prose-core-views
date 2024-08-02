@@ -35,7 +35,8 @@ function FeedStore() {
       },
 
       identities: {},
-      entries: []
+      entries: [],
+      groups: []
     }),
 
     __registers: {
@@ -724,6 +725,28 @@ function FeedStore() {
             this.feed.entries.push(injectStack[i]);
           }
         }
+
+        // Re-compute all groups (from entries)
+        const groups = [];
+
+        let currentGroup = null;
+
+        this.feed.entries.forEach(entry => {
+          // Create new group?
+          if (
+            currentGroup === null ||
+            entry.type === MessageHelper.ENTRY_TYPE_SEPARATOR
+          ) {
+            currentGroup = [];
+
+            groups.push(currentGroup);
+          }
+
+          // Append current entry
+          currentGroup.push(entry);
+        });
+
+        this.feed.groups = groups;
       }
     }
   };
