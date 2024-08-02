@@ -49,6 +49,7 @@
     <div
       v-for="(group, groupIndex) in $store.feed.groups"
       v-scope="Group()"
+      :key="'group/' + groupIndex"
       class="group"
     >
       <div
@@ -73,13 +74,13 @@
             v-for="(line, lineIndex) in content"
             v-scope="MessageLine(line, observer)"
             @vue:mounted="mounted"
-            :key="line.id"
+            :key="'line/' + line.id"
             :data-line-id="line.id"
             :id="'message-' + line.id"
             :class="[
               'message-line',
               {
-                'message-line--last-read': (line.properties && line.properties.lastRead && ((groupIndex + 1) < $store.feed.groups.length || (entryIndex + 1) < group.length) || (lineIndex + 1) < content.length),
+                'message-line--last-read': (line.properties && line.properties.lastRead && ((groupIndex + 1) < $store.feed.groups.length || (entryIndex + 1) < group.length || (lineIndex + 1) < content.length)),
                 'message-line--highlighted': (line.properties && line.properties.highlighted)
               }
             ]"
