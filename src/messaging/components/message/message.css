@@ -343,6 +343,12 @@
   border-radius: 4px;
 }
 
+.message-text-inner pre {
+  width: fit-content;
+  min-width: 40%;
+  max-width: 100%;
+}
+
 .message-text-inner pre code {
   color: var(--color-code-text);
   background-color: var(--color-code-background);
