@@ -27,11 +27,11 @@ const SandboxHelper = {
       const fixtures = require("../../../res/fixtures/messaging.json");
 
       // Configure account data
-      context.setAccountJID(fixtures.account.jid);
+      context.setAccountUserId(fixtures.account.id);
 
       // Identify users
-      for (let jid in fixtures.identities) {
-        store.identify(jid, fixtures.identities[jid]);
+      for (let userId in fixtures.identities) {
+        store.identify(userId, fixtures.identities[userId]);
       }
 
       // Insert all messages

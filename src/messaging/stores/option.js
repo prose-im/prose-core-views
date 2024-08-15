@@ -37,7 +37,7 @@ function OptionStore() {
     }),
 
     account: reactive({
-      jid: null
+      userId: null
     }),
 
     // --> METHODS <--
@@ -88,12 +88,12 @@ function OptionStore() {
     },
 
     /**
-     * Gets account JID
+     * Gets account user identifier
      * @public
      * @return {string} Style theme value
      */
-    getAccountJID() {
-      return this.account.jid;
+    getAccountUserId() {
+      return this.account.userId;
     },
 
     /**
@@ -186,23 +186,27 @@ function OptionStore() {
     },
 
     /**
-     * Sets account JID
+     * Sets account user identifier
      * @public
-     * @param  {string} jid
+     * @param  {string} userId
      * @return {undefined}
      */
-    setAccountJID(jid) {
-      // Account JID is invalid?
+    setAccountUserId(userId) {
+      // Account user identifier is invalid?
       // Notice: only allowed format is a bare JID, eg. john.doe@acme.inc; any \
       //   other format such as john.doe@acme.inc/resource is invalid.
-      if (!jid || jid.includes("@") === false || jid.includes("/") === true) {
+      if (
+        !userId ||
+        userId.includes("@") === false ||
+        userId.includes("/") === true
+      ) {
         throw new Error(
-          "Account JID invalid, please provide a valid Jabber IDentifier " +
-            "in bare format"
+          "Account user identifier invalid, please provide a valid " +
+            "Jabber IDentifier in bare format"
         );
       }
 
-      this.account.jid = jid;
+      this.account.userId = userId;
     }
   };
 }

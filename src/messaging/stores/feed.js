@@ -76,7 +76,7 @@ function FeedStore() {
           id: messageLine.id,
           type: messageLine.type,
           date: messageEntry.date.toISOString(),
-          from: messageEntry.jid,
+          from: messageEntry.userId,
           content: messageLine.text
         };
       }
@@ -213,8 +213,8 @@ function FeedStore() {
         }
 
         // Update message user in store? (if any set)
-        if (storeMessageDiff.jid) {
-          parentEntry.jid = storeMessageDiff.jid;
+        if (storeMessageDiff.userId) {
+          parentEntry.userId = storeMessageDiff.userId;
         }
 
         // Bump updated date (used to signal view to re-render)
@@ -507,30 +507,31 @@ function FeedStore() {
     },
 
     /**
-     * Identifies target user JID with profile data
+     * Identifies target user identifier with profile data
      * @public
-     * @param  {string}  jid
+     * @param  {string}  userId
      * @param  {object}  [identity]
      * @return {boolean} User identify change status
      */
-    identify(jid, identity = null) {
-      let storeIdentity = this.feed.identities[jid],
+    identify(userId, identity = null) {
+      let storeIdentity = this.feed.identities[userId],
         doExist = storeIdentity !== undefined,
         hasChanged = false;
 
       // Clear any existing identity?
       if (identity === null) {
         if (doExist === true) {
-          delete this.feed.identities[jid];
+          delete this.feed.identities[userId];
 
           hasChanged = true;
         }
       } else {
         // Set or update identity
-        // Important: if setting, retain JID in the identity object as well, \
-        //   as a convenience way for store consumers to use an identity by \
-        //   reference w/ all the keys that they require pre-populated, \
-        //   without re-building the identity object and copying nested values.
+        // Important: if setting, retain user identifier in the identity \
+        //   object as well, as a convenience way for store consumers to use \
+        //   an identity by reference w/ all the keys that they require \
+        //   pre-populated, without re-building the identity object and \
+        //   copying nested values.
         if (doExist === true) {
           // Mark as has changed?
           if (
@@ -542,9 +543,9 @@ function FeedStore() {
 
           Object.assign(storeIdentity, identity);
         } else {
-          this.feed.identities[jid] = {
+          this.feed.identities[userId] = {
             ...identity,
-            jid
+            userId
           };
 
           hasChanged = true;
@@ -557,7 +558,7 @@ function FeedStore() {
 
         this.feed.groups.forEach(group => {
           group.forEach(entry => {
-            if (entry.jid === jid) {
+            if (entry.userId === userId) {
               entry.updatedAt = nowDate;
             }
           });
@@ -706,7 +707,7 @@ function FeedStore() {
       if (
         nestedMessage &&
         nestedMessage.type === MessageHelper.ENTRY_TYPE_MESSAGE &&
-        nestedMessage.jid === storeMessage.jid &&
+        nestedMessage.userId === storeMessage.userId &&
         (storeMessage.content[0]?.files?.length || 0) === 0 &&
         DateHelper.areWithinElapsedTime(
           nestedMessage.date,

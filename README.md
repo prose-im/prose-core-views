@@ -83,7 +83,7 @@ The messaging view exposes a programmatic API that lets applications manipulate 
 - Interact with a message action: `MessagingStore.interact(messageId<string>, action<string>, isActive<boolean>)<boolean>`
 - Scroll to a message: `MessagingStore.scroll(messageId<string>, isForced<boolean>)<boolean>`
 - Toggle `backwards` or `forwards` loader in the store: `MessagingStore.loader(type<string>, isVisible<boolean>)<boolean>`
-- Identify a JID with its `name` and `avatar`: `MessagingStore.identify(jid<string>, identity<null | object>)<boolean>`
+- Identify an user identifier with its `name` and `avatar`: `MessagingStore.identify(userId<string>, identity<null | object>)<boolean>`
 
 All inserted message objects are required to hold the following keys: `id`, `type`, `date`, `content` and `from`. When updating an existing message, only modified keys need to be passed.
 
@@ -165,7 +165,7 @@ As soon as the view is available, the following methods can be called:
 - Get style renderer: `MessagingContext.getStyleRenderer()<string>`
 - Get style theme: `MessagingContext.getStyleTheme()<string>`
 - Get style modifier: `MessagingContext.getStyleModifier()<object>`
-- Get account JID: `MessagingContext.getAccountJID()<string>`
+- Get account user identifier: `MessagingContext.getAccountUserId()<string>`
 
 **Option setters:**
 
@@ -174,7 +174,7 @@ As soon as the view is available, the following methods can be called:
 - Set style renderer: `MessagingContext.setStyleRenderer(renderer<string>)<undefined>` (where `renderer` can be eg.: `firefox`, `chrome`, `safari`)
 - Set style theme: `MessagingContext.setStyleTheme(theme<string>)<undefined>` (where `theme` is any of: `light`, `dark`)
 - Set style modifier: `MessagingContext.setStyleModifier(name<string>, value<object>)<undefined>` (where `name` is any of: `scroll`)
-- Set account JID: `MessagingContext.setAccountJID(jid<string>)<undefined>` (where `jid` is a valid Jabber IDentifier)
+- Set account user identifier: `MessagingContext.setAccountUserId(userId<string>)<undefined>` (where `userId` is a valid Jabber IDentifier)
 
 #### 3. Subscribing to messaging events
 

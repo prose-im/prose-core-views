@@ -85,13 +85,13 @@ export declare interface MessagingContext {
   getStyleRenderer: () => Renderer;
   getStyleTheme: () => Theme;
   getStyleModifier: () => Modifier;
-  getAccountJID: () => string;
+  getAccountUserId: () => string;
   setLanguage: (code: string) => void;
   setStylePlatform: (platform: Platform) => void;
   setStyleRenderer: (renderer: Renderer) => void;
   setStyleTheme: (theme: Theme) => void;
   setStyleModifier: (name: Modifier, value: any) => void;
-  setAccountJID: (jid: string) => void;
+  setAccountUserId: (userId: string) => void;
 }
 
 export declare interface MessagingStore {
@@ -110,7 +110,7 @@ export declare interface MessagingStore {
   scroll: (messageId: string, isForced?: boolean) => boolean;
   loader: (type: string, isVisible?: null | boolean) => boolean;
   identify: (
-    jid: string,
+    userId: string,
     identity?: null | MessagingStoreIdentifyIdentity
   ) => boolean;
 }

@@ -54,10 +54,10 @@ function Avatar(user) {
       // Generate message avatar defaults (if needed)
       if (this.avatarUrl === null) {
         this.defaultInitials = this.__normalizeDefaultInitials(
-          this.__generateDefaultInitials(user.jid, user.name)
+          this.__generateDefaultInitials(user.userId, user.name)
         );
 
-        this.defaultPalette = this.__generateDefaultPalette(user.jid);
+        this.defaultPalette = this.__generateDefaultPalette(user.userId);
       }
     },
 
@@ -82,11 +82,11 @@ function Avatar(user) {
     /**
      * Generates default initials
      * @private
-     * @param  {string} jid
+     * @param  {string} userId
      * @param  {string} [name]
      * @return {string} Default initials
      */
-    __generateDefaultInitials(jid, name = "") {
+    __generateDefaultInitials(userId, name = "") {
       // #1. Extract initials from name (if any, and if long enough)
       if (name) {
         let nameChunks = name
@@ -109,10 +109,10 @@ function Avatar(user) {
         }
       }
 
-      // #2. Extract initials from JID (fallback)
-      let jidParts = jid.split("@");
+      // #2. Extract initials from JID, if identifier is JID-like (fallback)
+      let jidParts = userId.split("@");
 
-      if (jidParts[0] && jidParts[0].length >= 1) {
+      if (jidParts[0]?.length >= 1 && jidParts[1]?.length >= 1) {
         return jidParts[0].substring(0, 2);
       }
 
@@ -123,20 +123,22 @@ function Avatar(user) {
     /**
      * Generates default palette
      * @private
-     * @param  {string} [jid]
+     * @param  {string} [userId]
      * @return {string} Default palette
      */
-    __generateDefaultPalette(jid = "") {
-      // Compute JID fingerprint
-      let jidFingerprint = 0;
+    __generateDefaultPalette(userId = "") {
+      // Compute user identifier fingerprint
+      let userIdFingerprint = 0;
 
-      for (let i = 0; i < jid.length; i++) {
-        jidFingerprint += jid.charCodeAt(i);
+      for (let i = 0; i < userId.length; i++) {
+        userIdFingerprint += userId.charCodeAt(i);
       }
 
-      // Acquire color based on JID fingerprint
+      // Acquire color based on user identifier fingerprint
       let color =
-        DEFAULT_PALETTE_COLORS[jidFingerprint % DEFAULT_PALETTE_COLORS.length];
+        DEFAULT_PALETTE_COLORS[
+          userIdFingerprint % DEFAULT_PALETTE_COLORS.length
+        ];
 
       return `#${color}`;
     }

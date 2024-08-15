@@ -49,7 +49,7 @@ const MessageHelper = {
 
     // Apply user? (if any)
     if (message.from) {
-      messageModel.jid = message.from;
+      messageModel.userId = message.from;
     }
 
     // Parse message date? (if any)

@@ -83,7 +83,7 @@ function Message(message) {
      */
     mounted() {
       // Acquire message user identity
-      this.user = this.__acquireUserIdentity(message.jid);
+      this.user = this.__acquireUserIdentity(message.userId);
 
       // Generate message date text
       this.date = this.__generateDate(message.date);
@@ -95,11 +95,11 @@ function Message(message) {
     /**
      * Acquires message user identity (by reference at best)
      * @private
-     * @param  {string} jid
+     * @param  {string} userId
      * @return {object} Message user identity
      */
-    __acquireUserIdentity(jid) {
-      let userIdentity = $store.feed.identities[jid] || null;
+    __acquireUserIdentity(userId) {
+      let userIdentity = $store.feed.identities[userId] || null;
 
       // Any identity available in store? Use that one.
       // Notice: this returns a direct reference to the store, meaning that we \
@@ -111,7 +111,7 @@ function Message(message) {
 
       // Generate default local identity (as a fallback)
       return {
-        jid
+        userId
       };
     },
 
@@ -262,8 +262,8 @@ function Message(message) {
         id: lineId,
         reaction: reactionEmoji,
 
-        active: $context.account.jid
-          ? !reactionAuthors.includes($context.account.jid)
+        active: $context.account.userId
+          ? !reactionAuthors.includes($context.account.userId)
           : true
       });
     },

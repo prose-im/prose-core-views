@@ -130,7 +130,7 @@
                   @mouseleave="onIdentityMouseEnterOrLeave(line.id, false)"
                   class="message-origin-name"
                 >
-                  {{ user.name || user.jid }}
+                  {{ user.name || user.userId }}
                 </span>
 
                 <span v-if="date" class="message-origin-date">{{ date }}</span>
@@ -179,7 +179,7 @@
                     :class="[
                       'message-reaction',
                       {
-                        'message-reaction--active': ($context.account.jid && reactionData.authors.includes($context.account.jid))
+                        'message-reaction--active': ($context.account.userId && reactionData.authors.includes($context.account.userId))
                       }
                     ]"
                   >
