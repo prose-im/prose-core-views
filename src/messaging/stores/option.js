@@ -36,8 +36,23 @@ function OptionStore() {
       }
     }),
 
+    behavior: {
+      dates: {
+        clock24h: false
+      },
+
+      thumbnails: {
+        enable: true,
+        small: false
+      }
+    },
+
     account: reactive({
       userId: null
+    }),
+
+    _store: reactive({
+      version: 0
     }),
 
     // --> METHODS <--
@@ -81,10 +96,21 @@ function OptionStore() {
     /**
      * Gets style modifier
      * @public
-     * @return {string} Style modifier value (if any)
+     * @return {object} Style modifier value (if any)
      */
     getStyleModifier(name) {
       return this.style.modifiers[name];
+    },
+
+    /**
+     * Gets behavior option (for group)
+     * @public
+     * @param  {string} group
+     * @param  {string} option
+     * @return {object} Behavior option value (if any)
+     */
+    getBehavior(group, option) {
+      return this.behavior[group]?.[option];
     },
 
     /**
@@ -111,8 +137,14 @@ function OptionStore() {
         );
       }
 
-      this.i18n.code = code;
-      this.i18n._ = ToolboxHelper.acquireLanguageData(code);
+      // Any change to language code?
+      if (code !== this.i18n.code) {
+        this.i18n.code = code;
+        this.i18n._ = ToolboxHelper.acquireLanguageData(code);
+
+        // Signal that store version changed (views need to re-render)
+        this._store.version++;
+      }
     },
 
     /**
@@ -170,7 +202,7 @@ function OptionStore() {
      * Sets style modifier
      * @public
      * @param  {string} name
-     * @param  {string} value
+     * @param  {object} value
      * @return {undefined}
      */
     setStyleModifier(name, value) {
@@ -183,6 +215,42 @@ function OptionStore() {
       }
 
       this.style.modifiers[name] = value;
+    },
+
+    /**
+     * Sets behavior option (for group)
+     * @public
+     * @param  {string} group
+     * @param  {string} option
+     * @param  {object} value
+     * @return {undefined}
+     */
+    setBehavior(group, option, value) {
+      const groupOptions = this.behavior[group] || null;
+
+      // Behavior group does not exist?
+      if (groupOptions === null) {
+        throw new Error(
+          `Behavior group does not exist, possible values: ` +
+            `${Object.keys(this.behavior).join(", ")}`
+        );
+      }
+
+      // Behavior option does not exist?
+      if (!(option in groupOptions)) {
+        throw new Error(
+          `Behavior option does not exist in group: ${group}, possible ` +
+            `values: ${Object.keys(groupOptions).join(", ")}`
+        );
+      }
+
+      // Any change to option value?
+      if (value !== groupOptions[option]) {
+        groupOptions[option] = value;
+
+        // Signal that store version changed (views need to re-render)
+        this._store.version++;
+      }
     },
 
     /**

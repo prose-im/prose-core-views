@@ -164,7 +164,8 @@ As soon as the view is available, the following methods can be called:
 - Get style platform: `MessagingContext.getStylePlatform()<string>`
 - Get style renderer: `MessagingContext.getStyleRenderer()<string>`
 - Get style theme: `MessagingContext.getStyleTheme()<string>`
-- Get style modifier: `MessagingContext.getStyleModifier()<object>`
+- Get style modifier: `MessagingContext.getStyleModifier(name<string>)<object>`
+- Get behavior: `MessagingContext.getBehavior(group<string>, option<string>)<object>`
 - Get account user identifier: `MessagingContext.getAccountUserId()<string>`
 
 **Option setters:**
@@ -174,6 +175,7 @@ As soon as the view is available, the following methods can be called:
 - Set style renderer: `MessagingContext.setStyleRenderer(renderer<string>)<undefined>` (where `renderer` can be eg.: `firefox`, `chrome`, `safari`)
 - Set style theme: `MessagingContext.setStyleTheme(theme<string>)<undefined>` (where `theme` is any of: `light`, `dark`)
 - Set style modifier: `MessagingContext.setStyleModifier(name<string>, value<object>)<undefined>` (where `name` is any of: `scroll`)
+- Set behavior: `MessagingContext.setBehavior(group<string>, option<string>, value<object>)<undefined>` (where `group/option` is any of: `dates/clock24h`, `thumbnails/enable`, `thumbnails/small`)
 - Set account user identifier: `MessagingContext.setAccountUserId(userId<string>)<undefined>` (where `userId` is a valid Jabber IDentifier)
 
 #### 3. Subscribing to messaging events

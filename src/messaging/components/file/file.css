@@ -222,6 +222,18 @@
   mask-position: center;
 }
 
+.file-other-option.file-other-option--view::after {
+  mask-image: url("./images/other-option-view.svg");
+  width: 19px;
+  height: 16px;
+}
+
+.file-other-option.file-other-option--play::after {
+  mask-image: url("./images/other-option-play.svg");
+  width: 17px;
+  height: 18px;
+}
+
 .file-other-option.file-other-option--get::after {
   mask-image: url("./images/other-option-get.svg");
   width: 14px;

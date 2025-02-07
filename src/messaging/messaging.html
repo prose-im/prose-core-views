@@ -56,7 +56,7 @@
         v-for="(entry, entryIndex) in group"
         v-scope="Entry(entry)"
         v-once
-        :key="dayChangeCount + '/' + $context.i18n.code + '/' + entry.id + '@' + (entry.updatedAt || 0)"
+        :key="dayChangeCount + '/' + $context._store.version + '/' + entry.id + '@' + (entry.updatedAt || 0)"
         :class="[
           'entry',
           {
@@ -296,7 +296,12 @@
             v-scope="FileImage(file)"
             @click.prevent.stop="onFileClick(line.id, viewAction)"
             :href="file.url"
-            class="file-image"
+            :class="[
+              {
+                'file-image': previewSize,
+                'file-other-option file-other-option--view': !previewSize
+              }
+            ]"
           >
             <span
               v-if="previewSize"
@@ -315,7 +320,12 @@
             @vue:mounted="mounted"
             @click.prevent.stop="onFileClick(line.id, viewAction)"
             :href="file.url"
-            class="file-video file-player"
+            :class="[
+              {
+                'file-video file-player': previewSize,
+                'file-other-option file-other-option--play': !previewSize
+              }
+            ]"
           >
             <span
               v-if="previewSize"

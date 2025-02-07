@@ -17,10 +17,10 @@ import linkifyHtml from "linkify-html";
 import emojiRegex from "emoji-regex";
 import highlightLanguages from "../../libraries/highlighting/languages.js";
 import DateHelper from "../../helpers/date.js";
+import MessageHelper from "../../helpers/message.js";
 import $store from "../../stores/feed.js";
 import $context from "../../stores/option.js";
 import $event from "../../stores/broker.js";
-import MessageHelper from "../../helpers/message.js";
 
 // CONSTANTS
 

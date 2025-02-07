@@ -8,8 +8,11 @@
 // IMPORTS
 
 import DateHelper from "../../helpers/date.js";
+import $context from "../../stores/option.js";
 
 // CONSTANTS
+
+const PREVIEW_SMALL_SIZE_RATIO = 0.5; // 50%
 
 const PREVIEW_BASELINE_SIZE = {
   width: 320,
@@ -40,40 +43,55 @@ function File(file) {
      * Computes file preview size
      * @private
      * @param  {object} file
-     * @return {object} Computed file preview size
+     * @return {object} Computed file preview size (if any)
      */
     __computePreviewSize(file) {
-      const size = file.preview?.size || null;
+      // Are thumbnails not disabled?
+      if ($context.behavior.thumbnails.enable !== false) {
+        const size = file.preview?.size || null;
 
-      // Compute preview size? (pick the lowest size, up to baseline maximum)
-      if (size !== null) {
-        // Check if preview has vertical aspect
-        const hasVerticalAspect =
-          size?.width && size?.height && size.height > size.width && true;
+        // Compute preview size? (pick the lowest size, up to baseline maximum)
+        let width, height;
 
-        // Acquire baseline vertical and horizontal sizes (based on aspect)
-        const baselineHorizontalSize = hasVerticalAspect
-          ? PREVIEW_BASELINE_SIZE.height
-          : PREVIEW_BASELINE_SIZE.width;
-        const baselineVerticalSize = hasVerticalAspect
-          ? PREVIEW_BASELINE_SIZE.width
-          : PREVIEW_BASELINE_SIZE.height;
+        if (size !== null) {
+          // Check if preview has vertical aspect
+          const hasVerticalAspect =
+            size?.width && size?.height && size.height > size.width && true;
 
-        // Compute final preview width and height
-        const width = Math.min(
-          size?.width ? size.width : baselineHorizontalSize,
-          baselineHorizontalSize
-        );
-        const height =
-          size?.width && size?.height
-            ? (size.height / size.width) * width
-            : baselineVerticalSize;
+          // Acquire baseline vertical and horizontal sizes (based on aspect)
+          const baselineHorizontalSize = hasVerticalAspect
+            ? PREVIEW_BASELINE_SIZE.height
+            : PREVIEW_BASELINE_SIZE.width;
+          const baselineVerticalSize = hasVerticalAspect
+            ? PREVIEW_BASELINE_SIZE.width
+            : PREVIEW_BASELINE_SIZE.height;
+
+          // Compute final preview width and height
+          width = Math.min(
+            size?.width ? size.width : baselineHorizontalSize,
+            baselineHorizontalSize
+          );
+          height =
+            size?.width && size?.height
+              ? (size.height / size.width) * width
+              : baselineVerticalSize;
+        } else {
+          // Use default size (baseline)
+          width = PREVIEW_BASELINE_SIZE.width;
+          height = PREVIEW_BASELINE_SIZE.height;
+        }
+
+        // Scale down to small size? (apply ratio)
+        if ($context.behavior.thumbnails.small === true) {
+          width = Math.floor(width * PREVIEW_SMALL_SIZE_RATIO);
+          height = Math.floor(height * PREVIEW_SMALL_SIZE_RATIO);
+        }
 
         return { width, height };
       }
 
-      // Return default size (baseline)
-      return PREVIEW_BASELINE_SIZE;
+      // Thumbnails disabled
+      return null;
     }
   };
 }

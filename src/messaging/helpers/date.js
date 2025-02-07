@@ -186,7 +186,7 @@ const DateHelper = {
     let timeString = date.toLocaleString($context.i18n.code, {
       hour: "numeric",
       minute: "numeric",
-      hour12: true
+      hour12: $context.behavior.dates.clock24h === true ? false : true
     });
 
     return timeString.toLowerCase().replace(SPACE_REGEX, "");
