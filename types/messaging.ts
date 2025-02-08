@@ -30,6 +30,25 @@ export enum Modifier {
   Scroll = "scroll"
 }
 
+export enum BehaviorGroup {
+  // Dates behavior group.
+  Dates = "dates",
+  // Thumbnails behavior group.
+  Thumbnails = "thumbnails"
+}
+
+export enum BehaviorDate {
+  // Clock24H date behavior option.
+  Clock24H = "clock24h"
+}
+
+export enum BehaviorThumbnail {
+  // Enable thumbnail behavior option.
+  Enable = "enable",
+  // Small thumbnail behavior option.
+  Small = "small"
+}
+
 export enum ViewVisibility {
   // History item has visible visibility.
   Visible = "visible",
@@ -85,12 +104,21 @@ export declare interface MessagingContext {
   getStyleRenderer: () => Renderer;
   getStyleTheme: () => Theme;
   getStyleModifier: () => Modifier;
+  getBehavior: (
+    group: BehaviorGroup,
+    option: BehaviorDate | BehaviorThumbnail
+  ) => any;
   getAccountUserId: () => string;
   setLanguage: (code: string) => void;
   setStylePlatform: (platform: Platform) => void;
   setStyleRenderer: (renderer: Renderer) => void;
   setStyleTheme: (theme: Theme) => void;
   setStyleModifier: (name: Modifier, value: any) => void;
+  setBehavior: (
+    group: BehaviorGroup,
+    option: BehaviorDate | BehaviorThumbnail,
+    value: any
+  ) => void;
   setAccountUserId: (userId: string) => void;
 }
 
