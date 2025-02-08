@@ -80,6 +80,7 @@
     "eslint-config-prettier": "9.1.x",
     "parcel": "2.13.x",
     "prettier": "3.1.x",
+    "svgo": "3.3.x",
     "typescript": "5.3.x"
   }
 }
