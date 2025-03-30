@@ -8,6 +8,7 @@
 // TYPES
 
 export type Renderer = string;
+export type Accent = string;
 
 // ENUMERATIONS
 
@@ -102,6 +103,7 @@ export declare interface MessagingContext {
   getLanguage: () => string;
   getStylePlatform: () => Platform;
   getStyleRenderer: () => Renderer;
+  getStyleAccent: () => null | Accent;
   getStyleTheme: () => Theme;
   getStyleModifier: () => Modifier;
   getBehavior: (
@@ -112,6 +114,7 @@ export declare interface MessagingContext {
   setLanguage: (code: string) => void;
   setStylePlatform: (platform: Platform) => void;
   setStyleRenderer: (renderer: Renderer) => void;
+  setStyleAccent: (accent: null | Accent) => void;
   setStyleTheme: (theme: Theme) => void;
   setStyleModifier: (name: Modifier, value: any) => void;
   setBehavior: (

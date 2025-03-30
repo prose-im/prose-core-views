@@ -25,8 +25,8 @@
 
 .message-line.message-line--last-read:after {
   content: "";
-  background-color: var(--color-blue-default);
-  outline: 2px solid var(--color-blue-light);
+  background-color: var(--color-accent-default);
+  outline: 2px solid var(--color-accent-light);
   height: 1px;
   position: absolute;
   left: 0;
@@ -160,12 +160,12 @@
 }
 
 .message-reaction.message-reaction--active {
-  background-color: var(--color-blue-light);
-  border-color: var(--color-blue-default);
+  background-color: var(--color-accent-light);
+  border-color: var(--color-accent-default);
 }
 
 .message-reaction.message-reaction--active:hover {
-  border-color: var(--color-blue-dark);
+  border-color: var(--color-accent-dark);
 }
 
 .message-reaction.message-reaction--active .message-reaction-count {
@@ -282,13 +282,13 @@
 }
 
 .message-text-inner a {
-  color: var(--color-blue-default);
+  color: var(--color-accent-default);
   text-decoration: underline;
 }
 
 .message-text-inner a[href^="xmpp:"] {
-  color: var(--color-blue-dark);
-  background-color: var(--color-blue-light);
+  color: var(--color-accent-dark);
+  background-color: var(--color-accent-light);
   text-decoration: none;
   padding: 0.1em 0.3em 0.1em 0.15em;
   border-radius: 3px;
@@ -296,7 +296,7 @@
 
 .message-text-inner a[href^="xmpp:"]:hover {
   color: var(--color-white-default);
-  background-color: var(--color-blue-dark);
+  background-color: var(--color-accent-dark);
 }
 
 .message-text-inner ul,

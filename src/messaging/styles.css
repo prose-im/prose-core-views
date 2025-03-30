@@ -81,11 +81,6 @@ a {
   /* COLOR (LIGHT MODE): RED */
   --color-red-default: #d81313;
 
-  /* COLOR (LIGHT MODE): BLUE */
-  --color-blue-default: #0072fe;
-  --color-blue-light: #e9f2ff;
-  --color-blue-dark: #003e8c;
-
   /* COLOR (LIGHT MODE): YELLOW */
   --color-yellow-default: #ffff78;
   --color-yellow-light: #ffffc2;
@@ -107,6 +102,18 @@ a {
   --color-code-highlight-function: #88c4ff;
   --color-code-highlight-keyword: #ff9eff;
   --color-code-highlight-section: #d27b53;
+
+  /* COLOR (LIGHT MODE): ACCENT */
+  --color-accent-dark: color-mix(
+    in srgb,
+    var(--color-accent-default),
+    black 45%
+  );
+  --color-accent-light: color-mix(
+    in srgb,
+    var(--color-accent-default),
+    white 90%
+  );
 }
 
 #app.app--theme-dark {
@@ -130,17 +137,24 @@ a {
   /* COLOR (DARK MODE): RED */
   --color-red-default: #ff2929;
 
-  /* COLOR (DARK MODE): BLUE */
-  --color-blue-default: #157eff;
-  --color-blue-light: #081d37;
-  --color-blue-dark: #53a0ff;
-
   /* COLOR (DARK MODE): YELLOW */
   --color-yellow-default: #a4a455;
   --color-yellow-light: #2b2b21;
 
   /* COLOR (DARK MODE): CODE */
   --color-code-background: #101011;
+
+  /* COLOR (DARK MODE): ACCENT */
+  --color-accent-dark: color-mix(
+    in srgb,
+    var(--color-accent-default),
+    white 60%
+  );
+  --color-accent-light: color-mix(
+    in srgb,
+    var(--color-accent-default),
+    black 80%
+  );
 }
 
 #app.app--modifier-no-scroll {

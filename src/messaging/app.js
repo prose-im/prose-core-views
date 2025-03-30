@@ -38,6 +38,8 @@ const SCROLL_ACTIVE_AREA_OFFSET = 140; // 140 pixels
 
 const OBSERVER_INTERSECT_THRESHOLD = 0.75; // 75% visible
 
+const DEFAULT_ACCENT_COLOR = "#0072fe"; // Blue
+
 // COMPONENTS
 
 function App() {
@@ -48,6 +50,8 @@ function App() {
 
     observer: null,
     dayChangeCount: 0,
+
+    defaultAccentColor: DEFAULT_ACCENT_COLOR,
 
     __dayChangeTimer: null,
     __scrollLastPosition: 0,

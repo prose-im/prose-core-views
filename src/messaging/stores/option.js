@@ -29,6 +29,7 @@ function OptionStore() {
     style: reactive({
       platform: DEFAULT_USER_PLATFORM,
       renderer: ToolboxHelper.detectWebRenderer(),
+      accent: null,
       theme: ToolboxHelper.detectAppearancePreference(),
 
       modifiers: {
@@ -82,6 +83,15 @@ function OptionStore() {
      */
     getStyleRenderer() {
       return this.style.renderer;
+    },
+
+    /**
+     * Gets style accent
+     * @public
+     * @return {string} Style accent value
+     */
+    getStyleAccent() {
+      return this.style.accent;
     },
 
     /**
@@ -178,6 +188,26 @@ function OptionStore() {
       }
 
       this.style.renderer = renderer;
+    },
+
+    /**
+     * Sets style accent
+     * @public
+     * @param  {string} [accent]
+     * @return {undefined}
+     */
+    setStyleAccent(accent = null) {
+      // Accent is defined and invalid?
+      // Notice: accent color must match hexadecimal color code strict format, \
+      //   eg. '#000000' for pure black.
+      if (
+        accent !== null &&
+        (accent[0] !== "#" || accent.slice(1, 7).length !== 6)
+      ) {
+        throw new Error("Accent color is invalid, allowed format: #HEX");
+      }
+
+      this.style.accent = accent;
     },
 
     /**

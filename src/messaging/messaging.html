@@ -27,6 +27,9 @@
     v-scope="App()"
     @vue:mounted="mounted"
     @vue:unmounted="unmounted"
+    :style="{
+      '--color-accent-default': ($context.style.accent || defaultAccentColor)
+    }"
     :class="[
       'app--theme-' + $context.style.theme,
       'app--platform-' + $context.style.platform,
