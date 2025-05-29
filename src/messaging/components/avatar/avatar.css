@@ -34,6 +34,10 @@
   height: 0;
 }
 
+.avatar-image:hover {
+  filter: brightness(105%);
+}
+
 .avatar-initials {
   color: var(--color-white-default);
   font-weight: 600;
