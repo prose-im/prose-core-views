@@ -39,7 +39,7 @@
 }
 
 .file-thumbnail.file-thumbnail--video {
-  background-color: var(--color-black-medium);
+  background-color: var(--color-black-medium-fixed);
 }
 
 .file-player-preview {
@@ -164,8 +164,8 @@
 }
 
 .file-player-duration {
-  background-color: var(--color-black-default);
-  color: var(--color-white-default);
+  background-color: var(--color-black-default-fixed);
+  color: var(--color-white-default-fixed);
   font-size: 0.85em;
   letter-spacing: 0.01em;
   line-height: 1.25em;

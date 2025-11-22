@@ -128,7 +128,7 @@
 
 .message-reaction,
 .message-actions {
-  background-color: var(--color-white-default);
+  background-color: var(--color-background-primary);
   border: 1px solid var(--color-grey-medium-lighter);
   border-radius: 5px;
 }

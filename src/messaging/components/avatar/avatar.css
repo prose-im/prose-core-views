@@ -39,7 +39,7 @@
 }
 
 .avatar-initials {
-  color: var(--color-white-default);
+  color: var(--color-white-default-fixed);
   font-weight: 600;
   font-size: 1.15em;
   letter-spacing: 0.25px;

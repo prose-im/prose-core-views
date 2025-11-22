@@ -13,7 +13,7 @@
 }
 
 .separator-label {
-  background-color: var(--color-white-default);
+  background-color: var(--color-background-primary);
   border: 1px solid var(--color-grey-medium-lighter);
   color: var(--color-black-medium);
   font-size: calc(var(--size-separator-height) / 2);

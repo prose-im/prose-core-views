@@ -45,7 +45,7 @@ a {
 /* SECTION: APPLICATION */
 
 #app {
-  background-color: var(--color-white-default);
+  background-color: var(--color-background-primary);
   font-family: sans-serif;
   font-size: 14px;
 }
@@ -57,17 +57,22 @@ a {
 /* VARIABLES */
 
 #app {
+  /* Notice: fixed colors are stable between Light Mode and Dark Mode. */
+
   /* SIZE: SEPARATOR */
   --size-separator-height: 1.525rem;
   --size-separator-padding-bottom: 1px;
 
   /* COLOR (LIGHT MODE): WHITE */
   --color-white-default: #ffffff;
+  --color-white-default-fixed: #ffffff;
   --color-white-dark: #eeeeee;
 
   /* COLOR (LIGHT MODE): BLACK */
   --color-black-default: #000000;
+  --color-black-default-fixed: #000000;
   --color-black-medium: #232526;
+  --color-black-medium-fixed: #232526;
 
   /* COLOR (LIGHT MODE): GREY */
   --color-grey-default: #797979;
@@ -84,6 +89,9 @@ a {
   /* COLOR (LIGHT MODE): YELLOW */
   --color-yellow-default: #ffff78;
   --color-yellow-light: #ffffc2;
+
+  /* COLOR (LIGHT MODE): BACKGROUND */
+  --color-background-primary: #ffffff;
 
   /* COLOR (LIGHT MODE): SHADOW */
   --color-shadow-primary: rgba(0, 0, 0, 0.04);
@@ -126,13 +134,13 @@ a {
   --color-black-medium: #ffffff;
 
   /* COLOR (DARK MODE): GREY */
-  --color-grey-default: #666666;
+  --color-grey-default: #848484;
   --color-grey-light: #161616;
   --color-grey-light-darker: #1a1a1a;
   --color-grey-medium: #313131;
   --color-grey-medium-lighter: #1f1f1f;
-  --color-grey-medium-darker: #3c3c3c;
-  --color-grey-dark: #8a8a8a;
+  --color-grey-medium-darker: #848484;
+  --color-grey-dark: #848484;
 
   /* COLOR (DARK MODE): RED */
   --color-red-default: #ff2929;
@@ -141,8 +149,11 @@ a {
   --color-yellow-default: #a4a455;
   --color-yellow-light: #2b2b21;
 
+  /* COLOR (DARK MODE): BACKGROUND */
+  --color-background-primary: #111111;
+
   /* COLOR (DARK MODE): CODE */
-  --color-code-background: #101011;
+  --color-code-background: #000000;
 
   /* COLOR (DARK MODE): ACCENT */
   --color-accent-dark: color-mix(
