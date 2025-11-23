@@ -130,7 +130,7 @@
 .message-actions {
   background-color: var(--color-background-primary);
   border: 1px solid var(--color-grey-medium-lighter);
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .message-reactions {
@@ -222,7 +222,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 3px;
+  border-radius: 7px;
 }
 
 .message-action:hover,
@@ -291,7 +291,7 @@
   background-color: var(--color-accent-light);
   text-decoration: none;
   padding: 0.1em 0.3em 0.1em 0.15em;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 .message-text-inner a[href^="xmpp:"]:hover {
@@ -340,7 +340,7 @@
   font-size: 0.825em;
   padding: 0 3px;
   display: inline-block;
-  border-radius: 4px;
+  border-radius: 7px;
 }
 
 .message-text-inner pre {

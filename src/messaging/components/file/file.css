@@ -23,7 +23,7 @@
   background-size: cover;
   background-position: center;
   display: block;
-  border-radius: 9px;
+  border-radius: 10px;
 }
 
 .file-thumbnail:hover {
@@ -171,7 +171,7 @@
   line-height: 1.25em;
   padding: 4px 7px;
   display: inline-block;
-  border-radius: 5px;
+  border-radius: 7px;
 }
 
 .file-player-preview .file-player-duration {
